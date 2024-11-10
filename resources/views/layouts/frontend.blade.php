@@ -30,6 +30,8 @@
     'resources/js/welcome.js',
     'resources/css/banner.css',
     'resources/js/banner.js',
+    'resources/css/feature.css',
+    'resources/css/category.css',
     ])
     
 
@@ -55,7 +57,7 @@
                 <li><a href="{{ route('pages.home') }}">Shop</a></li>
                 <li><a href="#">Events</a></li>
                 <li><a href="#">Exhibitions</a></li>
-                <li><a href="#">About</a></li>
+                <li><a href="{{ route('pages.about') }}">About</a></li>
             </ul>
         </nav>
 
@@ -69,6 +71,7 @@
     <!-- Page Contents -->
    <div class="page-content">
         @yield('pages')
+        
    </div>
 
 

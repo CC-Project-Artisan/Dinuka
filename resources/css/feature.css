@@ -1,0 +1,164 @@
+
+.feature-section {
+    padding: 100px 0;
+    background-color: #f7f6f4; 
+    display: flex;
+    justify-content: center;
+    font-family: 'Georgia', serif;
+}
+
+.feature-container {
+    max-width: 1200px;
+    display: flex;
+    gap: 80px; 
+    align-items: center; 
+}
+
+.main-feature {
+    text-align: left;
+    max-width: 400px;
+    flex: 1;
+}
+
+.feature-sub-items {
+    display: flex;
+    gap: 50px; 
+    flex: 1.5;
+    align-items: flex-start;
+}
+
+.feature-item {
+    color: #5e4630; 
+}
+
+
+.feature-icon {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+}
+
+.feature-icon svg {
+    width: 25px;
+    height: auto;
+}
+
+
+.feature-item h2 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #a0522d;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+
+.feature-item h3 {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #a0522d;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+
+.feature-item p {
+    font-size: 0.95rem;
+    color: #7d7d7d;
+    line-height: 1.6;
+    max-width: 300px;
+    margin-bottom: 20px;
+    font-style: italic;
+}
+
+
+.feature-link {
+    display: inline-flex;
+    align-items: center;
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: #5e4630;
+    text-decoration: none;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    position: relative;
+}
+
+.feature-link .underline {
+    display: block;
+    height: 2px;
+    background: linear-gradient(to right, #8B1D14 20%, #E9A97E 40%, #0A0A8F 60%);
+    width: 40px;
+    margin-right: 8px;
+    transition: width 0.3s;
+}
+
+.feature-link:hover .underline {
+    width: 60px;
+}
+
+
+
+
+@media (max-width: 768px) {
+    .feature-container {
+        flex-direction: column; 
+        gap: 40px; 
+        padding: 20px;
+    }
+    
+    .main-feature, .feature-sub-items {
+        max-width: 100%; 
+        flex: none;
+    }
+
+    .feature-item h2 {
+        font-size: 1.5rem; 
+    }
+
+    .feature-item h3 {
+        font-size: 1.1rem; 
+    }
+
+    .feature-item p {
+        font-size: 0.9rem; 
+        max-width: 100%; 
+    }
+
+    .feature-link {
+        font-size: 0.85rem; 
+    }
+
+    .feature-link .underline {
+        width: 30px; 
+    }
+
+    .feature-link:hover .underline {
+        width: 50px; 
+    }
+}
+
+@media (max-width: 480px) {
+    .feature-section {
+        padding: 40px 10px; 
+    }
+
+    .feature-item h2 {
+        font-size: 1.3rem;
+    }
+
+    .feature-item h3 {
+        font-size: 1rem;
+    }
+
+    .feature-item p {
+        font-size: 0.85rem;
+        line-height: 1.5; 
+    }
+
+    .feature-link {
+        font-size: 0.8rem;
+    }
+}

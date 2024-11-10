@@ -22,5 +22,6 @@ Route::middleware('auth')->group(function () {
 //Page Routes
 Route::get('/', [PageController::class, 'index'])->name('welcome');
 Route::get('/layouts/pages/home', [PageController::class, 'home'])->name('pages.home');
+Route::get('/layouts/pages/about', [PageController::class, 'about'])->name('pages.about');
 
 require __DIR__.'/auth.php';
