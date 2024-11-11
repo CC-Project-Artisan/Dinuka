@@ -32,6 +32,8 @@
     'resources/js/banner.js',
     'resources/css/feature.css',
     'resources/css/category.css',
+    'resources/css/dashboard.css',
+    'resources/js/dashboard.js',
     ])
     
 
@@ -69,7 +71,7 @@
     </header>
 
     <!-- Page Contents -->
-   <div class="page-content">
+   <div class="page-content pt-[87px]">
         @yield('pages')
         
    </div>

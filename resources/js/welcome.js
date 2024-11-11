@@ -7,17 +7,18 @@ menuToggle.addEventListener('click', () => {
 });
 
 // when scrolling hide
-let lastScrollTop = 0; 
+let lastScrollTop = 0;
 const mainNav = document.getElementById('main-nav');
+const scrollThreshold = 20; // Adjust this value as needed
 
 window.addEventListener('scroll', function() {
-    let currentScroll = window.pageYOffset || document.documentElement.scrollTop; 
+    let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
 
-    if (currentScroll > lastScrollTop) {
+    if (currentScroll > lastScrollTop + scrollThreshold) {
         mainNav.classList.add('hide-nav');
-    } else {
+    } else if (currentScroll < lastScrollTop - scrollThreshold) {
         mainNav.classList.remove('hide-nav');
     }
-    
+
     lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
 });
