@@ -54,7 +54,7 @@
         <nav class="main-menu" id="main-menu">
             <ul>
                 <li><a href="{{ route('welcome') }}">Home</a></li>
-                <li><a href="{{ route('pages.home') }}">Shop</a></li>
+                <li><a href="{{ route('pages.shop') }}">Shop</a></li>
                 <li><a href="#">Events</a></li>
                 <li><a href="#">Exhibitions</a></li>
                 <li><a href="{{ route('pages.about') }}">About</a></li>

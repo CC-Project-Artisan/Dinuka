@@ -11,9 +11,9 @@ class PageController extends Controller
         return view('welcome');
     }
 
-    public function home()
+    public function shop()
     {
-        return view('pages.home');
+        return view('pages.shop');
     }
 
     public function about()
