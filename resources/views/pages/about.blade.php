@@ -1,4 +1,4 @@
 @extends('layouts.frontend')
 @section('pages')
-<h1>Alex</h1>
+<h1>About Us</h1>
 @endsection

@@ -13,10 +13,14 @@ class PageController extends Controller
         return view('welcome');
     }
 
-    //Home
-    public function home()
+    public function shop()
     {
-        return view('pages.home');
+        return view('pages.shop');
+    }
+
+    public function about()
+    {
+        return view('pages.about');
     }
 
     //Dashboard
