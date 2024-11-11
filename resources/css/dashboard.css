@@ -1,0 +1,216 @@
+/* User Dashboard -start */
+.user-dashboard-main-container {
+    margin-top: 4%;
+    margin-bottom: 0;
+    margin-left: 6%;
+    margin-right: 6%;
+}
+
+/* upper section */
+.dashboard-path-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Dashboard */
+.user-dashboard-wrapper {
+    display: flex;
+}
+
+/* Sidebar for desktop */
+.dashboard-sidebar-desktop-wrapper {
+    display: none;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    color: white;
+    height: 100%;
+    border: 1px solid #D1D5DB;
+    border-radius: 0.375rem; /* rounded-md */
+}
+
+@media (min-width: 1024px) {
+    .dashboard-sidebar-desktop-wrapper {
+        display: block;
+        width: auto;
+    }
+}
+
+.u-sidebar-value {
+    transition: all 0.15s ease;
+    color: #252a34;
+    padding: 0.5rem 1.25rem;
+    width: 350px;
+    cursor: pointer;
+}
+
+.u-sidebar-value:hover {
+    background-color: #1DA1F2; /* customBlue */
+    color: white;
+}
+
+.dashboard-sidebar-sub-title {
+    color: #6C757D;
+}
+
+.dashboard-sidebar-options li {
+    display: block;
+    border-bottom: 1px solid #D1D5DB;
+}
+
+/* edit dashboard options */
+.u-sidebar-value .ud-icon-left {
+    float: left;
+    margin-right: 1rem;
+    margin-top: 0.5rem;
+    font-size: 32px;
+}
+
+.u-sidebar-value .fa-arrow-right-long {
+    float: right;
+    margin-top: 1rem;
+}
+
+.dashboard-sidebar-title {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.dashboard-sidebar-sub-title {
+    font-size: 0.875rem; /* text-sm */
+}
+
+/* user main content */
+.u-dashboard-content-wrapper {
+    flex: 1;
+    padding-left: 1.5rem;
+}
+
+.ud-empty-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding-top: 90px;
+    padding-bottom: 90px;
+}
+
+.ud-dashboard-page,
+.ud-advert-page,
+.ud-saved-advert-page, .ud-security-page {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 0.375rem; /* rounded */
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.25rem;
+}
+
+/* edit dashboard page */
+.ud-btn {
+    color: #A82E23;
+    padding: 0.5rem 1.75rem;
+    border: 1px solid #A82E23;
+    border-radius: 50px;
+    transition: all 0.3s ease-in-out;
+}
+
+.ud-btn:hover {
+    background-color: #A82E23;
+    color: white;
+}
+
+/* edit my advert page */
+.ud-advert-page,
+.ud-saved-advert-page {
+    display: flex;
+    gap: 1.25rem;
+    width: 100%;
+}
+
+.ud-advert-keyword-wrapper input,
+.ud-advert-status-wrapper select {
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+}
+
+.ud-advert-keyword-input {
+    border-top: 1px solid rgba(0, 0, 0, 0.15);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+    border-left: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 0.5rem 0 0 0.5rem;
+}
+
+.ud-advert-keyword-search {
+    cursor: pointer;
+    background-color: #e9ecef;
+    color: #495057;
+    padding: 0.625rem 0.75rem;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 0 0.5rem 0.5rem 0;
+}
+
+/* edit savedAds container */
+.savedAd-listing-container {
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.5rem;
+    width: 100%;
+    border-radius: 0.5rem;
+}
+
+.savedAd-listing-wrapper {
+    display: flex;
+}
+
+.savedimg {
+    height: 300px;
+    width: 300px;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-top-left-radius: 0.5rem;
+}
+
+/* .savedimg{
+    height: 250px;
+    min-height: 100%;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-top-left-radius: 0.5rem;
+} */
+
+.savedAd-details {
+    padding-top: 0.75rem;
+    padding-left: 1.5rem;
+    max-width: 50%;
+}
+
+.savedAd-title {
+    color: #1DA1F2; /* customBlue */
+    font-weight: bold;
+    font-size: 1.875rem; /* text-3xl */
+}
+
+.savedAd-price {
+    color: #A82E23;
+    font-weight: bold;
+    margin-top: 0.75rem;
+}
+
+.savedAd-location {
+    color: #1DA1F2;
+    margin-top: 0.75rem;
+}
+
+.savedAd-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.savedAd-view {
+    color: #1DA1F2;
+    padding: 0.5rem 0.625rem;
+}
+
+.savedAd-delete {
+    color: #A82E23;
+    padding: 0.5rem 0.625rem;
+}
