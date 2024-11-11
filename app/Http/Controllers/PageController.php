@@ -36,7 +36,7 @@ class PageController extends Controller
 
             } else if ($role == 'admin') {
 
-                return view('admin.dashboard');
+                return view('admin.dashboard')->with('user', Auth::user());
 
             } else {
 

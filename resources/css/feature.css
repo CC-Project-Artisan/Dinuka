@@ -66,9 +66,10 @@
 
 .feature-item p {
     font-size: 0.95rem;
-    color: #7d7d7d;
+    color: #a55e3f;
+    font-weight: 300;
     line-height: 1.6;
-    max-width: 300px;
+    max-width: 359px;
     margin-bottom: 20px;
     font-style: italic;
 }
@@ -76,10 +77,11 @@
 
 .feature-link {
     display: inline-flex;
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
     align-items: center;
-    font-weight: bold;
-    font-size: 0.9rem;
-    color: #5e4630;
+    font-size: 0.8rem;
+    color: #a55e3f;
     text-decoration: none;
     letter-spacing: 1px;
     text-transform: uppercase;
@@ -89,7 +91,7 @@
 .feature-link .underline {
     display: block;
     height: 2px;
-    background: linear-gradient(to right, #8B1D14 20%, #E9A97E 40%, #0A0A8F 60%);
+    background: linear-gradient(90deg, #9c281f 0%, #9c281f 33%, #e29c6d 33%, #e29c6d 66%, #0d1e64 66%, #0d1e64 100%);
     width: 40px;
     margin-right: 8px;
     transition: width 0.3s;

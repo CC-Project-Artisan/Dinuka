@@ -86,22 +86,22 @@
                         s2.874,2.798,2.399,6.486c-0.475,3.688-3.833,9.204-3.833,9.204L14.665,22.526z"></path>
                 </svg>
             </div>
-            <h2>WITH HOME IN MIND</h2>
-            <p>Lorem ipsum dolor sit amet a con sectet adipisicing elit se do eiusotemp or incidid unt en labore et dolore magna aliqua ut enim minim veniam quis nost exercitation sen sene ullamco aboris nisi ut</p>
+            <h2 style="font-family: 'Alegreya', serif;">WITH HOME IN MIND</h2>
+            <p style="font-family: 'Lato', sans-serif;">Lorem ipsum dolor sit amet a con sectet adipisicing elit se do eiusotemp or incidid unt en labore et dolore magna aliqua ut enim minim veniam quis nost exercitation sen sene ullamco aboris nisi ut</p>
         </div>
         
         
         <div class="feature-sub-items">
             <div class="feature-item">
-                <h3>NEW IDEAS</h3>
-                <p>Lorem ipsum dolor sit amet a con sectet adipisicing elit se do eiusotemp or incidid unt ut labore et dolore</p>
+                <h3 style="font-family: 'Alegreya', serif;">NEW IDEAS</h3>
+                <p style="font-family: 'Lato', sans-serif; color: #58595b;">Lorem ipsum dolor sit amet a con sectet adipisicing elit se do eiusotemp or incidid unt ut labore et dolore</p>
                 <a href="#" class="feature-link">
                     <span class="underline"></span> VIEW MORE
                 </a>
             </div>
             <div class="feature-item">
-                <h3>CREATIVE SPIRIT</h3>
-                <p>Lorem ipsum dolor sit amet a con sectet adipisicing elit se do eiusotemp or incidid unt ut labore et dolore</p>
+                <h3 style="font-family: 'Alegreya', serif;">CREATIVE SPIRIT</h3>
+                <p style="font-family: 'Lato', sans-serif; color: #58595b;">Lorem ipsum dolor sit amet a con sectet adipisicing elit se do eiusotemp or incidid unt ut labore et dolore</p>
                 <a href="#" class="feature-link">
                     <span class="underline"></span> VIEW MORE
                 </a>
@@ -115,7 +115,7 @@
     <div class="category-grid">
         
         <div class="category-item large-item">
-            <img src="{{ asset('images/category1.jpg') }}" alt="Organic Raw">
+            <img src="{{ asset('images/mask1.jpg') }}" alt="Organic Raw">
             <div class="category-overlay">
                 <h3>MASK</h3>
                 <p>Handmade</p>
@@ -124,7 +124,7 @@
         
        
         <div class="category-item">
-            <img src="{{ asset('images/category2.jpg') }}" alt="Category 2">
+            <img src="{{ asset('images/jewellry.jpeg') }}" alt="Category 2">
             <div class="category-overlay">
                 <h3>JEWELERY</h3>
                 <p>Handmade</p>
@@ -133,7 +133,7 @@
 
         
         <div class="category-item">
-            <img src="{{ asset('images/category3.jpg') }}" alt="Category 3">
+            <img src="{{ asset('images/bathik.jpg') }}" alt="Category 3">
             <div class="category-overlay">
                 <h3>BATIL & SILK</h3>
                 <p>Handmade</p>
@@ -142,18 +142,18 @@
 
         
         <div class="category-item">
-            <img src="{{ asset('images/category4.jpg') }}" alt="Category 4">
+            <img src="{{ asset('images/pottory.png.jpeg') }}" alt="Category 4">
             <div class="category-overlay">
-                <h3>PAINTINGS</h3>
-                <p>handmade</p>
+                <h3>POTTERY</h3>
+                <p>Handmade</p>
             </div>
         </div>
 
        
         <div class="category-item">
-            <img src="{{ asset('images/category5.jpg') }}" alt="Category 5">
+            <img src="{{ asset('images/paintings.jpg.webp') }}" alt="Category 5">
             <div class="category-overlay">
-                <h3>POTTERY</h3>
+                <h3>PAINTINGS</h3>
                 <p>Handmade</p>
             </div>
         </div>

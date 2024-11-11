@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -15,16 +16,19 @@ use Illuminate\Support\Facades\Route;
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+// Route::middleware('auth')->group(function () {
+//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// });
+
+
+Route::post('/dashboard/updatedUserInformatio', [UserController::class, 'update'])->name('user-profile.update');
 
 //Page Routes
 Route::get('/', [PageController::class, 'index'])->name('welcome');
-Route::get('/layouts/pages/shop', [PageController::class, 'shop'])->name('pages.shop');
-Route::get('/layouts/pages/about', [PageController::class, 'about'])->name('pages.about');
+Route::get('/shop', [PageController::class, 'shop'])->name('pages.shop');
+Route::get('/about', [PageController::class, 'about'])->name('pages.about');
 
 
 // Route::get('/products', [ProductController::class, 'index']);

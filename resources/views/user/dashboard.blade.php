@@ -5,17 +5,16 @@
     <!-- upper section -->
     <div class="dashboard-path-wrapper">
         <!-- Breadcrumb -->
-        <div class="text-sm text-gray-600 mb-4">
-            <a href="#" class="text-customBlue hover:underline" onclick="loadPage('dashboard')">Dashboard</a>
+        <div class="text-sm text-customGray font-secondaryText mb-4 py-2">
+            <a href="#" class="text-customBrown  hover:underline" onclick="loadPage('dashboard')">Dashboard</a>
             <span id="breadcrumb"> / Dashboard</span>
         </div>
         <!-- Sign out btn -->
         <div class="text-sm mb-4">
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
-                <x-dropdown-link :href="route('logout')" class="text-customBlue hover:underline"
-                    onclick="event.preventDefault();
-                                        this.closest('form').submit();">
+                <x-dropdown-link :href="route('logout')" class="text-customGray hover:underline"
+                    onclick="event.preventDefault(); this.closest('form').submit();">
                     {{ __('Sign out') }} <i class="fa-solid fa-arrow-right-from-bracket ml-1"></i>
                 </x-dropdown-link>
             </form>
@@ -25,7 +24,7 @@
     <!-- Dashboard -->
     <div class="user-dashboard-wrapper">
         <!-- Navbar for mobile -->
-        <div class="bg-customBlue text-white p-4 flex justify-between items-center lg:hidden">
+        <div class="bg-customBlue text-white p-4 flex justify-between items-center lg:hidden ">
             <div class="text-lg font-bold">Dashboard</div>
             <button id="menuToggle" class="text-white focus:outline-none">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -36,7 +35,7 @@
 
         <!-- Sidebar for desktop -->
         <div id="sidebar" class="dashboard-sidebar-desktop-wrapper">
-            <ul class="dashboard-sidebar-options flex flex-col">
+            <ul class="dashboard-sidebar-options flex flex-col text-secondaryText">
                 <li class="u-sidebar-value rounded-t-md hover:rounded-t-md" data-page="dashboard" onclick="loadPage('dashboard')">
                     <i class="fa-regular fa-address-card ud-icon-left"></i>
                     <i class="fa-solid fa-arrow-right-long"></i>
@@ -93,27 +92,27 @@
             <!-- Dashboard page -->
             <div id="dashboard" class="ud-page-wrapper hidden">
                 <div class="ud-dashboard-page">
-                    <h2 class="text-[40px] font-bold text-customBlue">Hello! Alex</h2>
-                    <div class="flex gap-10 text-[#252a34] mb-4">
-                        <p class="mt-2"><i class="fa-regular fa-user mr-2"></i>Alex Chamara</p>
-                        <p class="mt-2"><i class="fa-regular fa-envelope mr-2"></i>alexhmara76@gmail.com</p>
-                        <p class="mt-2"><i class="fa-regular fa-calendar mr-2"></i>Member since 19 Aug 2024</p>
+                    <h2 class="text-[40px] font-bold text-customBrown font-mainText">Hello! {{ ucfirst(explode(' ', Auth::user()->name)[0]) }}</h2>
+                    <div class="flex gap-10 text-[#252a34] mb-4 font-secondaryText">
+                        <p class="mt-2"><i class="fa-regular fa-user mr-2"></i>{{ Auth::user()->name }}</p>
+                        <p class="mt-2"><i class="fa-regular fa-envelope mr-2"></i>{{ Auth::user()->email }}</p>
+                        <p class="mt-2"><i class="fa-regular fa-calendar mr-2"></i>Member since {{ Auth::user()->created_at->format('d M Y') }}</p>
                     </div>
-                    <button class="ud-btn" onclick="loadPage('personalDetails')">Edit my details</button>
+                    <button class="ud-btn font-secondaryText" onclick="loadPage('personalDetails')">Edit my details</button>
                 </div>
                 <div class="ud-dashboard-page">
-                    <h2 class="text-[40px] font-bold text-customBlue">Find your next car</h2>
-                    <div class="flex gap-10 text-[#252a34] mb-4">
-                        <p class="mt-2">We are the fastest growing largest digital automotive marketplace in Sri Lanka.</p>
+                    <h2 class="text-[40px] font-bold text-customBrown font-mainText">Find your favourite arts & crafts</h2>
+                    <div class="flex gap-10 text-[#252a34] mb-4 font-secondaryText">
+                        <p class="mt-2">We are the fastest growing largest digital marketplace for arts and crafts in Sri Lanka.</p>
                     </div>
-                    <a href="./advertListing.php" class="ud-btn">Browse latest car</a>
+                    <a href="{{ route('pages.shop') }}" class="ud-btn font-secondaryText">Browse products</a>
                 </div>
                 <div class="ud-dashboard-page">
-                    <h2 class="text-[40px] font-bold text-customBlue">Looking to sell your car?</h2>
-                    <div class="flex gap-10 text-[#252a34] mb-4">
-                        <p class="mt-2">Make more money by selling your car with Automate 3 easy steps!</p>
+                    <h2 class="text-[40px] font-bold text-customBrown font-mainText">Looking to sell your arts & crafts?</h2>
+                    <div class="flex gap-10 text-[#252a34] mb-4 font-secondaryText">
+                        <p class="mt-2">Make more money by selling your unique products with Artisan.lk!</p>
                     </div>
-                    <a href="./createAds.php" class="ud-btn">Create your advert</a>
+                    <a href="./createAds.php" class="ud-btn font-secondaryText">Create vendor profile</a>
                 </div>
             </div>
 
@@ -153,9 +152,38 @@
                 <h2 class="text-2xl font-bold text-blue-900">My orders</h2>
                 <p class="mt-2">Your orders.</p>
             </div>
-            <div id="personalDetails" class="ud-page-wrapper bg-white p-6 rounded shadow hidden">
-                <h2 class="text-2xl font-bold text-blue-900">Personal details</h2>
-                <p class="mt-2">Your personal details.</p>
+
+            <!-- My presonal details -->
+            <div id="personalDetails" class="ud-page-wrapper">
+                <div class="ud-personal-page shadow-custom rounded-md p-6">
+                    <div class="ud-pro-change">
+                        <h2 class="text-[50px] font-bold text-customBlue">Your details</h2>
+                        <span>Please keep your details up to date. Your personal data is stored securely. We do not share information with third parties.</span>
+
+                        <form id="profileForm" action="{{ route('user-profile.update') }}" method="post" class="mt-4">
+                            @csrf
+
+                            <div class="mb-4">
+                                <label for="fullName" class="block text-sm font-medium text-gray-700">Full Name</label>
+                                <input type="text" name="name" id="fullName" placeholder="{{ Auth::user()->name }}" value="{{ old('name', Auth::user()->name) }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="email" class="block text-sm font-medium text-gray-700">Email address</label>
+                                <input type="email" name="email" id="email" placeholder="{{ Auth::user()->email }}" value="{{ old('email', Auth::user()->email) }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="mobile" class="block text-sm font-medium text-gray-700">Mobile</label>
+                                <input type="number" name="phone" id="mobile" placeholder="Enter your phone number" value="{{ old('phone', Auth::user()->phone) }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                            </div>
+
+                            <div>
+                                <button type="submit" id="submitButton" class="ud-btn bg-blue-500 text-red">Save my details</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
 
             <!-- Account security page -->
@@ -216,12 +244,20 @@
             // Update the active state in the sidebar
             var items = document.querySelectorAll('.u-sidebar-value');
             items.forEach(function(item) {
-                item.classList.remove('bg-customBlue');
+                item.classList.remove('bg-customBrown', 'text-white');
+                var subTitle = item.querySelector('.dashboard-sidebar-sub-title');
+                if (subTitle) {
+                    subTitle.classList.remove('text-white');
+                }
             });
 
             var activeItem = document.querySelector(`.u-sidebar-value[data-page="${page}"]`);
             if (activeItem) {
-                activeItem.classList.add('bg-customBlue');
+                activeItem.classList.add('bg-customBrown', 'text-white');
+                var activeSubTitle = activeItem.querySelector('.dashboard-sidebar-sub-title');
+                if (activeSubTitle) {
+                    activeSubTitle.classList.add('text-white');
+                }
             } else {
                 console.error(`Sidebar item with data-page="${page}" not found.`);
             }
@@ -239,32 +275,49 @@
         document.addEventListener('DOMContentLoaded', function() {
             loadPage('dashboard');
         });
+
+
+        //change the behaovier in the forms
+        document.getElementById('profileForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent page refresh
+
+            // Get the submit button
+            const submitButton = document.getElementById('submitButton');
+
+            // Prepare form data
+            const formData = new FormData(this);
+
+            // Send AJAX request
+            fetch(this.action, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    },
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Update the displayed name and email in the dashboard
+                        document.querySelector('.ud-dashboard-page h2').innerText = `Hello! ${data.user.name.split(' ')[0]}`;
+                        document.querySelector('.ud-dashboard-page .fa-user').nextSibling.textContent = data.user.name;
+                        document.querySelector('.ud-dashboard-page .fa-envelope').nextSibling.textContent = data.user.email;
+                        document.querySelector('.ud-dashboard-page .fa-calendar').nextSibling.textContent = `Member since ${data.user.created_at}`;
+
+                        // Update button to show success
+                        submitButton.innerText = 'Saved!';
+                        submitButton.classList.remove('bg-blue-500');
+                        submitButton.classList.add('bg-green-500');
+                    } else {
+                        alert('Error updating profile. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while updating your profile.');
+                });
+        });
     </script>
-
-
-    <!-- <div class="bg-red-200 font-sans leading-normal tracking-normal">
-
-        <div class="text-center">
-            <h1 class="text-4xl font-bold text-blue-500">User Dashboard</h1>
-            <p class="mt-2 text-lg">Welcome, {{ auth()->user()->name }}!</p>
-            <div class="mt-5">
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-
-                    <x-dropdown-link :href="route('logout')"
-                        onclick="event.preventDefault();
-                                                this.closest('form').submit();">
-                        {{ __('Log Out') }}
-                    </x-dropdown-link>
-                </form>
-            </div>
-        </div>
-        <div class="mt-10 p-5 bg-white rounded shadow-md">
-            <h2 class="text-2xl font-semibold">Your Recent Activity</h2>
-            <p class="mt-2">This is where you can display user-specific information like orders, messages, or account details.</p>
-
-    </div>
-</div> -->
 </main>
 
 @endsection
