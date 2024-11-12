@@ -165,17 +165,17 @@
 
                             <div class="mb-4">
                                 <label for="fullName" class="block text-sm font-medium text-gray-700">Full Name</label>
-                                <input type="text" name="name" id="fullName" placeholder="{{ Auth::user()->name }}" value="{{ old('name', Auth::user()->name) }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                                <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" placeholder="{{ Auth::user()->name }}" value="{{ old('email', Auth::user()->name) }}" required autofocus autocomplete="name" />
                             </div>
 
                             <div class="mb-4">
                                 <label for="email" class="block text-sm font-medium text-gray-700">Email address</label>
-                                <input type="email" name="email" id="email" placeholder="{{ Auth::user()->email }}" value="{{ old('email', Auth::user()->email) }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                                <x-text-input id="name" name="email" type="text" class="mt-1 block w-full" placeholder="{{ Auth::user()->email }}" value="{{ old('email', Auth::user()->email) }}" required autofocus autocomplete="name" />
                             </div>
 
                             <div class="mb-4">
                                 <label for="mobile" class="block text-sm font-medium text-gray-700">Mobile</label>
-                                <input type="number" name="phone" id="mobile" placeholder="Enter your phone number" value="{{ old('phone', Auth::user()->phone) }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                                <x-text-input id="name" name="phone" type="text" class="mt-1 block w-full" placeholder="{{ Auth::user()->phone }}" value="{{ old('email', Auth::user()->phone) }}" required autofocus autocomplete="name" />
                             </div>
 
                             <div>
@@ -192,27 +192,80 @@
                     <div class="ud-pw-change">
                         <h2 class="text-[50px] font-bold text-customBlue">Your password</h2>
                         <span>Please make sure to have a secure password with at least 6 characters long.</span>
-                        <form action="" method="post" class="mt-4">
+                        <form method="post" action="{{ route('password.update') }}" class="mt-6 space-y-6">
+                            @csrf
+                            @method('put')
+
                             <div class="mb-4">
                                 <label for="currentPassword" class="block text-sm font-medium text-gray-700">Current password</label>
-                                <input type="password" name="currentPassword" id="currentPassword" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
+                                <!-- <input type="password" name="currentPassword" id="currentPassword" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required> -->
+                                <x-text-input id="update_password_current_password" name="current_password" type="password" class="mt-1 block w-full" autocomplete="current-password" />
+                                <x-input-error :messages="$errors->updatePassword->get('current_password')" class="mt-2" />
                             </div>
                             <div class="mb-4">
                                 <label for="newPassword" class="block text-sm font-medium text-gray-700">New password</label>
-                                <input type="password" name="newPassword" id="newPassword" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
+                                <!-- <input type="password" name="newPassword" id="newPassword" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required> -->
+                                <x-text-input id="update_password_password" name="password" type="password" class="mt-1 block w-full" autocomplete="new-password" />
+
                             </div>
                             <div class="mb-4">
                                 <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirm password</label>
-                                <input type="password" name="confirmPassword" id="confirmPassword" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
+                                <!-- <input type="password" name="confirmPassword" id="confirmPassword" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required> -->
+                                <x-text-input id="update_password_password_confirmation" name="password_confirmation" type="password" class="mt-1 block w-full" autocomplete="new-password" />
                             </div>
                             <button type="submit" class="ud-btn">Change password</button>
                         </form>
                     </div>
                 </div>
+
+                <!-- Delete account -->
                 <div class="ud-security-page">
-                    <h2 class="text-2xl font-bold text-blue-900">Account security</h2>
-                    <p class="mt-2">Change your password.</p>
+                    <div class="ud-dlt-acc ">
+                        <h2 class="text-[50px] font-bold text-red">Delete account</h2>
+                        <span>Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.</span>
+                    </div>
+                    <button type="submit" class="ud-btn mt-3" x-data=""
+                        x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')">Delete my account</button>
                 </div>
+
+                <x-modal name="confirm-user-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
+                    <form method="post" action="{{ route('profile.destroy') }}" class="p-6">
+                        @csrf
+                        @method('delete')
+
+                        <h2 class="text-lg font-medium text-gray-900">
+                            {{ __('Are you sure you want to delete your account?') }}
+                        </h2>
+
+                        <p class="mt-1 text-sm text-gray-600">
+                            {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.') }}
+                        </p>
+
+                        <div class="mt-6">
+                            <x-input-label for="password" value="{{ __('Password') }}" class="sr-only" />
+
+                            <x-text-input
+                                id="password"
+                                name="password"
+                                type="password"
+                                class="mt-1 block w-3/4"
+                                placeholder="{{ __('Password') }}" />
+
+                            <x-input-error :messages="$errors->userDeletion->get('password')" class="mt-2" />
+                        </div>
+
+                        <div class="mt-6 flex justify-end">
+                            <x-secondary-button x-on:click="$dispatch('close')">
+                                {{ __('Cancel') }}
+                            </x-secondary-button>
+
+                            <x-danger-button class="ms-3">
+                                {{ __('Delete Account') }}
+                            </x-danger-button>
+                        </div>
+                    </form>
+                </x-modal>
+
             </div>
         </div>
     </div>
@@ -277,7 +330,7 @@
         });
 
 
-        //change the behaovier in the forms
+        // change the behaovier in the forms
         document.getElementById('profileForm').addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent page refresh
 
