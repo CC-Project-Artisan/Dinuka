@@ -26,7 +26,7 @@ Route::get('/', [PageController::class, 'index'])->name('welcome');
 Route::get('/layouts/pages/shop', [PageController::class, 'shop'])->name('pages.shop');
 Route::get('/layouts/pages/about', [PageController::class, 'about'])->name('pages.about');
 
-
+Route::get('/shop', [ProductController::class, 'index'])->name('shop');
 // Route::get('/products', [ProductController::class, 'index']);
 
 //Dashboard Routes
