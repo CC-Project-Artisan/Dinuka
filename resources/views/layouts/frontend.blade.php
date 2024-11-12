@@ -34,6 +34,9 @@
     'resources/css/category.css',
     'resources/css/dashboard.css',
     'resources/js/dashboard.js',
+    'resources/css/product_list.css',
+    'resources/js/product_list.js',
+    
     ])
     
 
