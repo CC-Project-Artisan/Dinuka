@@ -155,7 +155,7 @@
 
                             <div class="mb-4">
                                 <label for="mobile" class="block text-sm font-medium text-gray-700">Mobile</label>
-                                <input type="number" name="phone" id="mobile" placeholder="Enter your phone number" value="{{ old('phone', Auth::user()->phone) }}" min="0" oninput="this.value = Math.abs(this.value)" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                                <x-text-input id="name" name="phone" type="text" class="mt-1 block w-full" placeholder="{{ Auth::user()->phone }}" value="{{ old('email', Auth::user()->phone) }}" required autofocus autocomplete="name" />
                             </div>
 
                             <div>
@@ -197,8 +197,9 @@
                         </form>
                     </div>
                 </div>
+
                 <!-- Delete account -->
-                <div class="ud-security-page bg-white p-6 rounded shadow">
+                <div class="ud-security-page">
                     <div class="ud-dlt-acc ">
                         <h2 class="text-[50px] font-bold text-red">Delete account</h2>
                         <span>Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.</span>
