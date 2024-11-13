@@ -11,18 +11,18 @@ class ProductList extends Component
     /**
      * Create a new component instance.
      */
-    public $imageUrl;
-    public $title;
-    public $category;
-    public $price;
+    // public $imageUrl;
+    // public $title;
+    // public $category;
+    // public $price;
 
-    public function __construct($imageUrl, $title, $category, $price)
-    {
-        $this->imageUrl = $imageUrl;
-        $this->title = $title;
-        $this->category = $category;
-        $this->price = $price;
-    }
+    // public function __construct($imageUrl, $title, $category, $price)
+    // {
+    //     $this->imageUrl = $imageUrl;
+    //     $this->title = $title;
+    //     $this->category = $category;
+    //     $this->price = $price;
+    // }
 
     /**
      * Get the view / contents that represent the component.

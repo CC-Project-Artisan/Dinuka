@@ -223,3 +223,80 @@
     color: #A82E23;
     padding: 0.5rem 0.625rem;
 }
+
+
+/* Selling Section */
+/* Container for tabs */
+.tab-container {
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+    text-align: center;
+}
+
+/* Tabs */
+.tabs {
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 1rem;
+}
+
+.tab-link {
+    padding: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    background: none;
+    color: #666;
+    font-size: 1.25rem;
+    transition: color 0.3s;
+}
+
+.tab-link.active {
+    color: #c00;
+    border-bottom: 3px solid #c00;
+}
+
+/* Tab content */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Empty state styling */
+.empty-state {
+    text-align: center;
+    padding: 2rem;
+}
+
+.empty-state .icon {
+    font-size: 3rem;
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.empty-state h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #555;
+}
+
+.empty-state p {
+    font-size: 1rem;
+    color: #777;
+}
+
+.cta-button {
+    background-color: #c00;
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 1rem;
+}

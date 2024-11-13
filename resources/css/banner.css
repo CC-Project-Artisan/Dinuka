@@ -75,9 +75,6 @@
     border-radius: 0;
 }
 
-
-
-
 .custom-view-more-btn::before,
 .custom-view-more-btn::after {
     content: '';

@@ -78,11 +78,17 @@
                     <label for="myAdvert" class="dashboard-sidebar-title">Personal details</label><br>
                     <span class="dashboard-sidebar-sub-title">Information about you</span>
                 </li>
-                <li class="u-sidebar-value rounded-b-md hover:rounded-b-md border-none" data-page="accountSecurity" onclick="loadPage('accountSecurity')">
+                <li class="u-sidebar-value" data-page="accountSecurity" onclick="loadPage('accountSecurity')">
                     <i class="fa-solid fa-shield-halved ud-icon-left"></i>
                     <i class="fa-solid fa-arrow-right-long"></i>
                     <label for="myAdvert" class="dashboard-sidebar-title">Account security</label><br>
                     <span class="dashboard-sidebar-sub-title">Change your password</span>
+                </li>
+                <li class="u-sidebar-value rounded-b-md hover:rounded-b-md border-none" data-page="selling" onclick="loadPage('selling')">
+                    <i class="fa-solid fa-hand-holding-dollar ud-icon-left"></i>
+                    <i class="fa-solid fa-arrow-right-long"></i>
+                    <label for="myAdvert" class="dashboard-sidebar-title">Sell on Artisan.lk</label><br>
+                    <span class="dashboard-sidebar-sub-title">Register as a seller</span>
                 </li>
             </ul>
         </div>
@@ -112,7 +118,7 @@
                     <div class="flex gap-10 text-[#252a34] mb-4 font-secondaryText">
                         <p class="mt-2">Make more money by selling your unique products with Artisan.lk!</p>
                     </div>
-                    <a href="./createAds.php" class="ud-btn font-secondaryText">Create vendor profile</a>
+                    <button class="ud-btn font-secondaryText" onclick="loadPage('selling')">Create vendor profile</button>
                 </div>
             </div>
 
@@ -175,8 +181,7 @@
 
                             <div class="mb-4">
                                 <label for="mobile" class="block text-sm font-medium text-gray-700">Mobile</label>
-                                <input type="number" name="phone" id="mobile" placeholder="Enter your phone number" value="{{ old('phone', Auth::user()->phone) }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                            </div>
+                                <input type="number" name="phone" id="mobile" placeholder="Enter your phone number" value="{{ old('phone', Auth::user()->phone) }}" min="0" oninput="this.value = Math.abs(this.value)" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">                            </div>
 
                             <div>
                                 <button type="submit" id="submitButton" class="ud-btn bg-blue-500 text-red">Save my details</button>
@@ -209,9 +214,106 @@
                         </form>
                     </div>
                 </div>
+                <!-- Delete account -->
                 <div class="ud-security-page">
-                    <h2 class="text-2xl font-bold text-blue-900">Account security</h2>
-                    <p class="mt-2">Change your password.</p>
+                    <div class="ud-dlt-acc ">
+                        <h2 class="text-[50px] font-bold text-red">Delete account</h2>
+                        <span>Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.</span>
+                    </div>
+                    <button type="submit" class="ud-btn mt-3" x-data=""
+                        x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')">Delete my account</button>
+                </div>
+
+                <x-modal name="confirm-user-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
+                    <form method="post" action="{{ route('profile.destroy') }}" class="p-6">
+                        @csrf
+                        @method('delete')
+
+                        <h2 class="text-lg font-medium text-gray-900">
+                            {{ __('Are you sure you want to delete your account?') }}
+                        </h2>
+
+                        <p class="mt-1 text-sm text-gray-600">
+                            {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.') }}
+                        </p>
+
+                        <div class="mt-6">
+                            <x-input-label for="password" value="{{ __('Password') }}" class="sr-only" />
+
+                            <x-text-input
+                                id="password"
+                                name="password"
+                                type="password"
+                                class="mt-1 block w-3/4"
+                                placeholder="{{ __('Password') }}" />
+
+                            <x-input-error :messages="$errors->userDeletion->get('password')" class="mt-2" />
+                        </div>
+
+                        <div class="mt-6 flex justify-end">
+                            <x-secondary-button x-on:click="$dispatch('close')">
+                                {{ __('Cancel') }}
+                            </x-secondary-button>
+
+                            <x-danger-button class="ms-3">
+                                {{ __('Delete Account') }}
+                            </x-danger-button>
+                        </div>
+                    </form>
+                </x-modal>
+
+            </div>
+
+
+            <!-- Selling Section -->
+            <div id="selling" class="ud-page-wrapper">
+                <div class="ud-personal-page shadow-custom rounded-md p-6">
+                    <div class="ud-pro-change">
+                        <h2 class="text-[50px] font-bold text-customBlue">Become An Artisan.lk Seller Today!</h2>
+                        <span>Create a Artisan.lk seller account now and reach millions of customers!</span>
+
+                        <form id="profileForm" action="" method="post" class="mt-4">
+                            @csrf
+
+                            <div class="mb-4">
+                                <label for="fullName" class="block text-sm font-medium text-gray-700">Full Name</label>
+                                <input type="text" name="name" id="fullName" placeholder="{{ Auth::user()->name }}" value="" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="email" class="block text-sm font-medium text-gray-700">Email address</label>
+                                <input type="email" name="email" id="email" placeholder="{{ Auth::user()->email }}" value="" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="mobile" class="block text-sm font-medium text-gray-700">Mobile</label>
+                                <input type="number" name="phone" id="mobile" placeholder="{{ Auth::user()->phone }}" value="" min="0" oninput="this.value = Math.abs(this.value)" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="shopName" class="block text-sm font-medium text-gray-700">Display Name / Shop Name</label>
+                                <input type="text" name="shopName" id="shopName" placeholder="Enter dispaly name or shop name" value="" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                            </div>
+
+                            <div>
+                                <button type="submit" id="submitButton" class="ud-btn bg-blue-500 text-red">Create vendor profile</button>
+                            </div>
+                        </form>
+                        <!-- <div class="tab">
+                            <button class="tab-link" onclick="openTab(event, 'tab1')">Seller</button>
+                            <button class="tab-link" onclick="openTab(event, 'tab2')">Shop</button>
+                        </div>
+
+                        <div id="tab1" class="tab-content">
+                            <h3>Seller</h3>
+                            <p>Content for Tab 1.</p>
+                        </div>
+
+                        <div id="tab2" class="tab-content">
+                            <h3>Shop</h3>
+                            <p>Content for Tab 2.</p>
+                        </div> -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -317,6 +419,21 @@
                     alert('An error occurred while updating your profile.');
                 });
         });
+
+        // Switch between tabs in selling section
+        function openTab(event, tabName) {
+            // Get all tab links and tab content elements
+            const tabLinks = document.querySelectorAll('.tab-link');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            // Remove the active class from all tabs and tab contents
+            tabLinks.forEach(link => link.classList.remove('active'));
+            tabContents.forEach(content => content.classList.remove('active'));
+
+            // Add the active class to the clicked tab and the corresponding tab content
+            event.currentTarget.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+        }
     </script>
 </main>
 
