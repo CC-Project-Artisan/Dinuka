@@ -30,7 +30,7 @@ Route::get('/', [PageController::class, 'index'])->name('welcome');
 Route::get('/shop', [PageController::class, 'shop'])->name('pages.shop');
 Route::get('/about', [PageController::class, 'about'])->name('pages.about');
 
-Route::get('/shop', [ProductController::class, 'index'])->name('shop');
+// Route::get('/shop', [ProductController::class, 'index'])->name('pages.shop');
 // Route::get('/products', [ProductController::class, 'index']);
 
 //Dashboard Routes
