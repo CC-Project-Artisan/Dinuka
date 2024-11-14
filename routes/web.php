@@ -5,6 +5,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\User\VendorController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -23,7 +24,7 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::post('/dashboard/updatedUserInformatio', [UserController::class, 'update'])->name('user-profile.update');
+Route::post('/dashboard/updatedUserInformation', [UserController::class, 'update'])->name('user-profile.update');
 
 //Page Routes
 Route::get('/', [PageController::class, 'index'])->name('welcome');
@@ -36,8 +37,7 @@ Route::get('/about', [PageController::class, 'about'])->name('pages.about');
 //Dashboard Routes
 Route::get('/dashboard', [PageController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
 
-
-
+Route::post('/dashboard/register-vendor', [UserController::class, 'registerVendor'])->name('vendor.register');
 
 
 

@@ -84,12 +84,6 @@
                     <label for="myAdvert" class="dashboard-sidebar-title">Account security</label><br>
                     <span class="dashboard-sidebar-sub-title">Change your password</span>
                 </li>
-                <li class="u-sidebar-value rounded-b-md hover:rounded-b-md border-none" data-page="selling" onclick="loadPage('selling')">
-                    <i class="fa-solid fa-hand-holding-dollar ud-icon-left"></i>
-                    <i class="fa-solid fa-arrow-right-long"></i>
-                    <label for="myAdvert" class="dashboard-sidebar-title">Sell on Artisan.lk</label><br>
-                    <span class="dashboard-sidebar-sub-title">Register as a seller</span>
-                </li>
             </ul>
         </div>
 
@@ -98,7 +92,7 @@
             <!-- Dashboard page -->
             <div id="dashboard" class="ud-page-wrapper hidden">
                 <div class="ud-dashboard-page">
-                    <h2 class="text-[40px] font-bold text-customBrown font-mainText">Hello! {{ ucfirst(explode(' ', Auth::user()->name)[0]) }}</h2>
+                    <h2 class="text-[40px] font-bold text-customBrown font-mainText">Vendor! {{ ucfirst(explode(' ', Auth::user()->name)[0]) }}</h2>
                     <div class="flex gap-10 text-[#252a34] mb-4 font-secondaryText">
                         <p class="mt-2"><i class="fa-regular fa-user mr-2"></i>{{ Auth::user()->name }}</p>
                         <p class="mt-2"><i class="fa-regular fa-envelope mr-2"></i>{{ Auth::user()->email }}</p>
@@ -262,85 +256,6 @@
                         </div>
                     </form>
                 </x-modal>
-
-            </div>
-
-
-            <!-- Selling Section -->
-            <div id="selling" class="ud-page-wrapper">
-                <div class="ud-personal-page shadow-custom rounded-md p-6">
-                    <div class="ud-pro-change">
-                        <h2 class="text-[50px] font-bold text-customBlue">Become An Artisan.lk Seller Today!</h2>
-                        <span>Create a Artisan.lk seller account now and reach millions of customers!</span>
-
-                        <form id="profileForm" action="{{ route('vendor.register') }}" method="post" class="mt-4">
-                            @csrf
-
-                            <div class="mb-4">
-                                <label for="fullName" class="block text-sm font-medium text-gray-700">Full Name</label>
-                                <input type="text" name="name" id="fullName" placeholder="{{ Auth::user()->name }}" value="{{ Auth::user()->name }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                            </div>
-
-                            <div class="mb-4">
-                                <label for="email" class="block text-sm font-medium text-gray-700">Email address</label>
-                                <input type="email" name="email" id="email" placeholder="{{ Auth::user()->email }}" value="{{ Auth::user()->email }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                            </div>
-
-                            <div class="mb-4">
-                                <label for="mobile" class="block text-sm font-medium text-gray-700">Mobile</label>
-                                <input type="number" name="phone" id="mobile" placeholder="{{ Auth::user()->phone }}" value="{{ Auth::user()->phone }}" min="0" oninput="this.value = Math.abs(this.value)" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                            </div>
-
-                            <div class="mb-4">
-                                <label for="shopName" class="block text-sm font-medium text-gray-700">Display Name / Shop Name</label>
-                                <input type="text" name="business_name" id="shopName" placeholder="Enter display name or shop name" value="" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                            </div>
-
-                            <div class="mb-4">
-                                <label for="businessDescription" class="block text-sm font-medium text-gray-700">Business Description</label>
-                                <textarea name="business_description" id="businessDescription" placeholder="Enter business description" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></textarea>
-                            </div>
-
-                            <div class="mb-4">
-                                <label for="businessCategory" class="block text-sm font-medium text-gray-700">Business Category</label>
-                                <input type="text" name="business_category" id="businessCategory" placeholder="Enter business category" value="" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                            </div>
-
-                            <div class="mb-4">
-                                <label for="businessPhone" class="block text-sm font-medium text-gray-700">Business Phone</label>
-                                <input type="text" name="business_phone" id="businessPhone" placeholder="Enter business phone" value="" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                            </div>
-
-                            <div class="mb-4">
-                                <label for="businessEmail" class="block text-sm font-medium text-gray-700">Business Email</label>
-                                <input type="email" name="business_email" id="businessEmail" placeholder="Enter business email" value="" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                            </div>
-
-                            <div class="mb-4">
-                                <label for="businessAddress" class="block text-sm font-medium text-gray-700">Business Address</label>
-                                <input type="text" name="business_address" id="businessAddress" placeholder="Enter business address" value="" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                            </div>
-
-                            <div>
-                                <button type="submit" id="submitButton" class="ud-btn bg-blue-500 text-red">Create vendor profile</button>
-                            </div>
-                        </form>
-                        <!-- <div class="tab">
-                            <button class="tab-link" onclick="openTab(event, 'tab1')">Seller</button>
-                            <button class="tab-link" onclick="openTab(event, 'tab2')">Shop</button>
-                        </div>
-
-                        <div id="tab1" class="tab-content">
-                            <h3>Seller</h3>
-                            <p>Content for Tab 1.</p>
-                        </div>
-
-                        <div id="tab2" class="tab-content">
-                            <h3>Shop</h3>
-                            <p>Content for Tab 2.</p>
-                        </div> -->
-                    </div>
-                </div>
             </div>
         </div>
     </div>
