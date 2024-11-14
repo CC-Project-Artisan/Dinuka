@@ -42,12 +42,6 @@
                     <label for="dashboard" class="dashboard-sidebar-title">Dashboard</label><br>
                     <span class="dashboard-sidebar-sub-title">Summary of your account</span>
                 </li>
-                <li class="u-sidebar-value" data-page="myAdverts" onclick="loadPage('myAdverts')">
-                    <i class="fa-solid fa-rectangle-ad ud-icon-left"></i>
-                    <i class="fa-solid fa-arrow-right-long"></i>
-                    <label for="myAdvert" class="dashboard-sidebar-title">My adverts</label><br>
-                    <span class="dashboard-sidebar-sub-title">Vehicles you are selling</span>
-                </li>
                 <li class="u-sidebar-value" data-page="myMessages" onclick="loadPage('myMessages')">
                     <i class="fa-regular fa-envelope ud-icon-left"></i>
                     <i class="fa-solid fa-arrow-right-long"></i>
@@ -97,55 +91,35 @@
         <div class="u-dashboard-content-wrapper">
             <!-- Dashboard page -->
             <div id="dashboard" class="ud-page-wrapper hidden">
-                <div class="ud-dashboard-page">
-                    <h2 class="text-[40px] font-bold text-customBrown font-mainText">Hello! {{ ucfirst(explode(' ', Auth::user()->name)[0]) }}</h2>
-                    <div class="flex gap-10 text-[#252a34] mb-4 font-secondaryText">
-                        <p class="mt-2"><i class="fa-regular fa-user mr-2"></i>{{ Auth::user()->name }}</p>
-                        <p class="mt-2"><i class="fa-regular fa-envelope mr-2"></i>{{ Auth::user()->email }}</p>
-                        <p class="mt-2"><i class="fa-regular fa-calendar mr-2"></i>Member since {{ Auth::user()->created_at->format('d M Y') }}</p>
+                <div class="ud-dashboard-page bg-white p-6 rounded shadow">
+                <div class="flex">
+                        <div class="ud-profile-image-wrapper">
+                            <img src="{{ asset('https://png.pngtree.com/png-clipart/20230927/original/pngtree-man-avatar-image-for-profile-png-image_13001877.png') }}" alt="profile image" class="ud-profile-image">
+                        </div>
+                        <div class="pl-2 ml-3">
+                            <h2 class="text-[40px] font-bold text-customBrown font-mainText">Hello! {{ ucfirst(explode(' ', Auth::user()->name)[0]) }}</h2>
+                            <div class="flex gap-10 text-[#252a34] mb-4 font-secondaryText">
+                                <p class="mt-2"><i class="fa-regular fa-user mr-2"></i>{{ Auth::user()->name }}</p>
+                                <p class="mt-2"><i class="fa-regular fa-envelope mr-2"></i>{{ Auth::user()->email }}</p>
+                                <p class="mt-2"><i class="fa-regular fa-calendar mr-2"></i>Member since {{ Auth::user()->created_at->format('d M Y') }}</p>
+                            </div>
+                            <button class="ud-btn font-secondaryText" onclick="loadPage('personalDetails')">Edit my details</button>
+                        </div>
                     </div>
-                    <button class="ud-btn font-secondaryText" onclick="loadPage('personalDetails')">Edit my details</button>
                 </div>
-                <div class="ud-dashboard-page">
+                <div class="ud-dashboard-page bg-white p-6 rounded shadow">
                     <h2 class="text-[40px] font-bold text-customBrown font-mainText">Find your favourite arts & crafts</h2>
                     <div class="flex gap-10 text-[#252a34] mb-4 font-secondaryText">
                         <p class="mt-2">We are the fastest growing largest digital marketplace for arts and crafts in Sri Lanka.</p>
                     </div>
                     <a href="{{ route('pages.shop') }}" class="ud-btn font-secondaryText">Browse products</a>
                 </div>
-                <div class="ud-dashboard-page">
+                <div class="ud-dashboard-page bg-white p-6 rounded shadow">
                     <h2 class="text-[40px] font-bold text-customBrown font-mainText">Looking to sell your arts & crafts?</h2>
                     <div class="flex gap-10 text-[#252a34] mb-4 font-secondaryText">
                         <p class="mt-2">Make more money by selling your unique products with Artisan.lk!</p>
                     </div>
                     <button class="ud-btn font-secondaryText" onclick="loadPage('selling')">Create vendor profile</button>
-                </div>
-            </div>
-
-            <!-- My advert page -->
-            <div id="myAdverts" class="ud-page-wrapper hidden">
-                <div class="ud-advert-page">
-                    <div class="ud-advert-status-wrapper flex-[25%]">
-                        <p class="mt-2 mb-2"></i>Status</p>
-                        <select name="" id="" class="border border-[#00000026] rounded-[5px]">
-                            <option value="all">All</option>
-                            <option value="live">Live</option>
-                            <option value="rejected">Rejected</option>
-                        </select>
-                    </div>
-                    <div class="ud-advert-keyword-wrapper flex-[50%]">
-                        <p class="mt-2 mb-2"></i>Keyword</p>
-                        <div class="flex">
-                            <input type="text" class="ud-advert-keyword-input" placeholder="Search adverts...">
-                            <a href="#"><i class="ud-advert-keyword-search fa-solid fa-magnifying-glass"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="ud-empty-body">
-                    <i class="fa-solid fa-magnifying-glass text-[#6C757D] text-[80px]"></i>
-                    <h2 class="text-[#6C757D] text-[40px] font-bold">No adverts found</h2>
-                    <span class="text-[#6C757D]">We couldn't find any records. Try changing search filters</span>
-                    <a href="./createAds.php" class="border bg-customRed text-white px-7 py-2 rounded-[50px] hover:shadow-4xl transition-all duration-300 ease-in-out">Create a new advert</a>
                 </div>
             </div>
 
@@ -161,7 +135,7 @@
 
             <!-- My presonal details -->
             <div id="personalDetails" class="ud-page-wrapper">
-                <div class="ud-personal-page shadow-custom rounded-md p-6">
+                <div class="ud-personal-page bg-white p-6 rounded shadow">
                     <div class="ud-pro-change">
                         <h2 class="text-[50px] font-bold text-customBlue">Your details</h2>
                         <span>Please keep your details up to date. Your personal data is stored securely. We do not share information with third parties.</span>
@@ -194,7 +168,7 @@
 
             <!-- Account security page -->
             <div id="accountSecurity" class="ud-page-wrapper">
-                <div class="ud-security-page">
+                <div class="ud-security-page bg-white p-6 rounded shadow">
                     <div class="ud-pw-change">
                         <h2 class="text-[50px] font-bold text-customBlue">Your password</h2>
                         <span>Please make sure to have a secure password with at least 6 characters long.</span>
@@ -224,7 +198,7 @@
                     </div>
                 </div>
                 <!-- Delete account -->
-                <div class="ud-security-page">
+                <div class="ud-security-page bg-white p-6 rounded shadow">
                     <div class="ud-dlt-acc ">
                         <h2 class="text-[50px] font-bold text-red">Delete account</h2>
                         <span>Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.</span>
@@ -276,28 +250,13 @@
 
             <!-- Selling Section -->
             <div id="selling" class="ud-page-wrapper">
-                <div class="ud-personal-page shadow-custom rounded-md p-6">
+                <div class="ud-personal-page bg-white p-6 rounded shadow">
                     <div class="ud-pro-change">
                         <h2 class="text-[50px] font-bold text-customBlue">Become An Artisan.lk Seller Today!</h2>
                         <span>Create a Artisan.lk seller account now and reach millions of customers!</span>
 
                         <form id="profileForm" action="{{ route('vendor.register') }}" method="post" class="mt-4">
                             @csrf
-
-                            <div class="mb-4">
-                                <label for="fullName" class="block text-sm font-medium text-gray-700">Full Name</label>
-                                <input type="text" name="name" id="fullName" placeholder="{{ Auth::user()->name }}" value="{{ Auth::user()->name }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                            </div>
-
-                            <div class="mb-4">
-                                <label for="email" class="block text-sm font-medium text-gray-700">Email address</label>
-                                <input type="email" name="email" id="email" placeholder="{{ Auth::user()->email }}" value="{{ Auth::user()->email }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                            </div>
-
-                            <div class="mb-4">
-                                <label for="mobile" class="block text-sm font-medium text-gray-700">Mobile</label>
-                                <input type="number" name="phone" id="mobile" placeholder="{{ Auth::user()->phone }}" value="{{ Auth::user()->phone }}" min="0" oninput="this.value = Math.abs(this.value)" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                            </div>
 
                             <div class="mb-4">
                                 <label for="shopName" class="block text-sm font-medium text-gray-700">Display Name / Shop Name</label>

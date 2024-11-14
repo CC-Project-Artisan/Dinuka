@@ -25,7 +25,6 @@ class PageController extends Controller
     }
 
     //Dashboard
-
     public function dashboard()
     {
         if (Auth::check()) {
@@ -36,9 +35,9 @@ class PageController extends Controller
                 case 'vendor':
                     $vendor = Vendor::where('user_id', $user->id)->first();
                     if ($vendor) {
-                        return view('vendor.dashboard');
+                        return view('vendor.dashboard', compact('vendor'));
                     } else {
-                        return view('welcome'); // Handle case where user isn't found in vendors table
+                        return view('welcome');
                     }
                 case 'user':
                     return view('user.dashboard');
@@ -49,7 +48,7 @@ class PageController extends Controller
             }
         }
 
-        return redirect()->route('login'); // Redirect to login if not authenticated
+        return redirect()->route('login');
     }
 
     //Admin Test
