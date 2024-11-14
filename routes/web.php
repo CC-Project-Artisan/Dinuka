@@ -37,7 +37,9 @@ Route::get('/about', [PageController::class, 'about'])->name('pages.about');
 //Dashboard Routes
 Route::get('/dashboard', [PageController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::post('/dashboard/register-vendor', [UserController::class, 'registerVendor'])->name('vendor.register');
+Route::post('/dashboard/register-vendor', [VendorController::class, 'registerVendor'])->name('vendor.register');
+
+Route::post('/dashboard/update-store-details', [VendorController::class, 'updateStoreDetails'])->name('vendor.update');
 
 
 

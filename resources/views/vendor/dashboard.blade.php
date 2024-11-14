@@ -1,7 +1,16 @@
+<!-- Vendor Dashboard -->
 @extends('layouts.frontend')
 @section('pages')
 
-<main class="user-dashboard-main-container">
+<div class="breadcrumb-bar">
+    <div class="breadcrumb-title">
+        Artisan.lk Seller Center
+    </div>
+    <div class="create-ads">
+        <a href="#" class="create-ads-btn font-secondaryText">Create Advert</a>
+    </div>
+</div>
+<main class="user-dashboard-main-container" style="margin-top: 2%;">
     <!-- upper section -->
     <div class="dashboard-path-wrapper">
         <!-- Breadcrumb -->
@@ -24,14 +33,16 @@
     <!-- Dashboard -->
     <div class="user-dashboard-wrapper">
         <!-- Navbar for mobile -->
-        <div class="bg-customBlue text-white p-4 flex justify-between items-center lg:hidden ">
+        <!-- <div class="bg-customBlue text-white p-4 flex justify-between items-center lg:hidden ">
             <div class="text-lg font-bold">Dashboard</div>
             <button id="menuToggle" class="text-white focus:outline-none">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
                 </svg>
             </button>
-        </div>
+        </div> -->
+
+        
 
         <!-- Sidebar for desktop -->
         <div id="sidebar" class="dashboard-sidebar-desktop-wrapper">
@@ -46,7 +57,7 @@
                     <i class="fa-solid fa-rectangle-ad ud-icon-left"></i>
                     <i class="fa-solid fa-arrow-right-long"></i>
                     <label for="myAdvert" class="dashboard-sidebar-title">My adverts</label><br>
-                    <span class="dashboard-sidebar-sub-title">Vehicles you are selling</span>
+                    <span class="dashboard-sidebar-sub-title">Products you are selling</span>
                 </li>
                 <li class="u-sidebar-value" data-page="myMessages" onclick="loadPage('myMessages')">
                     <i class="fa-regular fa-envelope ud-icon-left"></i>
@@ -72,6 +83,12 @@
                     <label for="myAdvert" class="dashboard-sidebar-title">My orders</label><br>
                     <span class="dashboard-sidebar-sub-title">View all your orders</span>
                 </li>
+                <li class="u-sidebar-value" data-page="myStore" onclick="loadPage('myStore')">
+                    <i class="fa-solid fa-store ud-icon-left"></i>
+                    <i class="fa-solid fa-arrow-right-long"></i>
+                    <label for="store" class="dashboard-sidebar-title">My Store</label><br>
+                    <span class="dashboard-sidebar-sub-title">Manage your store</span>
+                </li>
                 <li class="u-sidebar-value" data-page="personalDetails" onclick="loadPage('personalDetails')">
                     <i class="fa-regular fa-user ud-icon-left"></i>
                     <i class="fa-solid fa-arrow-right-long"></i>
@@ -90,35 +107,42 @@
         <!-- Main Content -->
         <div class="u-dashboard-content-wrapper">
             <!-- Dashboard page -->
-            <div id="dashboard" class="ud-page-wrapper hidden">
-                <div class="ud-dashboard-page">
-                    <h2 class="text-[40px] font-bold text-customBrown font-mainText">Vendor! {{ ucfirst(explode(' ', Auth::user()->name)[0]) }}</h2>
-                    <div class="flex gap-10 text-[#252a34] mb-4 font-secondaryText">
-                        <p class="mt-2"><i class="fa-regular fa-user mr-2"></i>{{ Auth::user()->name }}</p>
-                        <p class="mt-2"><i class="fa-regular fa-envelope mr-2"></i>{{ Auth::user()->email }}</p>
-                        <p class="mt-2"><i class="fa-regular fa-calendar mr-2"></i>Member since {{ Auth::user()->created_at->format('d M Y') }}</p>
+            <div id="dashboard" class="ud-page-wrapper">
+                <div class="ud-dashboard-page bg-white p-6 rounded shadow">
+                    <div class="flex">
+                        <div class="ud-profile-image-wrapper">
+                            <img src="{{ asset('https://png.pngtree.com/png-clipart/20230927/original/pngtree-man-avatar-image-for-profile-png-image_13001877.png') }}" alt="profile image" class="ud-profile-image">
+                        </div>
+                        <div class="pl-2 ml-3">
+                            <h2 class="text-[40px] font-bold text-customBrown font-mainText">Hello! {{ ucfirst(explode(' ', Auth::user()->name)[0]) }}</h2>
+                            <div class="flex gap-10 text-[#252a34] mb-4 font-secondaryText">
+                                <p class="mt-2"><i class="fa-regular fa-user mr-2"></i>{{ Auth::user()->name }}</p>
+                                <p class="mt-2"><i class="fa-regular fa-envelope mr-2"></i>{{ Auth::user()->email }}</p>
+                                <p class="mt-2"><i class="fa-regular fa-calendar mr-2"></i>Member since {{ Auth::user()->created_at->format('d M Y') }}</p>
+                            </div>
+                            <button class="ud-btn font-secondaryText" onclick="loadPage('personalDetails')">Edit my details</button>
+                        </div>
                     </div>
-                    <button class="ud-btn font-secondaryText" onclick="loadPage('personalDetails')">Edit my details</button>
                 </div>
-                <div class="ud-dashboard-page">
-                    <h2 class="text-[40px] font-bold text-customBrown font-mainText">Find your favourite arts & crafts</h2>
+                <div class="ud-dashboard-page bg-white p-6 rounded shadow">
+                    <h2 class="text-[40px] font-bold text-customBrown font-mainText"> Find Arts & Crafts Exhibitions</h2>
                     <div class="flex gap-10 text-[#252a34] mb-4 font-secondaryText">
-                        <p class="mt-2">We are the fastest growing largest digital marketplace for arts and crafts in Sri Lanka.</p>
+                        <p class="mt-2">Discover the best arts and crafts exhibitions in Sri Lanka, showcasing local talent and creativity.</p>
                     </div>
-                    <a href="{{ route('pages.shop') }}" class="ud-btn font-secondaryText">Browse products</a>
+                    <a href="{{ route('pages.shop') }}" class="ud-btn font-secondaryText">Browse exhibitions</a>
                 </div>
-                <div class="ud-dashboard-page">
+                <div class="ud-dashboard-page bg-white p-6 rounded shadow">
                     <h2 class="text-[40px] font-bold text-customBrown font-mainText">Looking to sell your arts & crafts?</h2>
                     <div class="flex gap-10 text-[#252a34] mb-4 font-secondaryText">
                         <p class="mt-2">Make more money by selling your unique products with Artisan.lk!</p>
                     </div>
-                    <button class="ud-btn font-secondaryText" onclick="loadPage('selling')">Create vendor profile</button>
+                    <a href="#" class="ud-btn font-secondaryText">Create your advert</a>
                 </div>
             </div>
 
             <!-- My advert page -->
             <div id="myAdverts" class="ud-page-wrapper hidden">
-                <div class="ud-advert-page">
+                <div class="ud-advert-page bg-white p-6 rounded shadow">
                     <div class="ud-advert-status-wrapper flex-[25%]">
                         <p class="mt-2 mb-2"></i>Status</p>
                         <select name="" id="" class="border border-[#00000026] rounded-[5px]">
@@ -153,42 +177,83 @@
                 <p class="mt-2">Your orders.</p>
             </div>
 
-            <!-- My presonal details -->
-            <div id="personalDetails" class="ud-page-wrapper">
-                <div class="ud-personal-page shadow-custom rounded-md p-6">
-                    <div class="ud-pro-change">
-                        <h2 class="text-[50px] font-bold text-customBlue">Your details</h2>
-                        <span>Please keep your details up to date. Your personal data is stored securely. We do not share information with third parties.</span>
+            <!-- Store -->
+            <div id="myStore" class="ud-page-wrapper bg-white p-6 rounded shadow hidden">
+                <h2 class="text-[50px] font-bold text-customBlue">Store details</h2>
+                <span>Please keep store details up to date. Your store data is stored securely. We do not share information with third parties.</span>
+                <form id="" action="{{ route('vendor.update') }}" method="post" class="mt-4">
+                    @csrf
 
-                        <form id="profileForm" action="{{ route('user-profile.update') }}" method="post" class="mt-4">
-                            @csrf
-
-                            <div class="mb-4">
-                                <label for="fullName" class="block text-sm font-medium text-gray-700">Full Name</label>
-                                <input type="text" name="name" id="fullName" placeholder="{{ Auth::user()->name }}" value="{{ old('name', Auth::user()->name) }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                            </div>
-
-                            <div class="mb-4">
-                                <label for="email" class="block text-sm font-medium text-gray-700">Email address</label>
-                                <input type="email" name="email" id="email" placeholder="{{ Auth::user()->email }}" value="{{ old('email', Auth::user()->email) }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                            </div>
-
-                            <div class="mb-4">
-                                <label for="mobile" class="block text-sm font-medium text-gray-700">Mobile</label>
-                                <input type="number" name="phone" id="mobile" placeholder="Enter your phone number" value="{{ old('phone', Auth::user()->phone) }}" min="0" oninput="this.value = Math.abs(this.value)" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                            </div>
-
-                            <div>
-                                <button type="submit" id="submitButton" class="ud-btn bg-blue-500 text-red">Save my details</button>
-                            </div>
-                        </form>
+                    <div class="mb-4">
+                        <label for="shopName" class="block text-sm font-medium text-gray-700">Display Name / Shop Name</label>
+                        <input type="text" name="business_name" id="shopName" placeholder="" value="{{ $vendor->business_name ?? '' }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                     </div>
-                </div>
+
+                    <div class="mb-4">
+                        <label for="businessDescription" class="block text-sm font-medium text-gray-700">Business Description</label>
+                        <textarea name="business_description" id="businessDescription" placeholder="Enter business description" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">{{ $vendor->business_description ?? '' }}</textarea>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="businessCategory" class="block text-sm font-medium text-gray-700">Business Category</label>
+                        <input type="text" name="business_category" id="businessCategory" placeholder="Enter business category" value="{{ $vendor->business_category ?? '' }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="businessPhone" class="block text-sm font-medium text-gray-700">Business Phone</label>
+                        <input type="text" name="business_phone" id="businessPhone" placeholder="Enter business phone" value="{{ $vendor->business_phone ?? '' }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="businessEmail" class="block text-sm font-medium text-gray-700">Business Email</label>
+                        <input type="email" name="business_email" id="businessEmail" placeholder="Enter business email" value="{{ $vendor->business_email ?? '' }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="businessAddress" class="block text-sm font-medium text-gray-700">Business Address</label>
+                        <input type="text" name="business_address" id="businessAddress" placeholder="Enter business address" value="{{ $vendor->business_address ?? '' }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    </div>
+
+                    <div class="flex justify-between">
+                        <button type="submit" id="submitButton" class="ud-btn bg-blue-500 text-red">Update store details</button>
+                        <a href="#" class="ud-btn bg-blue-500 text-red">Preview of the store</a>
+                    </div>
+                </form>
             </div>
 
+            <!-- My presonal details -->
+            <div id="personalDetails" class="ud-page-wrapper bg-white p-6 rounded shadow hidden">
+                <h2 class="text-[50px] font-bold text-customBlue">Your details</h2>
+                <span>Please keep your details up to date. Your personal data is stored securely. We do not share information with third parties.</span>
+
+                <form id="profileForm" action="{{ route('user-profile.update') }}" method="post" class="mt-4">
+                    @csrf
+
+                    <div class="mb-4">
+                        <label for="fullName" class="block text-sm font-medium text-gray-700">Full Name</label>
+                        <input type="text" name="name" id="fullName" placeholder="{{ Auth::user()->name }}" value="{{ old('name', Auth::user()->name) }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="email" class="block text-sm font-medium text-gray-700">Email address</label>
+                        <input type="email" name="email" id="email" placeholder="{{ Auth::user()->email }}" value="{{ old('email', Auth::user()->email) }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="mobile" class="block text-sm font-medium text-gray-700">Mobile</label>
+                        <input type="number" name="phone" id="mobile" placeholder="Enter your phone number" value="{{ old('phone', Auth::user()->phone) }}" min="0" oninput="this.value = Math.abs(this.value)" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    </div>
+
+                    <div>
+                        <button type="submit" id="submitButton" class="ud-btn bg-blue-500 text-red">Save my details</button>
+                    </div>
+                </form>
+            </div>
+
+
             <!-- Account security page -->
-            <div id="accountSecurity" class="ud-page-wrapper">
-                <div class="ud-security-page">
+            <div id="accountSecurity" class="ud-page-wrapper hidden">
+                <div class="ud-security-page bg-white p-6 rounded shadow">
                     <div class="ud-pw-change">
                         <h2 class="text-[50px] font-bold text-customBlue">Your password</h2>
                         <span>Please make sure to have a secure password with at least 6 characters long.</span>
@@ -210,7 +275,7 @@
                     </div>
                 </div>
                 <!-- Delete account -->
-                <div class="ud-security-page">
+                <div class="ud-security-page bg-white p-6 rounded shadow">
                     <div class="ud-dlt-acc ">
                         <h2 class="text-[50px] font-bold text-red">Delete account</h2>
                         <span>Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.</span>
@@ -375,6 +440,16 @@
             event.currentTarget.classList.add('active');
             document.getElementById(tabName).classList.add('active');
         }
+
+        // JavaScript to toggle the sidebar on mobile view
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            var sidebar = document.getElementById('sidebar');
+            if (sidebar.style.display === 'block') {
+                sidebar.style.display = 'none';
+            } else {
+                sidebar.style.display = 'block';
+            }
+        });
     </script>
 </main>
 
