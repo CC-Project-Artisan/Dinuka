@@ -1,21 +1,30 @@
+<!-- Vendor Dashboard -->
 @extends('layouts.frontend')
 @section('pages')
 
-<main class="user-dashboard-main-container">
+<div class="breadcrumb-bar">
+    <div class="breadcrumb-title">
+        Artisan.lk Seller Center
+    </div>
+    <div class="create-ads">
+        <a href="{{ route('product.create') }}" class="create-ads-btn font-secondaryText">Create Advert</a>
+    </div>
+</div>
+<main class="user-dashboard-main-container" style="margin-top: 2%;">
     <!-- upper section -->
     <div class="dashboard-path-wrapper">
         <!-- Breadcrumb -->
-        <div class="py-2 mb-4 text-sm text-customGray font-secondaryText">
-            <a href="#" class="text-customBrown hover:underline" onclick="loadPage('dashboard')">Dashboard</a>
+        <div class="text-sm text-customGray font-secondaryText mb-4 py-2">
+            <a href="#" class="text-customBrown  hover:underline" onclick="loadPage('dashboard')">Dashboard</a>
             <span id="breadcrumb"> / Dashboard</span>
         </div>
         <!-- Sign out btn -->
-        <div class="mb-4 text-sm">
+        <div class="text-sm mb-4">
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
                 <x-dropdown-link :href="route('logout')" class="text-customGray hover:underline"
                     onclick="event.preventDefault(); this.closest('form').submit();">
-                    {{ __('Sign out') }} <i class="ml-1 fa-solid fa-arrow-right-from-bracket"></i>
+                    {{ __('Sign out') }} <i class="fa-solid fa-arrow-right-from-bracket ml-1"></i>
                 </x-dropdown-link>
             </form>
         </div>
@@ -24,23 +33,31 @@
     <!-- Dashboard -->
     <div class="user-dashboard-wrapper">
         <!-- Navbar for mobile -->
-        <div class="flex items-center justify-between p-4 text-white bg-customBlue lg:hidden ">
+        <!-- <div class="bg-customBlue text-white p-4 flex justify-between items-center lg:hidden ">
             <div class="text-lg font-bold">Dashboard</div>
             <button id="menuToggle" class="text-white focus:outline-none">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
                 </svg>
             </button>
-        </div>
+        </div> -->
+
+
 
         <!-- Sidebar for desktop -->
         <div id="sidebar" class="dashboard-sidebar-desktop-wrapper">
-            <ul class="flex flex-col dashboard-sidebar-options text-secondaryText">
+            <ul class="dashboard-sidebar-options flex flex-col text-secondaryText">
                 <li class="u-sidebar-value rounded-t-md hover:rounded-t-md" data-page="dashboard" onclick="loadPage('dashboard')">
                     <i class="fa-regular fa-address-card ud-icon-left"></i>
                     <i class="fa-solid fa-arrow-right-long"></i>
                     <label for="dashboard" class="dashboard-sidebar-title">Dashboard</label><br>
                     <span class="dashboard-sidebar-sub-title">Summary of your account</span>
+                </li>
+                <li class="u-sidebar-value" data-page="myAdverts" onclick="loadPage('myAdverts')">
+                    <i class="fa-solid fa-rectangle-ad ud-icon-left"></i>
+                    <i class="fa-solid fa-arrow-right-long"></i>
+                    <label for="myAdvert" class="dashboard-sidebar-title">My adverts</label><br>
+                    <span class="dashboard-sidebar-sub-title">Products you are selling</span>
                 </li>
                 <li class="u-sidebar-value" data-page="myMessages" onclick="loadPage('myMessages')">
                     <i class="fa-regular fa-envelope ud-icon-left"></i>
@@ -66,6 +83,18 @@
                     <label for="myAdvert" class="dashboard-sidebar-title">My orders</label><br>
                     <span class="dashboard-sidebar-sub-title">View all your orders</span>
                 </li>
+                <li class="u-sidebar-value" data-page="myOrders" onclick="loadPage('myOrders')">
+                    <i class="fa-solid fa-shop ud-icon-left"></i>
+                    <i class="fa-solid fa-arrow-right-long"></i>
+                    <label for="myAdvert" class="dashboard-sidebar-title">Exhibitions</label><br>
+                    <span class="dashboard-sidebar-sub-title">Manage your exhibitions</span>
+                </li>
+                <li class="u-sidebar-value" data-page="myStore" onclick="loadPage('myStore')">
+                    <i class="fa-solid fa-store ud-icon-left"></i>
+                    <i class="fa-solid fa-arrow-right-long"></i>
+                    <label for="store" class="dashboard-sidebar-title">My Store</label><br>
+                    <span class="dashboard-sidebar-sub-title">Manage your store</span>
+                </li>
                 <li class="u-sidebar-value" data-page="personalDetails" onclick="loadPage('personalDetails')">
                     <i class="fa-regular fa-user ud-icon-left"></i>
                     <i class="fa-solid fa-arrow-right-long"></i>
@@ -78,54 +107,48 @@
                     <label for="myAdvert" class="dashboard-sidebar-title">Account security</label><br>
                     <span class="dashboard-sidebar-sub-title">Change your password</span>
                 </li>
-                <li class="border-none u-sidebar-value rounded-b-md hover:rounded-b-md" data-page="selling" onclick="loadPage('selling')">
-                    <i class="fa-solid fa-hand-holding-dollar ud-icon-left"></i>
-                    <i class="fa-solid fa-arrow-right-long"></i>
-                    <label for="myAdvert" class="dashboard-sidebar-title">Sell on Artisan.lk</label><br>
-                    <span class="dashboard-sidebar-sub-title">Register as a seller</span>
-                </li>
             </ul>
         </div>
 
         <!-- Main Content -->
         <div class="u-dashboard-content-wrapper">
             <!-- Dashboard page -->
-            <div id="dashboard" class="hidden ud-page-wrapper">
-                <div class="p-6 bg-white rounded shadow ud-dashboard-page">
-                <div class="flex">
+            <div id="dashboard" class="ud-page-wrapper">
+                <div class="ud-dashboard-page bg-white p-6 rounded shadow">
+                    <div class="flex">
                         <div class="ud-profile-image-wrapper">
                             <img src="{{ asset('https://png.pngtree.com/png-clipart/20230927/original/pngtree-man-avatar-image-for-profile-png-image_13001877.png') }}" alt="profile image" class="ud-profile-image">
                         </div>
                         <div class="pl-2 ml-3">
                             <h2 class="text-[40px] font-bold text-customBrown font-mainText">Hello! {{ ucfirst(explode(' ', Auth::user()->name)[0]) }}</h2>
                             <div class="flex gap-10 text-[#252a34] mb-4 font-secondaryText">
-                                <p class="mt-2"><i class="mr-2 fa-regular fa-user"></i>{{ Auth::user()->name }}</p>
-                                <p class="mt-2"><i class="mr-2 fa-regular fa-envelope"></i>{{ Auth::user()->email }}</p>
-                                <p class="mt-2"><i class="mr-2 fa-regular fa-calendar"></i>Member since {{ Auth::user()->created_at->format('d M Y') }}</p>
+                                <p class="mt-2"><i class="fa-regular fa-user mr-2"></i>{{ Auth::user()->name }}</p>
+                                <p class="mt-2"><i class="fa-regular fa-envelope mr-2"></i>{{ Auth::user()->email }}</p>
+                                <p class="mt-2"><i class="fa-regular fa-calendar mr-2"></i>Member since {{ Auth::user()->created_at->format('d M Y') }}</p>
                             </div>
                             <button class="ud-btn font-secondaryText" onclick="loadPage('personalDetails')">Edit my details</button>
                         </div>
                     </div>
                 </div>
-                <div class="p-6 bg-white rounded shadow ud-dashboard-page">
-                    <h2 class="text-[40px] font-bold text-customBrown font-mainText">Find your favourite arts & crafts</h2>
+                <div class="ud-dashboard-page bg-white p-6 rounded shadow">
+                    <h2 class="text-[40px] font-bold text-customBrown font-mainText"> Find Arts & Crafts Exhibitions</h2>
                     <div class="flex gap-10 text-[#252a34] mb-4 font-secondaryText">
-                        <p class="mt-2">We are the fastest growing largest digital marketplace for arts and crafts in Sri Lanka.</p>
+                        <p class="mt-2">Discover the best arts and crafts exhibitions in Sri Lanka, showcasing local talent and creativity.</p>
                     </div>
-                    <a href="{{ route('pages.shop') }}" class="ud-btn font-secondaryText">Browse products</a>
+                    <a href="{{ route('pages.shop') }}" class="ud-btn font-secondaryText">Browse exhibitions</a>
                 </div>
-                <div class="p-6 bg-white rounded shadow ud-dashboard-page">
+                <div class="ud-dashboard-page bg-white p-6 rounded shadow">
                     <h2 class="text-[40px] font-bold text-customBrown font-mainText">Looking to sell your arts & crafts?</h2>
                     <div class="flex gap-10 text-[#252a34] mb-4 font-secondaryText">
                         <p class="mt-2">Make more money by selling your unique products with Artisan.lk!</p>
                     </div>
-                    <button class="ud-btn font-secondaryText" onclick="loadPage('selling')">Create vendor profile</button>
+                    <a href="{{ route('product.create') }}" class="ud-btn font-secondaryText">Create your advert</a>
                 </div>
             </div>
 
             <!-- My advert page -->
-            <div id="myAdverts" class="hidden ud-page-wrapper">
-                <div class="ud-advert-page">
+            <div id="myAdverts" class="ud-page-wrapper hidden">
+                <div class="ud-advert-page bg-white p-6 rounded shadow">
                     <div class="ud-advert-status-wrapper flex-[25%]">
                         <p class="mt-2 mb-2"></i>Status</p>
                         <select name="" id="" class="border border-[#00000026] rounded-[5px]">
@@ -150,81 +173,134 @@
                 </div>
             </div>
 
-            <div id="myMessages" class="hidden p-6 bg-white rounded shadow ud-page-wrapper">
-            <div id="myMessages" class="hidden p-6 bg-white rounded shadow ud-page-wrapper">
-                <h2 class="text-2xl font-bold text-blue-900">My messages</h2>
+            <!-- category -->
+            <div id="myMessages" class="ud-page-wrapper bg-white p-6 rounded shadow hidden">
+                <h2 class="text-2xl font-bold text-blue-900">My category</h2>
                 <p class="mt-2">Your messages.</p>
+                <x-category.category-creator-form />
             </div>
 
-            <div id="myOrders" class="hidden p-6 bg-white rounded shadow ud-page-wrapper">
+            <div id="myOrders" class="ud-page-wrapper bg-white p-6 rounded shadow hidden">
                 <h2 class="text-2xl font-bold text-blue-900">My orders</h2>
                 <p class="mt-2">Your orders.</p>
             </div>
 
-            <!-- My presonal details -->
-            <div id="personalDetails" class="ud-page-wrapper">
-                <div class="p-6 rounded-md ud-personal-page shadow-custom">
-                <div class="p-6 bg-white rounded shadow ud-personal-page">
-                    <div class="ud-pro-change">
-                        <h2 class="text-[50px] font-bold text-customBlue">Your details</h2>
-                        <span>Please keep your details up to date. Your personal data is stored securely. We do not share information with third parties.</span>
+            <!-- Store -->
+            <div id="myStore" class="ud-page-wrapper bg-white p-6 rounded shadow hidden">
+                <h2 class="text-[50px] font-bold text-customBlue">Store details</h2>
+                <span>Please keep store details up to date. Your store data is stored securely. We do not share information with third parties.</span>
+                <form id="" action="{{ route('vendor.update') }}" method="post" class="mt-4">
+                    @csrf
 
-                        <form id="profileForm" action="{{ route('user-profile.update') }}" method="post" class="mt-4">
-                            @csrf
-
-                            <div class="mb-4">
-                                <label for="fullName" class="block text-sm font-medium text-gray-700">Full Name</label>
-                                <input type="text" name="name" id="fullName" placeholder="{{ Auth::user()->name }}" value="{{ old('name', Auth::user()->name) }}" class="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                            </div>
-
-                            <div class="mb-4">
-                                <label for="email" class="block text-sm font-medium text-gray-700">Email address</label>
-                                <input type="email" name="email" id="email" placeholder="{{ Auth::user()->email }}" value="{{ old('email', Auth::user()->email) }}" class="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                            </div>
-
-                            <div class="mb-4">
-                                <label for="mobile" class="block text-sm font-medium text-gray-700">Mobile</label>
-                                <input type="number" name="phone" id="mobile" placeholder="Enter your phone number" value="{{ old('phone', Auth::user()->phone) }}" min="0" oninput="this.value = Math.abs(this.value)" class="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                            </div>
-
-                            <div>
-                                <button type="submit" id="submitButton" class="bg-blue-500 ud-btn text-red">Save my details</button>
-                            </div>
-                        </form>
+                    <div class="mb-4">
+                        <label for="shopName" class="block text-sm font-medium text-gray-700">Display Name / Shop Name</label>
+                        <input type="text" name="business_name" id="shopName" placeholder="" value="{{ $vendor->business_name ?? '' }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                     </div>
-                </div>
+
+                    <div class="mb-4">
+                        <label for="businessDescription" class="block text-sm font-medium text-gray-700">Business Description</label>
+                        <textarea name="business_description" id="businessDescription" placeholder="Enter business description" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">{{ $vendor->business_description ?? '' }}</textarea>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="businessCategory" class="block text-sm font-medium text-gray-700">Business Category</label>
+                        <input type="text" name="business_category" id="businessCategory" placeholder="Enter business category" value="{{ $vendor->business_category ?? '' }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="businessPhone" class="block text-sm font-medium text-gray-700">Business Phone</label>
+                        <input type="text" name="business_phone" id="businessPhone" placeholder="Enter business phone" value="{{ $vendor->business_phone ?? '' }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="businessEmail" class="block text-sm font-medium text-gray-700">Business Email</label>
+                        <input type="email" name="business_email" id="businessEmail" placeholder="Enter business email" value="{{ $vendor->business_email ?? '' }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="businessAddress" class="block text-sm font-medium text-gray-700">Business Address</label>
+                        <input type="text" name="business_address" id="businessAddress" placeholder="Enter business address" value="{{ $vendor->business_address ?? '' }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    </div>
+
+                    <div class="flex justify-between">
+                        <button type="submit" id="submitButton" class="ud-btn bg-blue-500 text-red">Update store details</button>
+                        <a href="#" class="ud-btn bg-blue-500 text-red">Preview of the store</a>
+                    </div>
+                </form>
             </div>
 
+            <!-- My presonal details -->
+            <div id="personalDetails" class="ud-page-wrapper bg-white p-6 rounded shadow hidden">
+                <h2 class="text-[50px] font-bold text-customBlue">Your details</h2>
+                <span>Please keep your details up to date. Your personal data is stored securely. We do not share information with third parties.</span>
+
+                <form id="profileForm" action="{{ route('user-profile.update') }}" method="post" class="mt-4">
+                    @csrf
+
+                    <div class="mb-4">
+                        <label for="fullName" class="block text-sm font-medium text-gray-700">Full Name</label>
+                        <input type="text" name="name" id="fullName" placeholder="{{ Auth::user()->name }}" value="{{ old('name', Auth::user()->name) }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="email" class="block text-sm font-medium text-gray-700">Email address</label>
+                        <input type="email" name="email" id="email" placeholder="{{ Auth::user()->email }}" value="{{ old('email', Auth::user()->email) }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="mobile" class="block text-sm font-medium text-gray-700">Mobile</label>
+                        <input type="number" name="phone" id="mobile" placeholder="Enter your phone number" value="{{ old('phone', Auth::user()->phone) }}" min="0" oninput="this.value = Math.abs(this.value)" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    </div>
+
+                    <!-- Profile Images -->
+                    <div class="form-group">
+                        <label for="productDescription">Upload Images</label>
+                        <div class="sec-box img-up">
+                            <div class="image-uploader">
+                                <input type="file" name="images[]" id="image-input" multiple />
+                                <label for="image-input"><i class="fa-solid fa-plus" style="color: grey;"></i><br>Add photo</label>
+                                <div class="image-preview" id="image-preview"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <button type="submit" id="submitButton" class="ud-btn bg-blue-500 text-red">Save my details</button>
+                    </div>
+                </form>
+            </div>
+
+
             <!-- Account security page -->
-            <div id="accountSecurity" class="ud-page-wrapper">
-                <div class="p-6 bg-white rounded shadow ud-security-page">
+            <div id="accountSecurity" class="ud-page-wrapper hidden">
+                <div class="ud-security-page bg-white p-6 rounded shadow">
                     <div class="ud-pw-change">
                         <h2 class="text-[50px] font-bold text-customBlue">Your password</h2>
                         <span>Please make sure to have a secure password with at least 6 characters long.</span>
                         <form action="" method="post" class="mt-4">
                             <div class="mb-4">
                                 <label for="currentPassword" class="block text-sm font-medium text-gray-700">Current password</label>
-                                <input type="password" name="currentPassword" id="currentPassword" class="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
+                                <input type="password" name="currentPassword" id="currentPassword" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
                             </div>
                             <div class="mb-4">
                                 <label for="newPassword" class="block text-sm font-medium text-gray-700">New password</label>
-                                <input type="password" name="newPassword" id="newPassword" class="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
+                                <input type="password" name="newPassword" id="newPassword" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
                             </div>
                             <div class="mb-4">
                                 <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirm password</label>
-                                <input type="password" name="confirmPassword" id="confirmPassword" class="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
+                                <input type="password" name="confirmPassword" id="confirmPassword" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
                             </div>
                             <button type="submit" class="ud-btn">Change password</button>
                         </form>
                     </div>
                 </div>
                 <!-- Delete account -->
-                <div class="p-6 bg-white rounded shadow ud-security-page">
+                <div class="ud-security-page bg-white p-6 rounded shadow">
                     <div class="ud-dlt-acc ">
                         <h2 class="text-[50px] font-bold text-red">Delete account</h2>
                         <span>Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.</span>
                     </div>
-                    <button type="submit" class="mt-3 ud-btn" x-data=""
+                    <button type="submit" class="ud-btn mt-3" x-data=""
                         x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')">Delete my account</button>
                 </div>
 
@@ -248,13 +324,13 @@
                                 id="password"
                                 name="password"
                                 type="password"
-                                class="block w-3/4 mt-1"
+                                class="mt-1 block w-3/4"
                                 placeholder="{{ __('Password') }}" />
 
                             <x-input-error :messages="$errors->userDeletion->get('password')" class="mt-2" />
                         </div>
 
-                        <div class="flex justify-end mt-6">
+                        <div class="mt-6 flex justify-end">
                             <x-secondary-button x-on:click="$dispatch('close')">
                                 {{ __('Cancel') }}
                             </x-secondary-button>
@@ -265,71 +341,6 @@
                         </div>
                     </form>
                 </x-modal>
-
-            </div>
-
-
-            <!-- Selling Section -->
-            <div id="selling" class="ud-page-wrapper">
-                <div class="p-6 rounded-md ud-personal-page shadow-custom">
-                <div class="p-6 bg-white rounded shadow ud-personal-page">
-                    <div class="ud-pro-change">
-                        <h2 class="text-[50px] font-bold text-customBlue">Become An Artisan.lk Seller Today!</h2>
-                        <span>Create a Artisan.lk seller account now and reach millions of customers!</span>
-
-                        <form id="profileForm" action="{{ route('vendor.register') }}" method="post" class="mt-4">
-                            @csrf
-
-                            <div class="mb-4">
-                                <label for="shopName" class="block text-sm font-medium text-gray-700">Display Name / Shop Name</label>
-                                <input type="text" name="business_name" id="shopName" placeholder="Enter display name or shop name" value="" class="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                            </div>
-
-                            <div class="mb-4">
-                                <label for="businessDescription" class="block text-sm font-medium text-gray-700">Business Description</label>
-                                <textarea name="business_description" id="businessDescription" placeholder="Enter business description" class="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></textarea>
-                            </div>
-
-                            <div class="mb-4">
-                                <label for="businessCategory" class="block text-sm font-medium text-gray-700">Business Category</label>
-                                <input type="text" name="business_category" id="businessCategory" placeholder="Enter business category" value="" class="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                            </div>
-
-                            <div class="mb-4">
-                                <label for="businessPhone" class="block text-sm font-medium text-gray-700">Business Phone</label>
-                                <input type="text" name="business_phone" id="businessPhone" placeholder="Enter business phone" value="" class="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                            </div>
-
-                            <div class="mb-4">
-                                <label for="businessEmail" class="block text-sm font-medium text-gray-700">Business Email</label>
-                                <input type="email" name="business_email" id="businessEmail" placeholder="Enter business email" value="" class="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                            </div>
-
-                            <div class="mb-4">
-                                <label for="businessAddress" class="block text-sm font-medium text-gray-700">Business Address</label>
-                                <input type="text" name="business_address" id="businessAddress" placeholder="Enter business address" value="" class="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                            </div>
-
-                            <div>
-                                <button type="submit" id="submitButton" class="bg-blue-500 ud-btn text-red">Create vendor profile</button>
-                            </div>
-                        </form>
-                        <!-- <div class="tab">
-                            <button class="tab-link" onclick="openTab(event, 'tab1')">Seller</button>
-                            <button class="tab-link" onclick="openTab(event, 'tab2')">Shop</button>
-                        </div>
-
-                        <div id="tab1" class="tab-content">
-                            <h3>Seller</h3>
-                            <p>Content for Tab 1.</p>
-                        </div>
-
-                        <div id="tab2" class="tab-content">
-                            <h3>Shop</h3>
-                            <p>Content for Tab 2.</p>
-                        </div> -->
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -393,6 +404,14 @@
             loadPage('dashboard');
         });
 
+        document.addEventListener('DOMContentLoaded', function() {
+            // Retrieve the redirect section from the server-side session data
+            let redirectSection = "{{ session('redirect_section', 'dashboard') }}"; // Default to 'dashboard'
+
+            // Call loadPage with the specified redirect section
+            loadPage(redirectSection);
+        });
+
 
         //change the behaovier in the forms
         document.getElementById('profileForm').addEventListener('submit', function(event) {
@@ -449,6 +468,19 @@
             event.currentTarget.classList.add('active');
             document.getElementById(tabName).classList.add('active');
         }
+
+        // JavaScript to toggle the sidebar on mobile view
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            var sidebar = document.getElementById('sidebar');
+            if (sidebar.style.display === 'block') {
+                sidebar.style.display = 'none';
+            } else {
+                sidebar.style.display = 'block';
+            }
+        });
+
+
+        // image uploader
     </script>
 </main>
 
