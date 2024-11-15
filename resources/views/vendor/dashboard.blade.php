@@ -7,7 +7,7 @@
         Artisan.lk Seller Center
     </div>
     <div class="create-ads">
-        <a href="#" class="create-ads-btn font-secondaryText">Create Advert</a>
+        <a href="{{ route('product.create') }}" class="create-ads-btn font-secondaryText">Create Advert</a>
     </div>
 </div>
 <main class="user-dashboard-main-container" style="margin-top: 2%;">
@@ -42,7 +42,7 @@
             </button>
         </div> -->
 
-        
+
 
         <!-- Sidebar for desktop -->
         <div id="sidebar" class="dashboard-sidebar-desktop-wrapper">
@@ -82,6 +82,12 @@
                     <i class="fa-solid fa-arrow-right-long"></i>
                     <label for="myAdvert" class="dashboard-sidebar-title">My orders</label><br>
                     <span class="dashboard-sidebar-sub-title">View all your orders</span>
+                </li>
+                <li class="u-sidebar-value" data-page="myOrders" onclick="loadPage('myOrders')">
+                    <i class="fa-solid fa-shop ud-icon-left"></i>
+                    <i class="fa-solid fa-arrow-right-long"></i>
+                    <label for="myAdvert" class="dashboard-sidebar-title">Exhibitions</label><br>
+                    <span class="dashboard-sidebar-sub-title">Manage your exhibitions</span>
                 </li>
                 <li class="u-sidebar-value" data-page="myStore" onclick="loadPage('myStore')">
                     <i class="fa-solid fa-store ud-icon-left"></i>
@@ -136,7 +142,7 @@
                     <div class="flex gap-10 text-[#252a34] mb-4 font-secondaryText">
                         <p class="mt-2">Make more money by selling your unique products with Artisan.lk!</p>
                     </div>
-                    <a href="#" class="ud-btn font-secondaryText">Create your advert</a>
+                    <a href="{{ route('product.create') }}" class="ud-btn font-secondaryText">Create your advert</a>
                 </div>
             </div>
 
@@ -167,9 +173,11 @@
                 </div>
             </div>
 
+            <!-- category -->
             <div id="myMessages" class="ud-page-wrapper bg-white p-6 rounded shadow hidden">
-                <h2 class="text-2xl font-bold text-blue-900">My messages</h2>
+                <h2 class="text-2xl font-bold text-blue-900">My category</h2>
                 <p class="mt-2">Your messages.</p>
+                <x-category.category-creator-form />
             </div>
 
             <div id="myOrders" class="ud-page-wrapper bg-white p-6 rounded shadow hidden">
@@ -242,6 +250,18 @@
                     <div class="mb-4">
                         <label for="mobile" class="block text-sm font-medium text-gray-700">Mobile</label>
                         <input type="number" name="phone" id="mobile" placeholder="Enter your phone number" value="{{ old('phone', Auth::user()->phone) }}" min="0" oninput="this.value = Math.abs(this.value)" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    </div>
+
+                    <!-- Profile Images -->
+                    <div class="form-group">
+                        <label for="productDescription">Upload Images</label>
+                        <div class="sec-box img-up">
+                            <div class="image-uploader">
+                                <input type="file" name="images[]" id="image-input" multiple />
+                                <label for="image-input"><i class="fa-solid fa-plus" style="color: grey;"></i><br>Add photo</label>
+                                <div class="image-preview" id="image-preview"></div>
+                            </div>
+                        </div>
                     </div>
 
                     <div>
@@ -384,6 +404,14 @@
             loadPage('dashboard');
         });
 
+        document.addEventListener('DOMContentLoaded', function() {
+            // Retrieve the redirect section from the server-side session data
+            let redirectSection = "{{ session('redirect_section', 'dashboard') }}"; // Default to 'dashboard'
+
+            // Call loadPage with the specified redirect section
+            loadPage(redirectSection);
+        });
+
 
         //change the behaovier in the forms
         document.getElementById('profileForm').addEventListener('submit', function(event) {
@@ -450,6 +478,9 @@
                 sidebar.style.display = 'block';
             }
         });
+
+
+        // image uploader
     </script>
 </main>
 
