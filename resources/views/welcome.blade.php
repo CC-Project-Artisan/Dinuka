@@ -16,8 +16,11 @@
             <img src="{{ asset('images/main.jpg') }}" class="d-block w-100" alt="Slide 1">
             <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                 <h1>BUILDING NEW EXPERIENCES</h1>
+                <br>
                 <p>Krafti comes with a captivating template collection, including twelve stunning and completely flexible homepage layouts which can be on your new site this very day!</p>
-                <a href="/products" class="btn custom-view-more-btn">View More</a>
+                <br>
+                <br>
+                <a href="/products" class="btn custom-view-more-btn">VIEW MORE</a>
 
             </div>
         </div>
@@ -26,9 +29,13 @@
         <div class="carousel-item">
             <img src="{{ asset('images/main2.jpg') }}" class="d-block w-100" alt="Slide 2">
             <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+            
                 <h1>HANDCRAFTED WITH PASSION</h1>
+                <br>
                 <p>Explore exclusive items crafted by skilled artisans, perfect for adding beauty to your life.</p>
-                <a href="/products" class="btn custom-view-more-btn">View More</a>
+                <br>
+                <br> 
+                <a href="/products" class="btn custom-view-more-btn">VIEW MORE</a>
             </div>
         </div>
 
@@ -42,7 +49,7 @@
                 <p>Your support empowers Sri Lankan artists to continue creating unique masterpieces.</p>
                 <br>
                 <br>
-                <a href="/products" class="btn custom-view-more-btn">View More</a>
+                <a href="/products" class="btn custom-view-more-btn">VIEW MORE</a>
             </div>
         </div>
     </div>

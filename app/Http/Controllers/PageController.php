@@ -18,6 +18,17 @@ class PageController extends Controller
         return view('pages.shop');
     }
 
+
+    public function productView()
+    {
+        return view('pages.product-display');
+    }
+
+    public function cartview()
+    {
+        return view('pages.cart');
+    }
+
     public function about()
     {
         return view('pages.about');

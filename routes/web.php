@@ -29,6 +29,8 @@ Route::post('/dashboard/updatedUserInformatio', [UserController::class, 'update'
 Route::get('/', [PageController::class, 'index'])->name('welcome');
 Route::get('/shop', [PageController::class, 'shop'])->name('pages.shop');
 Route::get('/about', [PageController::class, 'about'])->name('pages.about');
+Route::get('/product-display', [PageController::class, 'productView'])->name('pages.product-display');
+Route::get('/cart', [PageController::class, 'cartview'])->name('pages.cart');
 
 // Route::get('/shop', [ProductController::class, 'index'])->name('pages.shop');
 // Route::get('/products', [ProductController::class, 'index']);
