@@ -28,6 +28,6 @@ class CategoryController extends Controller
         ]);
 
         // Redirect back with success message
-        return redirect()->route('category.create')->with('success', 'Category added successfully!');
+        return redirect()->route('dashboard')->with('success', 'Category added successfully!');
     }
 }

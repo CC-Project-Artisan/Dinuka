@@ -23,12 +23,11 @@ class ProductController extends Controller
             'productName' => 'required|string|max:255',
             'productDescription' => 'required|string',
             'productPrice' => 'required|numeric',
-            'productCategory' => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,id', // Match category_id
             'productQuantity' => 'required|integer|min:1',
-            'weight' => 'required|numeric|min:0',
-            'dimensions' => 'required|string|max:255',
+            'weight' => 'nullable|numeric|min:0', // Nullable for weight
+            'dimensions' => 'nullable|string|max:255',
             'productImages.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate each image
-            'category_id' => 'required|exists:categories,id', // Validate category ID
         ]);
 
         $imageNames = [];
@@ -45,14 +44,13 @@ class ProductController extends Controller
             'productName' => $request->productName,
             'productDescription' => $request->productDescription,
             'productPrice' => $request->productPrice,
-            'productCategory' => $request->productCategory,
+            'category_id' => $request->category_id,
             'productQuantity' => $request->productQuantity,
             'productImages' => json_encode($imageNames), // Store as JSON
             'weight' => $request->weight,
             'dimensions' => $request->dimensions,
-            'category_id' => $request->category_id, // Store category ID
         ]);
 
-        return redirect()->route('dashboard', ['#myAdverts'])->with('success', 'Product created successfully.');
+        return redirect()->route('dashboard')->with('success', 'Product created successfully.');
     }
 }

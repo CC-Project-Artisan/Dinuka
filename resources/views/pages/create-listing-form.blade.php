@@ -11,15 +11,17 @@
             <div class="form-group">
                 <label for="productName">Product Name</label>
                 <input type="text" id="productName" name="productName" placeholder="Enter product name" autofocus class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
+                @error('productName') <div class="error">{{ $message }}</div> @enderror
             </div>
 
             <!-- Product Category -->
             <div class="form-group">
                 <label for="productCategory">Product Category</label>
-                <select id="productCategory" name="productCategory" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
-                    <option value="" disabled selected>Select a category</option>
+                <select id="productCategory" name="category_id" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
                     @foreach($categories as $category)
-                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                        {{ $category->name }}
+                    </option>
                     @endforeach
                     <!-- <option value="Art">Art</option>
                     <option value="Craft">Craft</option>
@@ -27,6 +29,7 @@
                     <option value="Clothing">Clothing</option>
                     <option value="Other">Other</option> -->
                 </select>
+                @error('category_id') <div class="error">{{ $message }}</div> @enderror
             </div>
 
             <!-- Product Price -->
@@ -49,9 +52,10 @@
                 <div class="sec-box img-up">
                     <div class="image-uploader">
                         <!-- <input type="file" name="productImages" id="image-input" accept="image/*"/> -->
-                        <input type="file" name="productImages[]" id="image-input" accept="image/*" multiple />
+                        <input type="file" name="productImages[]" id="image-input" accept="image/*" multiple required/>
                         <label for="image-input"><i class="fa-solid fa-plus" style="color: grey;"></i><br>Add photo</label>
                         <div class="image-preview" id="image-preview"></div>
+                        @error('productImages.*') <div class="error">{{ $message }}</div> @enderror
                     </div>
                 </div>
             </div>
@@ -66,12 +70,12 @@
             <h2 class="my-2 text-lg">Additional Information</h2>
             <div class="form-group">
                 <label for="additionalInfo">Weight (kg)</label>
-                <input type="number" id="weight" name="weight" min="1" placeholder="Enter product weight" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
+                <input type="number" id="weight" name="weight" min="1" placeholder="Enter product weight" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
             </div>
 
             <div class="form-group">
                 <label for="additionalInfo">Dimensions</label>
-                <input type="text" id="dimensions" name="dimensions" placeholder="Enter product dimensions" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
+                <input type="text" id="dimensions" name="dimensions" placeholder="Enter product dimensions" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
             </div>
 
             <!-- Submit Button -->

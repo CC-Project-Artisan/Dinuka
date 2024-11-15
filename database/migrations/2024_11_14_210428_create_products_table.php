@@ -16,20 +16,19 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('productName');
             $table->text('productDescription');
-            $table->string('productPrice');
-            $table->string('productCategory');
+            $table->decimal('productPrice', 10, 2); // Change to decimal
+            $table->unsignedBigInteger('category_id'); // Add category_id
             $table->integer('productQuantity');
-            $table->json('productImages'); // Store multiple images as JSON
+            $table->json('productImages');
             $table->float('weight')->nullable();
             $table->string('dimensions')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
-            $table->unsignedBigInteger('category_id')->nullable()->after('user_id');
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null');
+            // $table->unsignedBigInteger('category_id')->nullable()->after('user_id');
+            // $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null');
         });
     }
-
 
     /**
      * Reverse the migrations.

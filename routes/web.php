@@ -49,11 +49,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/update-store-details', [VendorController::class, 'updateStoreDetails'])->name('vendor.update');
         Route::get('/create-listing', [ProductController::class, 'index'])->name('product.create');
         Route::post('/store-listing', [ProductController::class, 'store'])->name('product.store');
+        Route::post('/category/store', [CategoryController::class, 'store'])->name('category.store');
     });
 });
 
 
-Route::post('/category/store', [CategoryController::class, 'store'])->name('category.store');
 
 
 
