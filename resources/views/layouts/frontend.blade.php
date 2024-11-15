@@ -36,8 +36,11 @@
     'resources/js/dashboard.js',
     'resources/css/product_list.css',
     'resources/js/product_list.js',
+
     'resources/css/product_details.css',
     'resources/css/cart.css'
+
+
     
     ])
     
