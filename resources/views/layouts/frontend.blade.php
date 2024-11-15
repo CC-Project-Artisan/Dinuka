@@ -36,6 +36,11 @@
     'resources/js/dashboard.js',
     'resources/css/product_list.css',
     'resources/js/product_list.js',
+
+    'resources/css/product_details.css',
+    'resources/css/cart.css'
+
+
     
     ])
     
@@ -68,7 +73,7 @@
 
         <div class="main-icons">
             <a href="#"><i class="fas fa-search"></i></a>
-            <a href="#"><i class="fas fa-shopping-cart"></i></a>
+            <a href="{{route('pages.cart')}}"><i class="fas fa-shopping-cart"></i></a>
             <a href="{{route('login')}}"><i class="fas fa-user"></i></a>
         </div>
     </header>

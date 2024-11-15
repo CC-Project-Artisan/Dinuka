@@ -92,14 +92,14 @@ header {
     width: 100px;
 }
 
-/* Toggle Button for Mobile */
+
 .menu-toggle {
     display: none;
     font-size: 24px;
     cursor: pointer;
 }
 
-/* Responsive Styles */
+
 @media screen and (max-width: 768px) {
     header {
         padding: 20px 5%;
@@ -159,7 +159,7 @@ header {
 .page-wrapper {
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Full height of the viewport */
+    min-height: 100vh; 
 }
 
 
