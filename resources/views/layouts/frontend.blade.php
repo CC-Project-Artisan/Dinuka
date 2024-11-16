@@ -38,10 +38,8 @@
     'resources/js/product_list.js',
 
     'resources/css/product_details.css',
-    'resources/css/cart.css'
-
-
-    
+    'resources/css/cart.css',
+    'resources/css/component.css'
     ])
     
 

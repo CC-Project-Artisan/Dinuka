@@ -41,7 +41,9 @@ class PageController extends Controller
         if (Auth::check()) {
             $user = Auth::user();
             $role = $user->role;
-
+            $totalUsers = User::count();
+            $totalVendors = Vendor::count();
+            
             switch ($role) {
                 case 'vendor':
                     $vendor = Vendor::where('user_id', $user->id)->first();
@@ -53,7 +55,7 @@ class PageController extends Controller
                 case 'user':
                     return view('user.dashboard');
                 case 'admin':
-                    return view('admin.dashboard')->with('user', $user);
+                    return view('admin.dashboard', compact('totalUsers', 'totalVendors'));
                 default:
                     return view('welcome');
             }

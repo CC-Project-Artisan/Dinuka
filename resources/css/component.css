@@ -1,0 +1,51 @@
+/* shipping status progess bar */
+.step {
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+}
+
+.step-completed {
+    background-color: #22c55e;
+    color: white;
+    transform: scale(1.2);
+}
+
+.step-pending {
+    background-color: #e5e7eb;
+    color: black;
+    transform: scale(1);
+}
+
+/* Connecting line */
+.progress-line {
+    height: 5px;
+    width: 300%;
+    background-color: #e5e7eb;
+    transition: background-color 0.3s ease, width 0.4s ease;
+    position: absolute;
+    top: 50%;
+    /* left: -20; */
+    transform: translateY(-290%);
+    z-index: -1;
+}
+
+.progress-line-completed {
+    background-color: #22c55e;
+    width: 300%;
+}
+
+.step-container {
+    position: relative;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.step-status {
+    margin-top: 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #4b5563;
+}

@@ -595,6 +595,7 @@ main {
 
 /* Form Group */
 .form-group {
+    font-family: 'Lato', sans-serif;
     margin-bottom: 15px;
 }
 
