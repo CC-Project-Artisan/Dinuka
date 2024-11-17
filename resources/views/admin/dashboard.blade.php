@@ -98,7 +98,7 @@
         <!-- Main Content -->
         <div class="u-dashboard-content-wrapper">
             <!-- Dashboard page -->
-            <div id="dashboard" class="ud-page-wrapper">
+            <div id="dashboard" class="ud-page-wrapper ">
                 <div class="ud-dashboard-page bg-white p-6 rounded shadow">
                     <div class="flex">
                         <div class="ud-profile-image-wrapper">
@@ -177,7 +177,7 @@
             <!-- listings page -->
             <div id="listings" class="ud-page-wrapper hidden">
                 <x-compo.search
-                    :text="'Users'"
+                    :text="'Category'"
                     :options="['all' => 'All', 'vendor' => 'Vendor', 'user' => 'User']"
                     :keyword="request('keyword', '')"
                     :placeholder="'Search adverts...'" />
@@ -192,15 +192,38 @@
 
             <!-- users -->
             <div id="users" class="ud-page-wrapper hidden">
+
                 <x-compo.search
-                    :text="'Category'"
+                    :text="'User'"
                     :options="['all' => 'All', 'vendor' => 'Vendor', 'user' => 'User']"
                     :keyword="request('keyword', '')"
                     :placeholder="'Search users...'" />
-                <div class="mb-4">
-                    <x-admin.admin-user />
+
+
+                @if(isset($users) && $users->count() > 0)
+                @foreach($users as $user)
+                @if($user->role === 'user')
+                <div class="my-4">
+                    <x-admin.admin-user :user="$user" />
                 </div>
-                <x-admin.admin-vendor />
+                @elseif($user->role === 'vendor')
+                @php
+                $vendor = $vendors->where('user_id', $user->id)->first();
+                @endphp
+                <div class="my-4">
+                    <x-admin.admin-vendor :user="$user" :vendor="$vendor" :categories="$categories" />
+                </div>
+                @endif
+                @endforeach
+                @else
+                <div class="ud-dashboard-page bg-white p-6 rounded shadow">
+                    <h2 class="text-[40px] font-bold text-customBrown font-mainText">Looking to sell your arts & crafts?</h2>
+                    <div class="flex gap-10 text-[#252a34] mb-4 font-secondaryText">
+                        <p class="mt-2">Make more money by selling your unique products with Artisan.lk!</p>
+                    </div>
+                    <button class="ud-btn font-secondaryText" onclick="loadPage('selling')">Create vendor profile</button>
+                </div>
+                @endif
             </div>
 
             <!-- categories -->
@@ -225,7 +248,15 @@
                             <a href="#"><i class="ud-advert-keyword-search fa-solid fa-magnifying-glass"></i></a>
                         </div>
                     </div>
-                    <x-admin.admin-category />
+                    @if(isset($categories) && $categories->count() > 0)
+                    @foreach($categories as $category)
+                    <div class="my-4">
+                        <x-admin.admin-category :category="$category" />
+                    </div>
+                    @endforeach
+                    @else
+                    <p>No categories available.</p>
+                    @endif
                 </div>
             </div>
 
@@ -235,27 +266,24 @@
                     <div class="ud-pro-change">
                         <h2 class="text-[50px] font-bold text-customBlue">Add admin</h2>
                         <span>Fill out the form below to add a new admin. Ensure that all information is accurate and complete.</span>
-                        <form action="" method="POST" class="mt-4">
+                        <form action="{{ route('admin.create') }}" method="POST" class="mt-4">
+                            @csrf
                             <div class="mb-4">
                                 <span class="required"></span>
-                                <label for="fullName" class="block text-sm font-medium text-gray-700 required">Full Name
-                                </label>
+                                <label for="fullName" class="block text-sm font-medium text-gray-700 required">Full Name</label>
                                 <x-compo.input type="text" name="admName" placeholder="Enter admin name" required />
                             </div>
                             <div class="mb-4">
-                                <label for="email" class="block text-sm font-medium text-gray-700 required">Email address
-                                </label>
+                                <label for="email" class="block text-sm font-medium text-gray-700 required">Email address</label>
                                 <x-compo.input type="text" name="admEmail" placeholder="Enter admin email" required />
                             </div>
                             <div class="mb-4">
-                                <label for="password" class="block text-sm font-medium text-gray-700 required">Password
-                                </label>
+                                <label for="password" class="block text-sm font-medium text-gray-700 required">Password</label>
                                 <x-compo.input type="password" name="admPwd" placeholder="Enter password" required />
                             </div>
                             <div class="mb-4">
-                                <label for="comfirmPassword" class="block text-sm font-medium text-gray-700 required">Confirm Password
-                                </label>
-                                <x-compo.input type="password" name="admPwdRepeat" placeholder="Enter repeat password" required />
+                                <label for="password_confirmation" class="block text-sm font-medium text-gray-700 required">Confirm Password</label>
+                                <x-compo.input type="password" name="admPwd_confirmation" placeholder="Enter repeat password" required />
                             </div>
                             <button type="submit" class="ud-btn">Add admin</button>
                         </form>
@@ -293,7 +321,7 @@
                     </div>
 
                     <!-- Profile Images -->
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label for="productDescription">Upload Images</label>
                         <div class="sec-box img-up">
                             <div class="image-uploader">
@@ -302,7 +330,7 @@
                                 <div class="image-preview" id="image-preview"></div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                     <div>
                         <button type="submit" id="submitButton" class="ud-btn bg-blue-500 text-red">Save my details</button>
@@ -316,18 +344,26 @@
                     <div class="ud-pw-change">
                         <h2 class="text-[50px] font-bold text-customBlue">Your password</h2>
                         <span>Please make sure to have a secure password with at least 6 characters long.</span>
-                        <form action="" method="post" class="mt-4">
-                            <div class="mb-4">
-                                <label for="currentPassword" class="block text-sm font-medium text-gray-700">Current password</label>
-                                <input type="password" name="currentPassword" id="currentPassword" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
+                        <form method="post" action="{{ route('password.update') }}" class="mt-6 space-y-6">
+                            @csrf
+                            @method('put')
+
+                            <div>
+                                <x-input-label for="update_password_current_password" :value="__('Current Password')" />
+                                <x-text-input id="update_password_current_password" name="current_password" type="password" class="mt-1 block w-full" autocomplete="current-password" />
+                                <x-input-error :messages="$errors->updatePassword->get('current_password')" class="mt-2" />
                             </div>
-                            <div class="mb-4">
-                                <label for="newPassword" class="block text-sm font-medium text-gray-700">New password</label>
-                                <input type="password" name="newPassword" id="newPassword" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
+
+                            <div>
+                                <x-input-label for="update_password_password" :value="__('New Password')" />
+                                <x-text-input id="update_password_password" name="password" type="password" class="mt-1 block w-full" autocomplete="new-password" />
+                                <x-input-error :messages="$errors->updatePassword->get('password')" class="mt-2" />
                             </div>
-                            <div class="mb-4">
-                                <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirm password</label>
-                                <input type="password" name="confirmPassword" id="confirmPassword" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
+
+                            <div>
+                                <x-input-label for="update_password_password_confirmation" :value="__('Confirm Password')" />
+                                <x-text-input id="update_password_password_confirmation" name="password_confirmation" type="password" class="mt-1 block w-full" autocomplete="new-password" />
+                                <x-input-error :messages="$errors->updatePassword->get('password_confirmation')" class="mt-2" />
                             </div>
                             <button type="submit" class="ud-btn">Change password</button>
                         </form>

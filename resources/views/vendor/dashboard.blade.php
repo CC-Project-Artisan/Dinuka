@@ -111,7 +111,7 @@
         <!-- Main Content -->
         <div class="u-dashboard-content-wrapper">
             <!-- Dashboard page -->
-            <div id="dashboard" class="ud-page-wrapper hidden">
+            <div id="dashboard" class="ud-page-wrapper ">
                 <div class="ud-dashboard-page bg-white p-6 rounded shadow">
                     <div class="flex">
                         <div class="ud-profile-image-wrapper">
@@ -176,7 +176,7 @@
             </div>
 
             <!-- orders -->
-            <div id="myOrders" class="ud-page-wrapper ">
+            <div id="myOrders" class="ud-page-wrapper hidden">
                 <x-compo.search
                     :text="'Advert'"
                     :options="['all' => 'All', 'live' => 'Live', 'rejected' => 'Rejected']"
@@ -195,7 +195,7 @@
             <div id="savedAdverts" class="ud-page-wrapper hidden">
                 <x-compo.search
                     :text="'Category'"
-                    :options="['all' => 'All', 'live' => 'Live', 'rejected' => 'Rejected']"
+                    :options="['' => 'All'] + $categories->pluck('name', 'id')->toArray()"
                     :keyword="request('keyword', '')"
                     :placeholder="'Search saved ads...'" />
 
@@ -270,7 +270,7 @@
                     </div>
 
                     <!-- Profile Images -->
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label for="productDescription">Upload Images</label>
                         <div class="sec-box img-up">
                             <div class="image-uploader">
@@ -279,7 +279,7 @@
                                 <div class="image-preview" id="image-preview"></div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                     <div>
                         <button type="submit" id="submitButton" class="ud-btn bg-blue-500 text-red">Save my details</button>
@@ -293,18 +293,26 @@
                     <div class="ud-pw-change">
                         <h2 class="text-[50px] font-bold text-customBlue">Your password</h2>
                         <span>Please make sure to have a secure password with at least 6 characters long.</span>
-                        <form action="" method="post" class="mt-4">
-                            <div class="mb-4">
-                                <label for="currentPassword" class="block text-sm font-medium text-gray-700">Current password</label>
-                                <input type="password" name="currentPassword" id="currentPassword" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
+                        <form method="post" action="{{ route('password.update') }}" class="mt-6 space-y-6">
+                            @csrf
+                            @method('put')
+
+                            <div>
+                                <x-input-label for="update_password_current_password" :value="__('Current Password')" />
+                                <x-text-input id="update_password_current_password" name="current_password" type="password" class="mt-1 block w-full" autocomplete="current-password" />
+                                <x-input-error :messages="$errors->updatePassword->get('current_password')" class="mt-2" />
                             </div>
-                            <div class="mb-4">
-                                <label for="newPassword" class="block text-sm font-medium text-gray-700">New password</label>
-                                <input type="password" name="newPassword" id="newPassword" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
+
+                            <div>
+                                <x-input-label for="update_password_password" :value="__('New Password')" />
+                                <x-text-input id="update_password_password" name="password" type="password" class="mt-1 block w-full" autocomplete="new-password" />
+                                <x-input-error :messages="$errors->updatePassword->get('password')" class="mt-2" />
                             </div>
-                            <div class="mb-4">
-                                <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirm password</label>
-                                <input type="password" name="confirmPassword" id="confirmPassword" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
+
+                            <div>
+                                <x-input-label for="update_password_password_confirmation" :value="__('Confirm Password')" />
+                                <x-text-input id="update_password_password_confirmation" name="password_confirmation" type="password" class="mt-1 block w-full" autocomplete="new-password" />
+                                <x-input-error :messages="$errors->updatePassword->get('password_confirmation')" class="mt-2" />
                             </div>
                             <button type="submit" class="ud-btn">Change password</button>
                         </form>

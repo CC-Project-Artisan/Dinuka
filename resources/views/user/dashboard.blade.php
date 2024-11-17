@@ -195,17 +195,22 @@
                             @csrf
                             @method('put')
 
-                            <div class="mb-4">
-                                <label for="currentPassword" class="block text-sm font-medium text-gray-700">Current password</label>
-                                <input type="password" name="currentPassword" id="currentPassword" class="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
+                            <div>
+                                <x-input-label for="update_password_current_password" :value="__('Current Password')" />
+                                <x-text-input id="update_password_current_password" name="current_password" type="password" class="mt-1 block w-full" autocomplete="current-password" />
+                                <x-input-error :messages="$errors->updatePassword->get('current_password')" class="mt-2" />
                             </div>
-                            <div class="mb-4">
-                                <label for="newPassword" class="block text-sm font-medium text-gray-700">New password</label>
-                                <input type="password" name="newPassword" id="newPassword" class="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
+
+                            <div>
+                                <x-input-label for="update_password_password" :value="__('New Password')" />
+                                <x-text-input id="update_password_password" name="password" type="password" class="mt-1 block w-full" autocomplete="new-password" />
+                                <x-input-error :messages="$errors->updatePassword->get('password')" class="mt-2" />
                             </div>
-                            <div class="mb-4">
-                                <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirm password</label>
-                                <input type="password" name="confirmPassword" id="confirmPassword" class="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
+
+                            <div>
+                                <x-input-label for="update_password_password_confirmation" :value="__('Confirm Password')" />
+                                <x-text-input id="update_password_password_confirmation" name="password_confirmation" type="password" class="mt-1 block w-full" autocomplete="new-password" />
+                                <x-input-error :messages="$errors->updatePassword->get('password_confirmation')" class="mt-2" />
                             </div>
                             <button type="submit" class="ud-btn">Change password</button>
                         </form>
@@ -286,7 +291,9 @@
 
                             <div class="mb-4">
                                 <label for="businessCategory" class="block text-sm font-medium text-gray-700">Business Category</label>
-                                <input type="text" name="business_category" id="businessCategory" placeholder="Enter business category" value="" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                                <!-- <input type="text" name="business_category" id="businessCategory" placeholder="Enter business category" value="" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"> -->
+                                <x-compo.select name="business_category" id="businessCategory" :options="['' => 'Select'] + $categories->pluck('name', 'id')->toArray()" />
+
                             </div>
 
                             <div class="mb-4">

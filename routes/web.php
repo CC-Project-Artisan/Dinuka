@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\User\AdminController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
@@ -40,27 +40,34 @@ Route::get('/cart', [PageController::class, 'cartview'])->name('pages.cart');
 //Dashboard Routes
 Route::get('/dashboard', [PageController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
 
-// Route::post('/dashboard/register-vendor', [VendorController::class, 'registerVendor'])->name('vendor.register');
-// Route::post('/dashboard/update-store-details', [VendorController::class, 'updateStoreDetails'])->name('vendor.update');
-// Route::get('/dashboard/create-listing', [ProductController::class, 'create'])->name('product.create');
+// Vendor Routes
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('dashboard')->group(function () {
         Route::post('/register-vendor', [VendorController::class, 'registerVendor'])->name('vendor.register');
         Route::post('/update-store-details', [VendorController::class, 'updateStoreDetails'])->name('vendor.update');
         Route::get('/create-listing', [ProductController::class, 'index'])->name('product.create');
         Route::post('/store-listing', [ProductController::class, 'store'])->name('product.store');
-        Route::post('/category/store', [CategoryController::class, 'store'])->name('category.store');
     });
 });
 
+// Admin Routes
 
+Route::middleware('auth')->group(function () {
+    Route::get('/admin/users', [AdminController::class, 'showUsers'])->name('admin.users');
+    Route::post('/admin/create', [AdminController::class, 'createAdmin'])->name('admin.create');
 
-
-
+    Route::post('/category/store', [CategoryController::class, 'store'])->name('category.store');
+    Route::get('/category/{id}', [CategoryController::class, 'show'])->name('category.show');
+    Route::put('/category/{id}', [CategoryController::class, 'update'])->name('category.update');
+    Route::delete('/category/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
+    
+    Route::post('/admin/users/{user}/deactivate', [AdminController::class, 'deactivateUser'])->name('admin.users.deactivate');
+    Route::post('/admin/users/{user}/activate', [AdminController::class, 'activateUser'])->name('admin.users.activate');
+});
 
 
 
 //test admin middleware (make the function in the controller and the middleware and register it in the kernel)
 Route::get('/admintest', [PageController::class, 'admintest'])->middleware('admin', 'auth')->name('testAdmin');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
