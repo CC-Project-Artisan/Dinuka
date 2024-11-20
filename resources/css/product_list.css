@@ -595,6 +595,7 @@ main {
 
 /* Form Group */
 .form-group {
+    font-family: 'Lato', sans-serif;
     margin-bottom: 15px;
 }
 
@@ -655,7 +656,7 @@ main {
 
 .image-uploader label {
     color: gray;
-    padding: 37px;
+    padding: 50px 0;
     border: 1px;
     border-radius: 5px;
     cursor: pointer;

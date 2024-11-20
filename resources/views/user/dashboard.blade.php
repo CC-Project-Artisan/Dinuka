@@ -48,7 +48,7 @@
                     <label for="myAdvert" class="dashboard-sidebar-title">My messages</label><br>
                     <span class="dashboard-sidebar-sub-title">Send and receive messages</span>
                 </li>
-                <li class="u-sidebar-value" data-page="notifications" onclick="loadPage('notification')">
+                <li class="u-sidebar-value" data-page="myNotification" onclick="loadPage('myNotification')">
                     <i class="fa-regular fa-bell ud-icon-left"></i>
                     <i class="fa-solid fa-arrow-right-long"></i>
                     <label for="myAdvert" class="dashboard-sidebar-title">Notification</label><br>
@@ -92,8 +92,7 @@
             <!-- Dashboard page -->
             <div id="dashboard" class="ud-page-wrapper hidden">
                 <div class="ud-dashboard-page bg-white p-6 rounded shadow">
-
-                <div class="flex">
+                    <div class="flex">
                         <div class="ud-profile-image-wrapper">
                             <img src="{{ asset('https://png.pngtree.com/png-clipart/20230927/original/pngtree-man-avatar-image-for-profile-png-image_13001877.png') }}" alt="profile image" class="ud-profile-image">
                         </div>
@@ -123,22 +122,38 @@
                         <p class="mt-2">Make more money by selling your unique products with Artisan.lk!</p>
                     </div>
                     <button class="ud-btn font-secondaryText" onclick="loadPage('selling')">Create vendor profile</button>
-
                 </div>
             </div>
 
-            <div id="myMessages" class="hidden p-6 bg-white rounded shadow ud-page-wrapper">
+            <!-- messages -->
+            <div id="myMessages" class="p-6 bg-white rounded shadow ud-page-wrapper hidden">
                 <h2 class="text-2xl font-bold text-blue-900">My messages</h2>
                 <p class="mt-2">Your messages.</p>
             </div>
 
-            <div id="myOrders" class="hidden p-6 bg-white rounded shadow ud-page-wrapper">
-                <h2 class="text-2xl font-bold text-blue-900">My orders</h2>
-                <p class="mt-2">Your orders.</p>
+            <!-- notificatios -->
+            <div id="myNotification" class="p-6 bg-white rounded shadow ud-page-wrapper hidden">
+                <h2 class="text-2xl font-bold text-blue-900">My notifications</h2>
+                <p class="mt-2">Your notificatios.</p>
+            </div>
+
+            <!-- saved ads -->
+            <div id="savedAdverts" class="ud-page-wrapper hidden">
+                <x-compo.search
+                    :text="'Status'"
+                    :options="['all' => 'All', 'live' => 'Live', 'rejected' => 'Rejected']"
+                    :keyword="request('keyword', '')"
+                    :placeholder="'Search saved ads...'" />
+                <x-user.saved-ad />
+            </div>
+
+            <!-- orders -->
+            <div id="myOrders" class="ud-page-wrapper hidden">
+                <x-user.user-order />
             </div>
 
             <!-- My presonal details -->
-            <div id="personalDetails" class="ud-page-wrapper">
+            <div id="personalDetails" class="ud-page-wrapper hidden">
                 <div class="ud-personal-page bg-white p-6 rounded shadow">
                     <div class="ud-pro-change">
                         <h2 class="text-[50px] font-bold text-customBlue">Your details</h2>
@@ -159,7 +174,7 @@
 
                             <div class="mb-4">
                                 <label for="mobile" class="block text-sm font-medium text-gray-700">Mobile</label>
-                                <input type="number" name="phone" id="mobile" placeholder="Enter your phone number" value="{{ old('phone', Auth::user()->phone) }}" min="0" oninput="this.value = Math.abs(this.value)" class="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"> 
+                                <input type="number" name="phone" id="mobile" placeholder="Enter your phone number" value="{{ old('phone', Auth::user()->phone) }}" min="0" oninput="this.value = Math.abs(this.value)" class="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                             </div>
 
                             <div>
@@ -171,7 +186,7 @@
             </div>
 
             <!-- Account security page -->
-            <div id="accountSecurity" class="ud-page-wrapper">
+            <div id="accountSecurity" class="ud-page-wrapper hidden">
                 <div class="ud-security-page bg-white p-6 rounded shadow">
                     <div class="ud-pw-change">
                         <h2 class="text-[50px] font-bold text-customBlue">Your password</h2>
@@ -180,17 +195,22 @@
                             @csrf
                             @method('put')
 
-                            <div class="mb-4">
-                                <label for="currentPassword" class="block text-sm font-medium text-gray-700">Current password</label>
-                                <input type="password" name="currentPassword" id="currentPassword" class="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
+                            <div>
+                                <x-input-label for="update_password_current_password" :value="__('Current Password')" />
+                                <x-text-input id="update_password_current_password" name="current_password" type="password" class="mt-1 block w-full" autocomplete="current-password" />
+                                <x-input-error :messages="$errors->updatePassword->get('current_password')" class="mt-2" />
                             </div>
-                            <div class="mb-4">
-                                <label for="newPassword" class="block text-sm font-medium text-gray-700">New password</label>
-                                <input type="password" name="newPassword" id="newPassword" class="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
+
+                            <div>
+                                <x-input-label for="update_password_password" :value="__('New Password')" />
+                                <x-text-input id="update_password_password" name="password" type="password" class="mt-1 block w-full" autocomplete="new-password" />
+                                <x-input-error :messages="$errors->updatePassword->get('password')" class="mt-2" />
                             </div>
-                            <div class="mb-4">
-                                <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirm password</label>
-                                <input type="password" name="confirmPassword" id="confirmPassword" class="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
+
+                            <div>
+                                <x-input-label for="update_password_password_confirmation" :value="__('Confirm Password')" />
+                                <x-text-input id="update_password_password_confirmation" name="password_confirmation" type="password" class="mt-1 block w-full" autocomplete="new-password" />
+                                <x-input-error :messages="$errors->updatePassword->get('password_confirmation')" class="mt-2" />
                             </div>
                             <button type="submit" class="ud-btn">Change password</button>
                         </form>
@@ -249,9 +269,8 @@
 
             </div>
 
-
             <!-- Selling Section -->
-            <div id="selling" class="ud-page-wrapper">
+            <div id="selling" class="ud-page-wrapper hidden">
                 <div class="ud-personal-page bg-white p-6 rounded shadow">
                     <div class="ud-pro-change">
                         <h2 class="text-[50px] font-bold text-customBlue">Become An Artisan.lk Seller Today!</h2>
@@ -272,7 +291,9 @@
 
                             <div class="mb-4">
                                 <label for="businessCategory" class="block text-sm font-medium text-gray-700">Business Category</label>
-                                <input type="text" name="business_category" id="businessCategory" placeholder="Enter business category" value="" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                                <!-- <input type="text" name="business_category" id="businessCategory" placeholder="Enter business category" value="" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"> -->
+                                <x-compo.select name="business_category" id="businessCategory" :options="['' => 'Select'] + $categories->pluck('name', 'id')->toArray()" />
+
                             </div>
 
                             <div class="mb-4">

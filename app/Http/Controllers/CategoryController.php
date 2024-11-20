@@ -7,6 +7,13 @@ use App\Models\Category;
 
 class CategoryController extends Controller
 {
+    // Show the category details
+    public function show($id)
+    {
+        $category = Category::findOrFail($id);
+        return view('admin.dashboard', compact('category'));
+    }
+
     // Store the new category in the database
     public function store(Request $request)
     {
@@ -29,5 +36,31 @@ class CategoryController extends Controller
 
         // Redirect back with success message
         return redirect()->route('dashboard')->with('success', 'Category added successfully!');
+    }
+
+    // Update the category details
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255|unique:categories,name,' . $id,
+            'description' => 'nullable|string',
+        ]);
+
+        $category = Category::findOrFail($id);
+        $category->update([
+            'name' => $request->name,
+            'description' => $request->description,
+        ]);
+
+        return redirect()->route('dashboard')->with('success', 'Category updated successfully!');
+    }
+
+    // Delete tha category
+    public function destroy($id)
+    {
+        $category = Category::findOrFail($id);
+        $category->delete();
+
+        return redirect()->route('dashboard')->with('success', 'Category deleted successfully!');
     }
 }

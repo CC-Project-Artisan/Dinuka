@@ -42,8 +42,6 @@
             </button>
         </div> -->
 
-
-
         <!-- Sidebar for desktop -->
         <div id="sidebar" class="dashboard-sidebar-desktop-wrapper">
             <ul class="dashboard-sidebar-options flex flex-col text-secondaryText">
@@ -65,7 +63,7 @@
                     <label for="myAdvert" class="dashboard-sidebar-title">My messages</label><br>
                     <span class="dashboard-sidebar-sub-title">Send and receive messages</span>
                 </li>
-                <li class="u-sidebar-value" data-page="notifications" onclick="loadPage('notification')">
+                <li class="u-sidebar-value" data-page="myNotifications" onclick="loadPage('myNotifications')">
                     <i class="fa-regular fa-bell ud-icon-left"></i>
                     <i class="fa-solid fa-arrow-right-long"></i>
                     <label for="myAdvert" class="dashboard-sidebar-title">Notification</label><br>
@@ -83,7 +81,7 @@
                     <label for="myAdvert" class="dashboard-sidebar-title">My orders</label><br>
                     <span class="dashboard-sidebar-sub-title">View all your orders</span>
                 </li>
-                <li class="u-sidebar-value" data-page="myOrders" onclick="loadPage('myOrders')">
+                <li class="u-sidebar-value" data-page="myExhibitions" onclick="loadPage('myExhibitions')">
                     <i class="fa-solid fa-shop ud-icon-left"></i>
                     <i class="fa-solid fa-arrow-right-long"></i>
                     <label for="myAdvert" class="dashboard-sidebar-title">Exhibitions</label><br>
@@ -113,7 +111,7 @@
         <!-- Main Content -->
         <div class="u-dashboard-content-wrapper">
             <!-- Dashboard page -->
-            <div id="dashboard" class="ud-page-wrapper">
+            <div id="dashboard" class="ud-page-wrapper hidden">
                 <div class="ud-dashboard-page bg-white p-6 rounded shadow">
                     <div class="flex">
                         <div class="ud-profile-image-wrapper">
@@ -130,13 +128,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="ud-dashboard-page bg-white p-6 rounded shadow">
-                    <h2 class="text-[40px] font-bold text-customBrown font-mainText"> Find Arts & Crafts Exhibitions</h2>
-                    <div class="flex gap-10 text-[#252a34] mb-4 font-secondaryText">
-                        <p class="mt-2">Discover the best arts and crafts exhibitions in Sri Lanka, showcasing local talent and creativity.</p>
-                    </div>
-                    <a href="{{ route('pages.shop') }}" class="ud-btn font-secondaryText">Browse exhibitions</a>
-                </div>
+
                 <div class="ud-dashboard-page bg-white p-6 rounded shadow">
                     <h2 class="text-[40px] font-bold text-customBrown font-mainText">Looking to sell your arts & crafts?</h2>
                     <div class="flex gap-10 text-[#252a34] mb-4 font-secondaryText">
@@ -144,45 +136,76 @@
                     </div>
                     <a href="{{ route('product.create') }}" class="ud-btn font-secondaryText">Create your advert</a>
                 </div>
+
+                <div class="ud-dashboard-page bg-white p-6 rounded shadow">
+                    <h2 class="text-[40px] font-bold text-customBrown font-mainText"> Find Arts & Crafts Exhibitions</h2>
+                    <div class="flex gap-10 text-[#252a34] mb-4 font-secondaryText">
+                        <p class="mt-2">Discover the best arts and crafts exhibitions in Sri Lanka, showcasing local talent and creativity.</p>
+                    </div>
+                    <a href="{{ route('pages.shop') }}" class="ud-btn font-secondaryText">Browse exhibitions</a>
+                </div>
             </div>
 
             <!-- My advert page -->
             <div id="myAdverts" class="ud-page-wrapper hidden">
-                <div class="ud-advert-page bg-white p-6 rounded shadow">
-                    <div class="ud-advert-status-wrapper flex-[25%]">
-                        <p class="mt-2 mb-2"></i>Status</p>
-                        <select name="" id="" class="border border-[#00000026] rounded-[5px]">
-                            <option value="all">All</option>
-                            <option value="live">Live</option>
-                            <option value="rejected">Rejected</option>
-                        </select>
-                    </div>
-                    <div class="ud-advert-keyword-wrapper flex-[50%]">
-                        <p class="mt-2 mb-2"></i>Keyword</p>
-                        <div class="flex">
-                            <input type="text" class="ud-advert-keyword-input" placeholder="Search adverts...">
-                            <a href="#"><i class="ud-advert-keyword-search fa-solid fa-magnifying-glass"></i></a>
-                        </div>
-                    </div>
-                </div>
+                <x-compo.search
+                    :text="'Status'"
+                    :options="['all' => 'All', 'live' => 'Live', 'rejected' => 'Rejected']"
+                    :keyword="request('keyword', '')"
+                    :placeholder="'Search adverts...'" />
+                    
+                <x-vendor.vendor-ad />
+
                 <div class="ud-empty-body">
                     <i class="fa-solid fa-magnifying-glass text-[#6C757D] text-[80px]"></i>
                     <h2 class="text-[#6C757D] text-[40px] font-bold">No adverts found</h2>
                     <span class="text-[#6C757D]">We couldn't find any records. Try changing search filters</span>
-                    <a href="./createAds.php" class="border bg-customRed text-white px-7 py-2 rounded-[50px] hover:shadow-4xl transition-all duration-300 ease-in-out">Create a new advert</a>
+                    <a href="{{ route('product.create') }}" class="border border-customBrown text-customBrown px-7 py-2 rounded-[50px] hover:shadow-4xl hover:bg-customBrown hover:text-white transition-all duration-300 ease-in-out">Create a new advert</a>
                 </div>
             </div>
 
-            <!-- category -->
+            <!-- messages -->
             <div id="myMessages" class="ud-page-wrapper bg-white p-6 rounded shadow hidden">
                 <h2 class="text-2xl font-bold text-blue-900">My category</h2>
                 <p class="mt-2">Your messages.</p>
-                <x-category.category-creator-form />
             </div>
 
-            <div id="myOrders" class="ud-page-wrapper bg-white p-6 rounded shadow hidden">
-                <h2 class="text-2xl font-bold text-blue-900">My orders</h2>
-                <p class="mt-2">Your orders.</p>
+            <!-- notifications -->
+            <div id="myNotifications" class="ud-page-wrapper bg-white p-6 rounded shadow hidden">
+                <h2 class="text-2xl font-bold text-blue-900">My category</h2>
+                <p class="mt-2">Your notifications.</p>
+            </div>
+
+            <!-- orders -->
+            <div id="myOrders" class="ud-page-wrapper hidden">
+                <x-compo.search
+                    :text="'Advert'"
+                    :options="['all' => 'All', 'live' => 'Live', 'rejected' => 'Rejected']"
+                    :keyword="request('keyword', '')"
+                    :placeholder="'Search adverts...'" />
+                <x-user.user-order />
+            </div>
+
+            <!-- exhibitions -->
+            <div id="myExhibitions" class="ud-page-wrapper ">
+                <x-vendor.exhibition-card />
+                <div class="ud-empty-body">
+                    <i class="fa-solid fa-magnifying-glass text-[#6C757D] text-[80px]"></i>
+                    <h2 class="text-[#6C757D] text-[40px] font-bold">No exhibition found</h2>
+                    <span class="text-[#6C757D]">We couldn't find any records. Try create new exhibition post.</span>
+                    <a href="{{ route('exhibition.create') }}" class="border bg-customRed text-customBrown px-7 py-2 rounded-[50px] hover:shadow-4xl transition-all duration-300 ease-in-out">Create a new advert</a>
+                </div>
+            </div>
+
+            <!-- saved Ad -->
+            <div id="savedAdverts" class="ud-page-wrapper hidden">
+                <x-compo.search
+                    :text="'Category'"
+                    :options="['' => 'All'] + $categories->pluck('name', 'id')->toArray()"
+                    :keyword="request('keyword', '')"
+                    :placeholder="'Search saved ads...'" />
+
+                <x-user.saved-ad />
             </div>
 
             <!-- Store -->
@@ -253,7 +276,7 @@
                     </div>
 
                     <!-- Profile Images -->
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label for="productDescription">Upload Images</label>
                         <div class="sec-box img-up">
                             <div class="image-uploader">
@@ -262,7 +285,7 @@
                                 <div class="image-preview" id="image-preview"></div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                     <div>
                         <button type="submit" id="submitButton" class="ud-btn bg-blue-500 text-red">Save my details</button>
@@ -270,25 +293,32 @@
                 </form>
             </div>
 
-
             <!-- Account security page -->
             <div id="accountSecurity" class="ud-page-wrapper hidden">
                 <div class="ud-security-page bg-white p-6 rounded shadow">
                     <div class="ud-pw-change">
                         <h2 class="text-[50px] font-bold text-customBlue">Your password</h2>
                         <span>Please make sure to have a secure password with at least 6 characters long.</span>
-                        <form action="" method="post" class="mt-4">
-                            <div class="mb-4">
-                                <label for="currentPassword" class="block text-sm font-medium text-gray-700">Current password</label>
-                                <input type="password" name="currentPassword" id="currentPassword" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
+                        <form method="post" action="{{ route('password.update') }}" class="mt-6 space-y-6">
+                            @csrf
+                            @method('put')
+
+                            <div>
+                                <x-input-label for="update_password_current_password" :value="__('Current Password')" />
+                                <x-text-input id="update_password_current_password" name="current_password" type="password" class="mt-1 block w-full" autocomplete="current-password" />
+                                <x-input-error :messages="$errors->updatePassword->get('current_password')" class="mt-2" />
                             </div>
-                            <div class="mb-4">
-                                <label for="newPassword" class="block text-sm font-medium text-gray-700">New password</label>
-                                <input type="password" name="newPassword" id="newPassword" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
+
+                            <div>
+                                <x-input-label for="update_password_password" :value="__('New Password')" />
+                                <x-text-input id="update_password_password" name="password" type="password" class="mt-1 block w-full" autocomplete="new-password" />
+                                <x-input-error :messages="$errors->updatePassword->get('password')" class="mt-2" />
                             </div>
-                            <div class="mb-4">
-                                <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirm password</label>
-                                <input type="password" name="confirmPassword" id="confirmPassword" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
+
+                            <div>
+                                <x-input-label for="update_password_password_confirmation" :value="__('Confirm Password')" />
+                                <x-text-input id="update_password_password_confirmation" name="password_confirmation" type="password" class="mt-1 block w-full" autocomplete="new-password" />
+                                <x-input-error :messages="$errors->updatePassword->get('password_confirmation')" class="mt-2" />
                             </div>
                             <button type="submit" class="ud-btn">Change password</button>
                         </form>

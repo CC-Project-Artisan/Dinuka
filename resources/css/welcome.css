@@ -16,6 +16,41 @@
     text-decoration: none;
 }
 
+/* Login */
+.new-register-link{
+    color: #a55e3f;
+    letter-spacing: 1px;
+    border: 1px solid black; 
+    border-radius: 50px;
+    border-color: #a55e3f;
+}
+
+.new-register-link:hover{
+    background-color: #a55e3f;
+    color: white;
+    transition: 0.5s;
+}
+
+.login-link{
+    padding: 5px 40px;
+    letter-spacing: 1px;
+    color: #a55e3f;
+    border: 1px solid black; 
+    border-radius: 50px;
+    border-color: #a55e3f;
+}
+
+.login-link:hover{
+    background-color: #a55e3f;
+    color: white;
+    transition: 0.5s;
+}
+
+.fade-out {
+    opacity: 0;
+    transition: opacity 0.5s ease-in;
+}
+
 /* Navigation bar */
 header {
     display: flex;

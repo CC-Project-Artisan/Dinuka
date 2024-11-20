@@ -9,6 +9,9 @@ import '../css/cart.css';
 import '../css/checkout.css';
 import '../css/feature.css';
 import '../css/category.css';
+import '../css/dashboard.css'
+import '../css/product_list.css'
+import '../css/component.css'
 
 
 import Alpine from 'alpinejs';
