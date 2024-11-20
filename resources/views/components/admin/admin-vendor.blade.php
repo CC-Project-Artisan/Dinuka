@@ -84,7 +84,7 @@
             @else
             <form action="{{ route('admin.users.activate', $user) }}" method="POST">
                 @csrf
-                <button type="submit" class="remove-button savedAd-delete"><i class="fa-solid fa-user-lock mr-1"></i>Activate Account</button>
+                <button type="submit" class="remove-button savedAd-delete"><i class="fa-solid fa-unlock-keyhole mr-1"></i>Activate Account</button>
             </form>
             @endif
         </div>

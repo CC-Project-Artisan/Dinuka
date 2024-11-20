@@ -111,7 +111,7 @@
         <!-- Main Content -->
         <div class="u-dashboard-content-wrapper">
             <!-- Dashboard page -->
-            <div id="dashboard" class="ud-page-wrapper ">
+            <div id="dashboard" class="ud-page-wrapper hidden">
                 <div class="ud-dashboard-page bg-white p-6 rounded shadow">
                     <div class="flex">
                         <div class="ud-profile-image-wrapper">
@@ -153,6 +153,7 @@
                     :options="['all' => 'All', 'live' => 'Live', 'rejected' => 'Rejected']"
                     :keyword="request('keyword', '')"
                     :placeholder="'Search adverts...'" />
+                    
                 <x-vendor.vendor-ad />
 
                 <div class="ud-empty-body">
@@ -186,9 +187,14 @@
             </div>
 
             <!-- exhibitions -->
-            <div id="myExhibitions" class="ud-page-wrapper bg-white p-6 rounded shadow hidden">
-                <h2 class="text-2xl font-bold text-blue-900">My orders</h2>
-                <p class="mt-2">Your exhibitions.</p>
+            <div id="myExhibitions" class="ud-page-wrapper ">
+                <x-vendor.exhibition-card />
+                <div class="ud-empty-body">
+                    <i class="fa-solid fa-magnifying-glass text-[#6C757D] text-[80px]"></i>
+                    <h2 class="text-[#6C757D] text-[40px] font-bold">No exhibition found</h2>
+                    <span class="text-[#6C757D]">We couldn't find any records. Try create new exhibition post.</span>
+                    <a href="{{ route('exhibition.create') }}" class="border bg-customRed text-customBrown px-7 py-2 rounded-[50px] hover:shadow-4xl transition-all duration-300 ease-in-out">Create a new advert</a>
+                </div>
             </div>
 
             <!-- saved Ad -->

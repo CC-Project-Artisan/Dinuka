@@ -46,7 +46,7 @@
                 </a>
 
                 <a href="#" class="remove-button savedAd-delete border-l"><i class="fa-regular fa-trash-can mr-1"></i>
-                    Remove Ad
+                    Delete Ad
                 </a>
             </div>
         </div>

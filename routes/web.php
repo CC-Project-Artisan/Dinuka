@@ -7,6 +7,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\VendorController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ExhibitionController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -25,7 +26,6 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::post('/dashboard/updatedUserInformation', [UserController::class, 'update'])->name('user-profile.update');
 
 //Page Routes
 Route::get('/', [PageController::class, 'index'])->name('welcome');
@@ -43,15 +43,21 @@ Route::get('/dashboard', [PageController::class, 'dashboard'])->middleware(['aut
 // Vendor Routes
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('dashboard')->group(function () {
+        //Update User Information
+        Route::post('/dashboard/updatedUserInformation', [UserController::class, 'update'])->name('user-profile.update');
+
+        //Vendor Routes
         Route::post('/register-vendor', [VendorController::class, 'registerVendor'])->name('vendor.register');
         Route::post('/update-store-details', [VendorController::class, 'updateStoreDetails'])->name('vendor.update');
         Route::get('/create-listing', [ProductController::class, 'index'])->name('product.create');
         Route::post('/store-listing', [ProductController::class, 'store'])->name('product.store');
+
+        //Exhibition Routes
+        Route::get('/create-exhibition', [ExhibitionController::class, 'create'])->name('exhibition.create');
     });
 });
 
 // Admin Routes
-
 Route::middleware('auth')->group(function () {
     Route::get('/admin/users', [AdminController::class, 'showUsers'])->name('admin.users');
     Route::post('/admin/create', [AdminController::class, 'createAdmin'])->name('admin.create');

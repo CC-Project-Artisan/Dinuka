@@ -292,9 +292,15 @@
             </div>
 
             <!-- exhibitions -->
-            <div id="exhibitions" class="ud-page-wrapper bg-white p-6 rounded shadow hidden">
-                <h2 class="text-[50px] font-bold text-customBlue">Store details</h2>
-                <span>Please keep store details up to date. Your store data is stored securely. We do not share information with third parties.</span>
+            <div id="exhibitions" class="ud-page-wrapper hidden">
+                <x-compo.search
+                    :text="'Status'"
+                    :options="['all' => 'All', 'live' => 'Live', 'pending' => 'Pending', 'rejected' => 'Rejected', 'expired' => 'Expired']"
+                    :keyword="request('keyword', '')"
+                    :placeholder="'Search exhibitions...'" />
+
+                <x-admin.exhibition-card/>
+
             </div>
 
             <!-- My presonal details -->
