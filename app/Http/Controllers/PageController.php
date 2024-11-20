@@ -25,6 +25,7 @@ class PageController extends Controller
     //Product Page
     public function productView()
     {
+        
         return view('pages.product-display');
     }
 
@@ -32,6 +33,11 @@ class PageController extends Controller
     public function cartview()
     {
         return view('pages.cart');
+    }
+
+    public function checkoutview()
+    {
+        return view('pages.checkout');
     }
 
     //About Page

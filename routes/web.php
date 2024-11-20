@@ -7,6 +7,9 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\VendorController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
+
 use App\Http\Controllers\ExhibitionController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,8 +34,9 @@ Route::middleware('auth')->group(function () {
 Route::get('/', [PageController::class, 'index'])->name('welcome');
 Route::get('/shop', [PageController::class, 'shop'])->name('pages.shop');
 Route::get('/about', [PageController::class, 'about'])->name('pages.about');
-Route::get('/product-display', [PageController::class, 'productView'])->name('pages.product-display');
+Route::get('/product-display', [PageController::class, 'productView'])->name('pages.product-overview');
 Route::get('/cart', [PageController::class, 'cartview'])->name('pages.cart');
+Route::get('/checkout', [PageController::class, 'checkoutview'])->name('pages.checkout');
 
 // Route::get('/shop', [ProductController::class, 'index'])->name('pages.shop');
 // Route::get('/products', [ProductController::class, 'index']);
@@ -62,6 +66,24 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/users', [AdminController::class, 'showUsers'])->name('admin.users');
     Route::post('/admin/create', [AdminController::class, 'createAdmin'])->name('admin.create');
 
+Route::get('/shop', [ProductController::class, 'showProducts'])->name('pages.shop');
+Route::get('/product-display/{id}', [ProductController::class, 'show'])->name('pages.product-display');
+Route::get('/product-info/{id}', [ProductController::class, 'show'])->name('pages.product-info');
+
+
+Route::get('/cart', [CartController::class, 'index'])->name('pages.cart');
+Route::post('/cart/add/{id}', [CartController::class, 'addToCart'])->name('cart.add');
+Route::put('/cart/update-all', [CartController::class, 'updateAll'])->name('cart.updateAll');
+Route::delete('/cart/remove/{productId}', [CartController::class, 'removeFromCart'])->name('cart.remove');
+
+
+
+Route::get('/checkout', [CheckoutController::class, 'Checkout'])->name('pages.checkout');
+Route::post('/delivery/process', [CheckoutController::class, 'Delivery'])->name('delivery.process');
+Route::post('/payment/process', [CheckoutController::class, 'Payment'])->name('checkout.payment');
+Route::post('/checkout/create-order', [CheckoutController::class, 'createOrder'])->name('checkout.createOrder');
+Route::post('/create-payment-intent', [CheckoutController::class, 'createPaymentIntent'])->name('payment.intent');
+Route::get('/payment/complete', [CheckoutController::class, 'handlePaymentComplete'])->name('payment.complete');
     Route::post('/category/store', [CategoryController::class, 'store'])->name('category.store');
     Route::get('/category/{id}', [CategoryController::class, 'show'])->name('category.show');
     Route::put('/category/{id}', [CategoryController::class, 'update'])->name('category.update');
@@ -71,6 +93,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/users/{user}/activate', [AdminController::class, 'activateUser'])->name('admin.users.activate');
 });
 
+
+Route::get('/payment/success', function () {
+    return view('payment.success');
+})->name('payment.success');
+
+Route::get('/payment/failed', function () {
+    return view('payment.failed');
+})->name('payment.failed');
 
 
 //test admin middleware (make the function in the controller and the middleware and register it in the kernel)

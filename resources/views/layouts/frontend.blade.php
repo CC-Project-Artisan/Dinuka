@@ -40,8 +40,10 @@
     'resources/js/product_list.js',
 
     'resources/css/product_details.css',
-    'resources/css/cart.css',
-    'resources/css/component.css'
+    'resources/css/cart.css'
+
+
+    
     ])
     
 
@@ -49,6 +51,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/brands.min.css">
 
+    <!-- Stripe -->
+    <script src="https://js.stripe.com/v3/"></script>
 </head>
 
 <body>
@@ -74,7 +78,7 @@
         <div class="main-icons">
             <a href="#"><i class="fas fa-search"></i></a>
             <a href="{{route('pages.cart')}}"><i class="fas fa-shopping-cart"></i></a>
-            <a href="{{ route('login') }}"><i class="fas fa-user"></i></a>
+            <a href="{{route('login')}}"><i class="fas fa-user"></i></a>
         </div>
     </header>
 
