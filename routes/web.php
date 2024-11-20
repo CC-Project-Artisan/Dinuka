@@ -28,8 +28,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
-
 //Page Routes
 Route::get('/', [PageController::class, 'index'])->name('welcome');
 Route::get('/shop', [PageController::class, 'shop'])->name('pages.shop');
@@ -66,38 +64,40 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/users', [AdminController::class, 'showUsers'])->name('admin.users');
     Route::post('/admin/create', [AdminController::class, 'createAdmin'])->name('admin.create');
 
+    //Category Routes
+    Route::post('/category/store', [CategoryController::class, 'store'])->name('category.store');
+    Route::get('/category/{id}', [CategoryController::class, 'show'])->name('category.show');
+    Route::put('/category/{id}', [CategoryController::class, 'update'])->name('category.update');
+    Route::delete('/category/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
+
+    //User manage Routes
+    Route::post('/admin/users/{user}/deactivate', [AdminController::class, 'deactivateUser'])->name('admin.users.deactivate');
+    Route::post('/admin/users/{user}/activate', [AdminController::class, 'activateUser'])->name('admin.users.activate');
+});
+
+//Product Routes
 Route::get('/shop', [ProductController::class, 'showProducts'])->name('pages.shop');
 Route::get('/product-display/{id}', [ProductController::class, 'show'])->name('pages.product-display');
 Route::get('/product-info/{id}', [ProductController::class, 'show'])->name('pages.product-info');
 
-
+//Cart Routes
 Route::get('/cart', [CartController::class, 'index'])->name('pages.cart');
 Route::post('/cart/add/{id}', [CartController::class, 'addToCart'])->name('cart.add');
 Route::put('/cart/update-all', [CartController::class, 'updateAll'])->name('cart.updateAll');
 Route::delete('/cart/remove/{productId}', [CartController::class, 'removeFromCart'])->name('cart.remove');
 
-
-
+//Checkout Routes
 Route::get('/checkout', [CheckoutController::class, 'Checkout'])->name('pages.checkout');
 Route::post('/delivery/process', [CheckoutController::class, 'Delivery'])->name('delivery.process');
 Route::post('/payment/process', [CheckoutController::class, 'Payment'])->name('checkout.payment');
 Route::post('/checkout/create-order', [CheckoutController::class, 'createOrder'])->name('checkout.createOrder');
+
+//Payment Routes
 Route::post('/create-payment-intent', [CheckoutController::class, 'createPaymentIntent'])->name('payment.intent');
 Route::get('/payment/complete', [CheckoutController::class, 'handlePaymentComplete'])->name('payment.complete');
-    Route::post('/category/store', [CategoryController::class, 'store'])->name('category.store');
-    Route::get('/category/{id}', [CategoryController::class, 'show'])->name('category.show');
-    Route::put('/category/{id}', [CategoryController::class, 'update'])->name('category.update');
-    Route::delete('/category/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
-    
-    Route::post('/admin/users/{user}/deactivate', [AdminController::class, 'deactivateUser'])->name('admin.users.deactivate');
-    Route::post('/admin/users/{user}/activate', [AdminController::class, 'activateUser'])->name('admin.users.activate');
-});
-
-
 Route::get('/payment/success', function () {
     return view('payment.success');
 })->name('payment.success');
-
 Route::get('/payment/failed', function () {
     return view('payment.failed');
 })->name('payment.failed');
