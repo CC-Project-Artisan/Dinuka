@@ -16,12 +16,13 @@
 
     <div id="description" class="product-tab-content">
         <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        {{ $product->productDescription }}
         </p>
     </div>
     <div id="additional" class="hidden product-tab-content">
         <p>
-            Additional information content goes here.
+            <h1> Dimenstions </h1>
+            {{ $product->dimensions }}
         </p>
     </div>
     <div id="vendor-profile" class="hidden product-tab-content">

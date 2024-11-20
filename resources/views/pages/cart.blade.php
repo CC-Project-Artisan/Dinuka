@@ -13,13 +13,10 @@
 
 
             
-                <x-cart.cart-item  />
-            
-       
+        <x-cart.cart-item :cartItems="$cartItems" />
 
-       
-          
-            <x-cart.cart-totals />
+        
+        <x-cart.cart-totals :subtotal="$cartItems->sum(fn($item) => $item->price * $item->quantity)" />
         
 
     

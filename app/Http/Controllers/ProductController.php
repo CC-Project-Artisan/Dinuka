@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -15,6 +14,28 @@ class ProductController extends Controller
         $categories = Category::all();
         return view('pages.create-listing-form', compact('categories'));
     }
+
+    public function showProducts()
+    {
+        
+        $products = Product::with('category')->get();
+        return view('pages.shop', compact('products'));
+       
+        
+
+
+    }
+
+    public function show($id)
+    {
+        $product = Product::with('category')->findOrFail($id);
+        return view('pages.product-display', compact('product'));
+        return view('pages.product-info', compact('product'));
+    }
+   
+
+  
+
 
     //Store the new product listing
     public function store(Request $request)

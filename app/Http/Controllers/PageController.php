@@ -22,12 +22,18 @@ class PageController extends Controller
 
     public function productView()
     {
+        
         return view('pages.product-display');
     }
 
     public function cartview()
     {
         return view('pages.cart');
+    }
+
+    public function checkoutview()
+    {
+        return view('pages.checkout');
     }
 
     public function about()

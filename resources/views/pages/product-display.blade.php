@@ -5,14 +5,26 @@
         PRODUCT LIST
     </div>
     <div class="breadcrumb-nav">
-        <a href="{{ route('welcome') }}">Home</a> &gt; <a href="{{ route('pages.shop') }}">Product List</a> &gt; <a href="{{ route('pages.product-display') }}">Product Details</a>
+        <a href="{{ route('welcome') }}">Home</a> &gt; <a href="{{ route('pages.shop') }}">Product List</a> &gt; <a href="{{ route('pages.product-display', ['id' => $product->id]) }}">Product Details</a>
+
     </div>
 </div>
 <br>
 
 <div class="container px-4 mx-auto">
-       <x-product-details.product-detail />
-       <x-product-details.product-info  />
+    @if (isset($product))
+        <x-product-details.product-detail
+            :product="$product"
+            :productId="$product->id" 
+            :productName="$product->productName"
+            :productPrice="$product->productPrice"
+            :productImage="json_decode($product->productImages)[0] " 
+            :categoryName="$product->category->name"
+        />
+        <x-product-details.product-info 
+            :product="$product"
+        />
+    @endif
 </div>
 
 
