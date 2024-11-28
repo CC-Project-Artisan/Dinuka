@@ -242,7 +242,7 @@
                 </div>
 
                 <!-- media -->
-                <h1 class="text-xl mt-10 mb-6">Price Information</h1>
+                <h1 class="text-xl mt-10 mb-6">Media</h1>
                 <div class="ml-5">
                     <!-- Social Media Links -->
                     <div class="form-group row">
@@ -273,9 +273,20 @@
                     <div id="social-media-fields"></div>
                 </div>
 
-                <button type="submit" class="apply-button">Apply Exhibition</button>
+                <div class="flex gap-4">
+                    <button type="submit" class="apply-button w-3/4">Apply Exhibition</button>
+                    <button type="button" class="apply-button w-1/4" onclick="showPreview()">Preview Post</button>
+                </div>
 
             </form>
+
+            <!-- <div id="preview-modal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
+                <div class="bg-white p-5 rounded-lg shadow-lg w-3/4">
+                    <h2 class="text-2xl mb-4">Preview</h2>
+                    <div id="preview-content"></div>
+                    <button onclick="closePreview()" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">Close</button>
+                </div>
+            </div> -->
 
             <!-- popup mg -->
             <div id="success-message" class="hidden">
@@ -287,6 +298,25 @@
 </div>
 
 <script>
+    // preview
+    function showPreview() {
+        const form = document.getElementById('exhibition-form');
+        const formData = new FormData(form);
+        let queryString = '';
+
+        formData.forEach((value, key) => {
+            queryString += `${encodeURIComponent(key)}=${encodeURIComponent(value)}&`;
+        });
+
+        const previewWindow = window.open(`/preview?${queryString}`, '_blank');
+    }
+
+    //sucess message
+    document.getElementById('exhibition-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        alert("Your application has been submitted successfully!");
+        document.getElementById('success-message').classList.remove('hidden');
+    });
 
     // date option selection
     function toggleDateInputs() {

@@ -11,11 +11,7 @@
 <br>
 
 <div class="container px-4 mx-auto">
-       <x-product-details.product-detail />
-       <x-product-details.product-info  />
+    <x-product-details.product-detail />
+    <x-product-details.product-info />
 </div>
-
-
-
-    
- @endsection
+@endsection

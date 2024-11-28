@@ -25,14 +25,28 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
-
 //Page Routes
 Route::get('/', [PageController::class, 'index'])->name('welcome');
 Route::get('/shop', [PageController::class, 'shop'])->name('pages.shop');
+Route::get('/exhibition', [ExhibitionController::class, 'index'])->name('pages.exhibition');
 Route::get('/about', [PageController::class, 'about'])->name('pages.about');
 Route::get('/product-display', [PageController::class, 'productView'])->name('pages.product-display');
 Route::get('/cart', [PageController::class, 'cartview'])->name('pages.cart');
+
+Route::get('/preview', function () {
+    return view('exhibition.previews.preview');
+})->name('preview');
+Route::get('/preview/layout1', function () {
+    return view('exhibition.previews.layout1');
+})->name('preview.layout1');
+
+Route::get('/preview/layout2', function () {
+    return view('exhibition.previews.layout2');
+})->name('preview.layout2');
+
+Route::get('/preview/layout3', function () {
+    return view('exhibition.previews.layout3');
+})->name('preview.layout3');
 
 // Route::get('/shop', [ProductController::class, 'index'])->name('pages.shop');
 // Route::get('/products', [ProductController::class, 'index']);
@@ -54,6 +68,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         //Exhibition Routes
         Route::get('/create-exhibition', [ExhibitionController::class, 'create'])->name('exhibition.create');
+        
     });
 });
 

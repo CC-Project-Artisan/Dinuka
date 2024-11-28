@@ -196,19 +196,19 @@
                             @method('put')
 
                             <div>
-                                <x-input-label for="update_password_current_password" :value="__('Current Password')" />
+                                <x-input-label for="update_password_current_password" :value="__('Current Password')" class="star"/>
                                 <x-text-input id="update_password_current_password" name="current_password" type="password" class="mt-1 block w-full" autocomplete="current-password" />
                                 <x-input-error :messages="$errors->updatePassword->get('current_password')" class="mt-2" />
                             </div>
 
                             <div>
-                                <x-input-label for="update_password_password" :value="__('New Password')" />
+                                <x-input-label for="update_password_password" :value="__('New Password')" class="star"/>
                                 <x-text-input id="update_password_password" name="password" type="password" class="mt-1 block w-full" autocomplete="new-password" />
                                 <x-input-error :messages="$errors->updatePassword->get('password')" class="mt-2" />
                             </div>
 
                             <div>
-                                <x-input-label for="update_password_password_confirmation" :value="__('Confirm Password')" />
+                                <x-input-label for="update_password_password_confirmation" :value="__('Confirm Password')" class="star"/>
                                 <x-text-input id="update_password_password_confirmation" name="password_confirmation" type="password" class="mt-1 block w-full" autocomplete="new-password" />
                                 <x-input-error :messages="$errors->updatePassword->get('password_confirmation')" class="mt-2" />
                             </div>
@@ -280,34 +280,34 @@
                             @csrf
 
                             <div class="mb-4">
-                                <label for="shopName" class="block text-sm font-medium text-gray-700">Display Name / Shop Name</label>
+                                <label for="shopName" class="block text-sm font-medium text-gray-700">Display Name / Shop Name<span class="star"></span></label>
                                 <input type="text" name="business_name" id="shopName" placeholder="Enter display name or shop name" value="" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                             </div>
 
                             <div class="mb-4">
-                                <label for="businessDescription" class="block text-sm font-medium text-gray-700">Business Description</label>
+                                <label for="businessDescription" class="block text-sm font-medium text-gray-700">Business Description<span class="star"></span></label>
                                 <textarea name="business_description" id="businessDescription" placeholder="Enter business description" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></textarea>
                             </div>
 
                             <div class="mb-4">
-                                <label for="businessCategory" class="block text-sm font-medium text-gray-700">Business Category</label>
+                                <label for="businessCategory" class="block text-sm font-medium text-gray-700">Business Category<span class="star"></span></label>
                                 <!-- <input type="text" name="business_category" id="businessCategory" placeholder="Enter business category" value="" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"> -->
                                 <x-compo.select name="business_category" id="businessCategory" :options="['' => 'Select'] + $categories->pluck('name', 'id')->toArray()" />
 
                             </div>
 
                             <div class="mb-4">
-                                <label for="businessPhone" class="block text-sm font-medium text-gray-700">Business Phone</label>
+                                <label for="businessPhone" class="block text-sm font-medium text-gray-700">Business Phone<span class="star"></span></label>
                                 <input type="text" name="business_phone" id="businessPhone" placeholder="Enter business phone" value="" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                             </div>
 
                             <div class="mb-4">
-                                <label for="businessEmail" class="block text-sm font-medium text-gray-700">Business Email</label>
+                                <label for="businessEmail" class="block text-sm font-medium text-gray-700">Business Email<span class="star"></span></label>
                                 <input type="email" name="business_email" id="businessEmail" placeholder="Enter business email" value="" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                             </div>
 
                             <div class="mb-4">
-                                <label for="businessAddress" class="block text-sm font-medium text-gray-700">Business Address</label>
+                                <label for="businessAddress" class="block text-sm font-medium text-gray-700">Business Address<span class="star"></span></label>
                                 <input type="text" name="business_address" id="businessAddress" placeholder="Enter business address" value="" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                             </div>
 

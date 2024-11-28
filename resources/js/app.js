@@ -5,6 +5,8 @@ import '../css/banner.css';
 import '../css/dashboard.css'
 import '../css/product_list.css'
 import '../css/component.css'
+import '../css/preview.css'
+import '../css/exhibition.css'
 
 
 import Alpine from 'alpinejs';

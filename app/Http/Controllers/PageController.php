@@ -37,7 +37,7 @@ class PageController extends Controller
     //About Page
     public function about()
     {
-        return view('pages.about');
+        return view('exhibition.exhibition-view');
     }
 
     //Dashboard

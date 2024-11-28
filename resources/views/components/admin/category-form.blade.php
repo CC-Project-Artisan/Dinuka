@@ -3,13 +3,13 @@
     <form action="{{ route('category.store') }}" method="POST">
         @csrf
         <div class="form-group">
-            <label for="name">Category Name</label>
+            <label for="name">Category Name<span class="star"></span></label>
             <x-compo.input type="text" name="name" id="name" placeholder="Enter category name" class="form-control" required />
             <!-- <input type="text" name="name" id="name" class="form-control" required> -->
         </div>
 
         <div class="form-group">
-            <label for="description">Description</label>
+            <label for="description">Description<span class="star"></span></label>
             <textarea name="description" id="description" placeholder="Enter category description" class="form-control" rows="3"></textarea>
         </div>
 

@@ -1,6 +1,6 @@
 <div class="product-item">
 
-    <a href="{{ route('pages.product-display') }}" class="card">
+    <a href="{{ route('pages.product-display') }}" class="product-card-details">
 
     
 
