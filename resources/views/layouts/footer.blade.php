@@ -1,5 +1,3 @@
-@extends('layouts.frontend')
-@section('footer')
 <!-- Footer -->
 <footer class="footer-container">
     <div class="footer-content">
@@ -30,7 +28,7 @@
         <div class="footer-section about-us">
             <h3>About Us</h3>
             <ul>
-                <li><a href="#">About Me</a></li>
+                <li><a href="{{ route('pages.about') }}">About Us</a></li>
                 <li><a href="#">Services</a></li>
                 <li><a href="#">Our Gallary</a></li>
                 <li><a href="#">Track Your Order</a></li>
@@ -41,9 +39,8 @@
         <div class="footer-section Happanings">
             <h3>Happanings</h3>
             <ul>
-                <li><a href="#">Exhibitions</a></li>
-                <li><a href="#">Events</a></li>
-                <li><a href="#">Intractive Map</a></li>
+                <li><a href="{{ route('pages.exhibition') }}">Exhibitions</a></li>
+                <li><a href="#">Map</a></li>
             </ul>
         </div>
 
@@ -61,4 +58,3 @@
         </div>
     </div>
 </footer>
-@endsection

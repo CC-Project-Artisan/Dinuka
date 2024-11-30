@@ -1,0 +1,54 @@
+.exhibition-card-title{
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #8b5e34;
+    font-family: "Alegreya", serif;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+
+.exhibition-card-details {
+    margin: 10px 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+@media (max-width: 600px) {
+    .exhibition-card-details {
+        grid-template-columns: 1fr;
+    }
+}
+
+.exhibition-card-location{
+    float: right;
+}
+
+.exhibition-card-date{
+    font-size: 1rem;
+    font-weight: bold;
+    color: #8b5e34;
+    font-family: "Alegreya", serif;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+
+.image-container {
+    position: relative;
+    display: inline-block;
+}
+
+.icon-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: white;
+    border-radius: 50%;
+    padding: 5px;
+    padding: 7px 10px;
+    margin: 10px;
+}
+
+/* .icon-container i {
+    color: red;
+} */

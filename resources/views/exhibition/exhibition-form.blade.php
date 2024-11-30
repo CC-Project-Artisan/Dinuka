@@ -6,7 +6,14 @@
         <div class="col-md-12">
 
             <h1 class="text-4xl text-center my-5">Exhibition Form</h1>
-            <form action="" method="POST" id="exhibition-form" enctype="multipart/form-data">
+
+            @if(session('success'))
+            <div class="bg-green-500 text-white p-4 rounded mb-4">
+                {{ session('success') }}
+            </div>
+            @endif
+
+            <form action="{{ route('exhibitions.store') }}" method="POST" id="exhibition-form" enctype="multipart/form-data">
                 @csrf
 
                 <!-- details -->
@@ -14,63 +21,58 @@
                 <div class="ml-5">
                     <!-- name -->
                     <div class="form-group row">
-                        <label for="exhibition_name" class="col-sm-2 col-form-label">Exhibition Name</label>
+                        <label for="exhibition_name" class="col-sm-2 col-form-label star">Exhibition Name</label>
                         <div class="col-sm-10">
-                            <x-compo.input type="text" id="exhibition_name" name="exhibition_name" placeholder="Enter exhibition name" autofocus required />
+                            <x-compo.input type="text" id="exhibition_name" name="exhibition_name" placeholder="Enter exhibition name" :value="old('exhibition_name')" autofocus />
                         </div>
                     </div>
 
                     <!-- Exhibition description -->
                     <div class="form-group row">
-                        <label for="exhibition_description" class="col-sm-2 col-form-label">Exhibition Description</label>
+                        <label for="exhibition_description" class="col-sm-2 col-form-label star">Exhibition Description</label>
                         <div class="col-sm-10">
                             <x-compo.textarea id="exhibition_description" name="exhibition_description" placeholder="Enter description" required />
                         </div>
                     </div>
 
                     <!-- date option -->
-                    <div class="form-group row">
+                    <!-- <div class="form-group row">
                         <label for="date_option" class="col-sm-2 col-form-label">Date Option</label>
                         <div class="col-sm-10">
-                            <!-- <x-compo.select option="" id="date_option" name="date_option" onchange="toggleDateInputs()">
-                                <option value="">Select</option>
-                                <option value="one_date">One Date</option>
-                                <option value="few_dates">Few Dates</option>    
-                            </x-compo.select> -->
                             <select id="date_option" name="date_option" class="form-control block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" onchange="toggleDateInputs()" required>
                                 <option value="one_date">One Date</option>
                                 <option value="few_dates">Few Dates</option>
                             </select>
                         </div>
-                    </div>
+                    </div> -->
 
                     <!-- one day -->
                     <div id="one_date_input" class="form-group row">
-                        <label for="exhibition_date" class="col-sm-2 col-form-label">Exhibition Date</label>
+                        <label for="exhibition_date" class="col-sm-2 col-form-label star">Exhibition Date</label>
                         <div class="col-sm-10">
                             <x-compo.input type="date" id="exhibition_date" name="exhibition_date" placeholder="Exhibition Date" required />
                         </div>
                     </div>
 
                     <!-- start date -->
-                    <div id="few_dates_input" class="form-group row hidden">
+                    <!-- <div id="few_dates_input" class="form-group row hidden">
                         <label for="start_date" class="col-sm-2 col-form-label">Start Date</label>
                         <div class="col-sm-10">
                             <x-compo.input type="date" id="start_date" name="start_date" placeholder="Start Date" required />
                         </div>
-                    </div>
+                    </div> -->
 
                     <!-- end date -->
-                    <div id="few_dates_input_end" class="form-group row hidden">
+                    <!-- <div id="few_dates_input_end" class="form-group row hidden">
                         <label for="end_date" class="col-sm-2 col-form-label">End Date</label>
                         <div class="col-sm-10">
                             <x-compo.input type="date" id="end_date" name="end_date" placeholder="End Date" required />
                         </div>
-                    </div>
+                    </div> -->
 
                     <!-- Start time -->
                     <div class="form-group row">
-                        <label for="start_time" class="col-sm-2 col-form-label">Start Time</label>
+                        <label for="start_time" class="col-sm-2 col-form-label star">Start Time</label>
                         <div class="col-sm-10">
                             <x-compo.input type="time" id="start_time" name="start_time" placeholder="Start Time" required />
                         </div>
@@ -78,7 +80,7 @@
 
                     <!-- End time -->
                     <div class="form-group row">
-                        <label for="end_time" class="col-sm-2 col-form-label">End Time</label>
+                        <label for="end_time" class="col-sm-2 col-form-label star">End Time</label>
                         <div class="col-sm-10">
                             <x-compo.input type="time" id="end_time" name="end_time" placeholder="End Time" required />
                         </div>
@@ -86,7 +88,7 @@
 
                     <!-- Exhibition Location -->
                     <div class="form-group row">
-                        <label for="exhibition_location" class="col-sm-2 col-form-label">Exhibition Location</label>
+                        <label for="exhibition_location" class="col-sm-2 col-form-label star">Exhibition Location</label>
                         <div class="col-sm-10">
                             <x-compo.input type="text" id="exhibition_location" name="exhibition_location" placeholder="Enter location" required />
                         </div>
@@ -102,14 +104,14 @@
 
                     <!-- Telephone Numbers -->
                     <div class="form-group row">
-                        <label for="contact-count" class="col-sm-2 col-form-label">Number of Contacts</label>
+                        <label for="contact-count" class="col-sm-2 col-form-label star">Number of Contacts</label>
                         <div class="col-sm-10">
                             <x-compo.select id="contact-count" name="contact-count" :options="[1 => '1', 2 => '2', 3 => '3']" class="flex-grow-1" style="flex: 0 0 25%;" required />
                         </div>
                     </div>
                     <div id="contact-fields">
                         <div class="form-group row">
-                            <label for="telephone1" class="col-sm-2 col-form-label">Contact 1</label>
+                            <label for="telephone1" class="col-sm-2 col-form-label star">Contact 1</label>
                             <div class="col-sm-10 d-flex gap-2">
                                 <x-compo.input type="text" id="name1" name="name1" placeholder="Enter contact name" class="flex-grow-1" style="flex: 0 0 75%;" required />
                                 <x-compo.input type="text" id="telephone1" name="telephone1" placeholder="Enter mobile number" class="flex-grow-1" min="0" style="flex: 0 0 25%;" required />
@@ -119,16 +121,29 @@
 
                     <!-- Email Addresses -->
                     <div class="form-group row">
-                        <label for="email-count" class="col-sm-2 col-form-label">Number of Emails</label>
+                        <label for="email-count" class="col-sm-2 col-form-label star">Number of Emails</label>
                         <div class="col-sm-10">
                             <x-compo.select id="email-count" name="email-count" :options="[1 => '1', 2 => '2', 3 => '3']" class="flex-grow-1" style="flex: 0 0 25%;" />
                         </div>
                     </div>
                     <div id="email-fields">
                         <div class="form-group row">
-                            <label for="email1" class="col-sm-2 col-form-label">Email 1</label>
+                            <label for="email1" class="col-sm-2 col-form-label star">Email 1</label>
                             <div class="col-sm-10">
                                 <x-compo.input type="email" id="email1" name="email1" placeholder="Enter email address" class="flex-grow-1" required />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Exhibition banner -->
+                    <div class="form-group">
+                        <label for="exhibitionBanner" class="star">Upload exhibition banner</label>
+                        <div class="sec-box img-up">
+                            <div class="image-uploader">
+                                <input type="file" name="exhibitionBanner[]" id="image-input" accept="image/*" multiple required />
+                                <label for="image-input"><i class="fa-solid fa-plus" style="color: grey;"></i><br>Add banner</label>
+                                <div class="image-preview" id="image-preview"></div>
+                                @error('exhibitionBanner.*') <div class="error">{{ $message }}</div> @enderror
                             </div>
                         </div>
                     </div>
@@ -139,20 +154,13 @@
                 <div class="ml-5">
                     <!-- category type -->
                     <div class="form-group row">
-                        <label for="category" class="col-sm-2 col-form-label">Exhibition Category</label>
+                        <label for="category" class="col-sm-2 col-form-label star">Category</label>
                         <div class="col-sm-10">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" name="categories[]" id="category_all" value="all">
-                                <label class="form-check-label" for="category_art">All</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" name="categories[]" id="category_history" value="history">
-                                <label class="form-check-label" for="category_history">History</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" name="categories[]" id="category_science" value="science">
-                                <label class="form-check-label" for="category_science">Science</label>
-                            </div>
+                            <!-- <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" name="category_all" id="category_all" value="all">
+                                    <label class="form-check-label" for="category_art">All</label>
+                                </div> -->
+                            <x-compo.input type="text" id="category_name" name="category_name" placeholder="Enter category name" class="flex-grow-1" required />
                         </div>
                     </div>
                 </div>
@@ -201,7 +209,7 @@
                         </div>
 
                         <div class="col-sm-10">
-                            <x-compo.input type="number" id="entrance_fee" name="entrance_fee" min="0" placeholder="Enter entrance fee" />
+                            <x-compo.input type="number" id="entrance_fee" name="vendor_entrance_fee" min="0" placeholder="Enter entrance fee" />
                         </div>
                     </div>
 
@@ -241,70 +249,353 @@
                     </div>
                 </div>
 
-                <!-- media -->
-                <h1 class="text-xl mt-10 mb-6">Price Information</h1>
+                <!-- Media Section -->
+                <h1 class="text-xl mt-10 mb-6">Media</h1>
                 <div class="ml-5">
                     <!-- Social Media Links -->
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Social Media Links</label>
                         <div class="col-sm-10 flex flex-wrap gap-5">
+                            @foreach(['facebook', 'instagram', 'tiktok', 'youtube', 'other'] as $platform)
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="facebook-checkbox" name="social-media-checkboxes" value="facebook">
-                                <label class="form-check-label" for="facebook-checkbox">Facebook</label>
+                                <input class="form-check-input" type="checkbox" id="{{ $platform }}-checkbox" name="social-media-checkboxes[]" value="{{ $platform }}">
+                                <label class="form-check-label" for="{{ $platform }}-checkbox">{{ ucfirst($platform) }}</label>
                             </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="instagram-checkbox" name="social-media-checkboxes" value="instagram">
-                                <label class="form-check-label" for="instagram-checkbox">Instagram</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="tiktok-checkbox" name="social-media-checkboxes" value="tiktok">
-                                <label class="form-check-label" for="tiktok-checkbox">TikTok</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="youtube-checkbox" name="social-media-checkboxes" value="youtube">
-                                <label class="form-check-label" for="youtube-checkbox">YouTube</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="other-checkbox" name="social-media-checkboxes" value="other">
-                                <label class="form-check-label" for="other-checkbox">Other</label>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                     <div id="social-media-fields"></div>
                 </div>
 
-                <button type="submit" class="apply-button">Apply Exhibition</button>
+                <!-- Layout Selection Display -->
+                <!-- <div class="mb-4 flex">
+                    <label class="block text-gray-700">Selected Layout:</label>
+                    <span class="text-gray-900 ml-2">
+                        {{ ucfirst(str_replace('layout', 'Layout ', request('layout'))) }}
+                    </span>
+                </div> -->
+                <h1 class="text-xl mt-10 mb-3">Preview</h1>
+                <div class="mb-4 form-group">
+                    <label class="col-sm-2 col-form-label">Selected Layout:</label>
+                    <span class="text-gray-900 ml-2">
+                        {{ ucfirst(str_replace('layout', 'Layout ', request('layout', 'layout1'))) }}
+                    </span>
+                </div>
 
+                <!-- Error Messages -->
+                <div id="error-messages" class="hidden alert alert-danger">
+                    <strong class="font-bold">Submission Failed!</strong>
+                    <ul id="error-list" class="list-disc list-inside"></ul>
+                    <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                        <svg class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                            <title>Close</title>
+                            <path d="M14.348 5.652a.5.5 0 10-.707-.707L10 8.586 6.36 4.945a.5.5 0 10-.707.708L9.293 10l-4.647 4.648a.5.5 0 00.707.708L10 11.414l3.64 3.64a.5.5 0 00.707-.707L10.707 10l4.641-4.648z" />
+                        </svg>
+                    </span>
+                </div>
+
+                <!-- Hidden Input for Layout -->
+                <input type="hidden" name="layout" id="selected-layout" value="{{ request('layout', 'layout1') }}">
+
+                <!-- submit button -->
+                <div class="flex gap-4">
+                    <button type="submit" class="apply-button w-3/4">Apply Exhibition</button>
+                    <button type="button" class="apply-button w-1/4" onclick="showPreview()">Preview Post</button>
+                </div>
+
+                <!-- Success Message -->
+                <div id="success-message" class="hidden alert alert-success">
+                    <strong class="font-bold">Success!</strong>
+                    <span class="block sm:inline">Your exhibition has been created successfully.</span>
+                    <button onclick="closeSuccessMessage()" class="absolute top-0 right-0 px-4 py-3">
+                        <svg class="fill-current h-6 w-6 text-green-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                            <title>Close</title>
+                            <path d="M14.348 5.652a.5.5 0 10-.707-.707L10 8.586 6.36 4.945a.5.5 0 10-.707.708L9.293 10l-4.647 4.648a.5.5 0 00.707.708L10 11.414l3.64 3.64a.5.5 0 00.707-.707L10.707 10l4.641-4.648z" />
+                        </svg>
+                    </button>
+                </div>
             </form>
-
-            <!-- popup mg -->
-            <div id="success-message" class="hidden">
-                <h1>Your application has been submitted successfully!</h1>
-                <a href="#">Ok!</a>
-            </div>
         </div>
     </div>
 </div>
 
+<style>
+    .border-red-500 {
+        border-color: rgb(239, 68, 68) !important;
+    }
+
+    .text-red-600 {
+        color: rgb(220, 38, 38);
+    }
+
+    .star::after {
+        content: " *";
+        color: red;
+    }
+</style>
+
 <script>
+    // preview
+    function showPreview() {
+        const form = document.getElementById('exhibition-form');
+        const formData = new FormData(form);
+        let queryString = '';
+
+        formData.forEach((value, key) => {
+            queryString += `${encodeURIComponent(key)}=${encodeURIComponent(value)}&`;
+        });
+
+        const previewWindow = window.open(`/preview?${queryString}`, '_blank');
+    }
+
+    //store data into the session
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('exhibition-form');
+    
+        function saveFormData() {
+            const formData = new FormData(form);
+            const formObj = {
+                images: [],
+                contacts: [],
+                emails: [],
+                socialMedia: {}
+            };
+    
+            // Handle regular inputs
+            formData.forEach((value, key) => {
+                if (key.startsWith('contact_name') || key.startsWith('contact_telephone')) {
+                    const index = key.slice(-1);
+                    if (!formObj.contacts[index - 1]) {
+                        formObj.contacts[index - 1] = {};
+                    }
+                    if (key.startsWith('contact_name')) {
+                        formObj.contacts[index - 1].name = value;
+                    } else {
+                        formObj.contacts[index - 1].telephone = value;
+                    }
+                } else if (key.startsWith('email')) {
+                    const index = key.slice(-1);
+                    formObj.emails[index - 1] = value;
+                } else if (key.endsWith('-url')) {
+                    const platform = key.replace('-url', '');
+                    formObj.socialMedia[platform] = value;
+                } else {
+                    formObj[key] = value;
+                }
+            });
+    
+            // Handle image files
+            const imageInput = document.getElementById('image-input');
+            if (imageInput && imageInput.files.length > 0) {
+                formObj.imageCount = imageInput.files.length;
+                // Store image preview data
+                const imagePreview = document.getElementById('image-preview');
+                if (imagePreview) {
+                    formObj.imagePreviews = Array.from(imagePreview.children).map(container => {
+                        return container.querySelector('img').src;
+                    });
+                }
+            }
+    
+            // Handle social media checkboxes
+            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                if (checkbox.checked && checkbox.name === 'social-media-checkboxes[]') {
+                    const platform = checkbox.value;
+                    const urlInput = document.querySelector(`[name="${platform}-url"]`);
+                    if (urlInput) {
+                        formObj.socialMedia[platform] = urlInput.value;
+                    }
+                }
+            });
+    
+            sessionStorage.setItem('exhibitionFormData', JSON.stringify(formObj));
+        }
+    
+        // Restore saved data
+        function restoreFormData() {
+            const savedData = sessionStorage.getItem('exhibitionFormData');
+            if (!savedData) return;
+    
+            const formObj = JSON.parse(savedData);
+    
+            // Restore regular inputs
+            Object.entries(formObj).forEach(([key, value]) => {
+                if (!['images', 'contacts', 'emails', 'socialMedia'].includes(key)) {
+                    const input = form.querySelector(`[name="${key}"]`);
+                    if (input && input.type !== 'file') {
+                        input.value = value;
+                    }
+                }
+            });
+    
+            // Restore contacts
+            if (formObj.contacts.length) {
+                document.getElementById('contact-count').value = formObj.contacts.length;
+                document.getElementById('contact-count').dispatchEvent(new Event('change'));
+                formObj.contacts.forEach((contact, index) => {
+                    const nameInput = form.querySelector(`[name="contact_name${index + 1}"]`);
+                    const telInput = form.querySelector(`[name="contact_telephone${index + 1}"]`);
+                    if (nameInput && contact.name) nameInput.value = contact.name;
+                    if (telInput && contact.telephone) telInput.value = contact.telephone;
+                });
+            }
+    
+            // Restore emails
+            if (formObj.emails.length) {
+                document.getElementById('email-count').value = formObj.emails.length;
+                document.getElementById('email-count').dispatchEvent(new Event('change'));
+                formObj.emails.forEach((email, index) => {
+                    const emailInput = form.querySelector(`[name="email${index + 1}"]`);
+                    if (emailInput && email) emailInput.value = email;
+                });
+            }
+    
+            // Restore social media
+            Object.entries(formObj.socialMedia).forEach(([platform, url]) => {
+                const checkbox = form.querySelector(`input[type="checkbox"][value="${platform}"]`);
+                if (checkbox) {
+                    checkbox.checked = true;
+                    checkbox.dispatchEvent(new Event('change'));
+                    const urlInput = form.querySelector(`[name="${platform}-url"]`);
+                    if (urlInput) urlInput.value = url;
+                }
+            });
+    
+            // Restore image previews
+            if (formObj.imagePreviews) {
+                const imagePreview = document.getElementById('image-preview');
+                formObj.imagePreviews.forEach(src => {
+                    const container = document.createElement('div');
+                    container.className = 'image-container';
+                    container.innerHTML = `
+                        <img src="${src}" class="preview-image">
+                        <button type="button" class="remove-image">&times;</button>
+                    `;
+                    imagePreview.appendChild(container);
+                });
+            }
+        }
+    
+        // Save on input change
+        form.addEventListener('input', saveFormData);
+        form.addEventListener('change', saveFormData);
+    
+        // Restore on page load
+        restoreFormData();
+    
+        // Clear storage on successful submission
+        form.addEventListener('submit', function() {
+            sessionStorage.removeItem('exhibitionFormData');
+        });
+    });
+
+    // Success Message Handling
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('exhibition-form');
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            clearErrors();
+
+            fetch("{{ route('exhibitions.store') }}", {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json',
+                    },
+                    body: new FormData(this)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showSuccess();
+                        form.reset();
+                        sessionStorage.removeItem('exhibitionFormData');
+                    } else {
+                        showErrors(data.errors);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        });
+
+        function showSuccess() {
+            const successMessage = document.getElementById('success-message');
+            successMessage.classList.remove('hidden');
+            successMessage.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            });
+
+            // Auto hide after 5 seconds
+            setTimeout(() => {
+                closeSuccessMessage();
+            }, 10000);
+        }
+
+        function closeSuccessMessage() {
+            document.getElementById('success-message').classList.add('hidden');
+        }
+
+        function clearErrors() {
+            document.querySelectorAll('.error-message').forEach(el => {
+                el.textContent = '';
+                el.classList.add('hidden');
+            });
+            document.querySelectorAll('input').forEach(input => {
+                input.classList.remove('border-red-500');
+            });
+        }
+
+        function showErrors(errors) {
+            let firstErrorField = null;
+
+            Object.keys(errors).forEach(field => {
+                const input = document.querySelector(`[name="${field}"]`);
+                if (input) {
+                    input.classList.add('border-red-500');
+                    const errorDiv = input.parentElement.querySelector('.error-message');
+                    errorDiv.textContent = errors[field][0];
+                    errorDiv.classList.remove('hidden');
+
+                    if (!firstErrorField) {
+                        firstErrorField = input;
+                    }
+                }
+            });
+
+            if (firstErrorField) {
+                firstErrorField.focus();
+                firstErrorField.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
+                });
+            }
+        }
+    });
+
+    function closeSuccessMessage() {
+        document.getElementById('success-message').classList.add('hidden');
+        sessionStorage.removeItem('exhibitionFormData');
+        window.location.reload();
+    }
 
     // date option selection
-    function toggleDateInputs() {
-        const dateOption = document.getElementById('date_option').value;
-        const oneDateInput = document.getElementById('one_date_input');
-        const fewDatesInput = document.getElementById('few_dates_input');
-        const fewDatesInputEnd = document.getElementById('few_dates_input_end');
+    // function toggleDateInputs() {
+    //     const dateOption = document.getElementById('date_option').value;
+    //     const oneDateInput = document.getElementById('one_date_input');
+    //     const fewDatesInput = document.getElementById('few_dates_input');
+    //     const fewDatesInputEnd = document.getElementById('few_dates_input_end');
 
-        if (dateOption === 'one_date') {
-            oneDateInput.classList.remove('hidden');
-            fewDatesInput.classList.add('hidden');
-            fewDatesInputEnd.classList.add('hidden');
-        } else {
-            oneDateInput.classList.add('hidden');
-            fewDatesInput.classList.remove('hidden');
-            fewDatesInputEnd.classList.remove('hidden');
-        }
-    }
+    //     if (dateOption === 'one_date') {
+    //         oneDateInput.classList.remove('hidden');
+    //         fewDatesInput.classList.add('hidden');
+    //         fewDatesInputEnd.classList.add('hidden');
+    //     } else {
+    //         oneDateInput.classList.add('hidden');
+    //         fewDatesInput.classList.remove('hidden');
+    //         fewDatesInputEnd.classList.remove('hidden');
+    //     }
+    // }
 
     // contact number selecetion
     document.getElementById('contact-count').addEventListener('change', function() {
@@ -316,7 +607,7 @@
             const fieldGroup = document.createElement('div');
             fieldGroup.className = 'form-group row';
             fieldGroup.innerHTML = `
-                <label for="telephone${i}" class="col-sm-2 col-form-label">Contact ${i}</label>
+                <label for="telephone${i}" class="col-sm-2 col-form-labe star">Contact ${i}</label>
                 <div class="col-sm-10 d-flex gap-2">
                     <x-compo.input type="text" id="name${i}" name="name${i}" placeholder="Enter contact name" class="flex-grow-1" style="flex: 0 0 75%;" />
                     <x-compo.input type="text" id="telephone${i}" name="telephone${i}" placeholder="Enter mobile number" class="flex-grow-1" style="flex: 0 0 25%;" />
@@ -336,7 +627,7 @@
             const fieldGroup = document.createElement('div');
             fieldGroup.className = 'form-group row';
             fieldGroup.innerHTML = `
-                <label for="email${i}" class="col-sm-2 col-form-label">Email ${i}</label>
+                <label for="email${i}" class="col-sm-2 col-form-label star">Email ${i}</label>
                 <div class="col-sm-10">
                     <x-compo.input type="email" id="email${i}" name="email${i}" placeholder="Enter email address" class="flex-grow-1" />
                 </div>
@@ -346,24 +637,244 @@
     });
 
     // social media links
-    document.querySelectorAll('input[name="social-media-checkboxes"]').forEach(function(checkbox) {
-        checkbox.addEventListener('change', function() {
-            const socialMediaFields = document.getElementById('social-media-fields');
-            socialMediaFields.innerHTML = '';
+    document.addEventListener('DOMContentLoaded', function() {
+        // Handle changes to social media checkboxes
+        document.querySelectorAll('input[name="social-media-checkboxes[]"]').forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                const socialMediaFields = document.getElementById('social-media-fields');
 
-            document.querySelectorAll('input[name="social-media-checkboxes"]:checked').forEach(function(checkedBox) {
-                const platform = checkedBox.value;
-                const fieldGroup = document.createElement('div');
-                fieldGroup.className = 'form-group row';
-                fieldGroup.innerHTML = `
-                    <label for="${platform}" class="col-sm-2 col-form-label">${platform.charAt(0).toUpperCase() + platform.slice(1)}</label>
-                    <div class="col-sm-10">
-                        <x-compo.input type="url" id="${platform}" name="${platform}" placeholder="Enter ${platform} link" class="flex-grow-1" />
-                    </div>
-                `;
-                socialMediaFields.appendChild(fieldGroup);
+                // Clear existing fields
+                socialMediaFields.innerHTML = '';
+
+                // Iterate over checked checkboxes to create corresponding URL inputs
+                document.querySelectorAll('input[name="social-media-checkboxes[]"]:checked').forEach(function(checkedBox) {
+                    const platform = checkedBox.value;
+                    const fieldGroup = document.createElement('div');
+                    fieldGroup.className = 'form-group row mb-3';
+
+                    fieldGroup.innerHTML = `
+                        <label for="${platform}-url" class="col-sm-2 col-form-label">${platform.charAt(0).toUpperCase() + platform.slice(1)} URL</label>
+                        <div class="col-sm-10">
+                            <x-compo.input type="url" id="${platform}-url" name="${platform}-url" placeholder="Enter your ${platform} URL" class="form-control" required />
+                        </div>
+                    `;
+
+                    socialMediaFields.appendChild(fieldGroup);
+                });
             });
         });
     });
+
+    // image uploader
+    document.getElementById('image-input').addEventListener('change', function() {
+        const imagePreview = document.getElementById('image-preview');
+        const files = Array.from(this.files);
+
+        files.forEach(file => {
+            // Check file size
+            if (file.size > 2 * 1024 * 1024) {
+                alert('Each image must be less than 2MB');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+
+                const imageContainer = document.createElement('div');
+                imageContainer.classList.add('image-container');
+
+                const removeBtn = document.createElement('button');
+                removeBtn.innerText = 'X';
+                removeBtn.classList.add('remove-btn');
+                removeBtn.addEventListener('click', function() {
+                    imageContainer.remove();
+                });
+
+                imageContainer.appendChild(img);
+                imageContainer.appendChild(removeBtn);
+                imagePreview.appendChild(imageContainer);
+            };
+
+            reader.readAsDataURL(file);
+        });
+    });
+
+    // Allow image reordering
+    const imagePreview = document.getElementById('image-preview');
+    let dragSrcEl = null;
+
+    function handleDragStart(e) {
+        dragSrcEl = this;
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/html', this.innerHTML);
+    }
+
+    function handleDragOver(e) {
+        if (e.preventDefault) {
+            e.preventDefault();
+        }
+        e.dataTransfer.dropEffect = 'move';
+        return false;
+    }
+
+    function handleDragEnter() {
+        this.classList.add('over');
+    }
+
+    function handleDragLeave() {
+        this.classList.remove('over');
+    }
+
+    function handleDrop(e) {
+        if (e.stopPropagation) {
+            e.stopPropagation();
+        }
+
+        if (dragSrcEl !== this) {
+            dragSrcEl.innerHTML = this.innerHTML;
+            this.innerHTML = e.dataTransfer.getData('text/html');
+        }
+
+        return false;
+    }
+
+    function handleDragEnd() {
+        const imageContainers = document.querySelectorAll('.image-preview .image-container');
+        imageContainers.forEach(container => {
+            container.classList.remove('over');
+        });
+    }
+
+    function addDnDHandlers(container) {
+        container.addEventListener('dragstart', handleDragStart, false);
+        container.addEventListener('dragenter', handleDragEnter, false);
+        container.addEventListener('dragover', handleDragOver, false);
+        container.addEventListener('dragleave', handleDragLeave, false);
+        container.addEventListener('drop', handleDrop, false);
+        container.addEventListener('dragend', handleDragEnd, false);
+    }
+
+    // imagePreview.addEventListener('DOMNodeInserted', function(e) {
+    //     if (e.target.className === 'image-container') {
+    //         e.target.setAttribute('draggable', 'true');
+    //         addDnDHandlers(e.target);
+    //     }
+    // });
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+        // Callback function to execute when mutations are observed
+        const callback = function(mutationsList, observer) {
+            for (let mutation of mutationsList) {
+                if (mutation.type === 'childList') {
+                    console.log('A child node has been added or removed.');
+                    // Your existing code here
+                }
+            }
+        };
+
+        // Create an observer instance linked to the callback function
+        const observer = new MutationObserver(callback);
+
+        // Options for the observer (which mutations to observe)
+        const config = {
+            childList: true,
+            subtree: true
+        };
+
+        // Target element to observe
+        const imagePreview = document.getElementById('imagePreview');
+
+        // Start observing the target element for configured mutations
+        if (imagePreview) {
+            observer.observe(imagePreview, config);
+        }
+    });
+
+    // Restore Form Data from sessionStorage
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     // Restore form data from sessionStorage
+    //     const savedData = sessionStorage.getItem('exhibitionFormData');
+    //     if (savedData) {
+    //         const formData = JSON.parse(savedData);
+    //         const form = document.getElementById('exhibition-form');
+
+    //         for (const key in formData) {
+    //             if (formData.hasOwnProperty(key)) {
+    //                 const field = form.querySelector(`[name="${key}"]`);
+    //                 if (field) {
+    //                     if (field.type === 'checkbox') {
+    //                         if (Array.isArray(formData[key])) {
+    //                             formData[key].forEach(value => {
+    //                                 const checkbox = form.querySelector(`[name="${key}"][value="${value}"]`);
+    //                                 if (checkbox) checkbox.checked = true;
+    //                             });
+    //                         } else {
+    //                             field.checked = true;
+    //                         }
+    //                     } else if (field.type === 'radio') {
+    //                         const radioToCheck = form.querySelector(`[name="${key}"][value="${formData[key]}"]`);
+    //                         if (radioToCheck) radioToCheck.checked = true;
+    //                     } else if (field.tagName.toLowerCase() === 'select') {
+    //                         field.value = formData[key];
+    //                         // Trigger change event if necessary
+    //                         field.dispatchEvent(new Event('change'));
+    //                     } else {
+    //                         field.value = formData[key];
+    //                     }
+    //                 }
+    //             }
+    //         }
+
+    //         // Handle dynamic fields like contacts and emails
+    //         if (formData['contact-count']) {
+    //             const contactCount = parseInt(formData['contact-count']);
+    //             const contactFields = document.getElementById('contact-fields');
+
+    //             // Set the contact-count select field
+    //             const contactCountField = form.querySelector('[name="contact-count"]');
+    //             if (contactCountField) {
+    //                 contactCountField.value = contactCount;
+    //                 contactCountField.dispatchEvent(new Event('change'));
+    //             }
+
+    //             for (let i = 1; i <= contactCount; i++) {
+    //                 const nameField = form.querySelector(`[name="name${i}"]`);
+    //                 const telephoneField = form.querySelector(`[name="telephone${i}"]`);
+    //                 if (nameField && telephoneField) {
+    //                     nameField.value = formData[`name${i}`];
+    //                     telephoneField.value = formData[`telephone${i}`];
+    //                 }
+    //             }
+    //         }
+
+    //         if (formData['email-count']) {
+    //             const emailCount = parseInt(formData['email-count']);
+    //             const emailFields = document.getElementById('email-fields');
+
+    //             // Set the email-count select field
+    //             const emailCountField = form.querySelector('[name="email-count"]');
+    //             if (emailCountField) {
+    //                 emailCountField.value = emailCount;
+    //                 emailCountField.dispatchEvent(new Event('change'));
+    //             }
+
+    //             for (let i = 1; i <= emailCount; i++) {
+    //                 const emailField = form.querySelector(`[name="email${i}"]`);
+    //                 if (emailField) {
+    //                     emailField.value = formData[`email${i}`];
+    //                 }
+    //             }
+    //         }
+
+    //         // Clear the saved data after restoring
+    //         sessionStorage.removeItem('exhibitionFormData');
+    //     }
+
+    //     // Existing initialization code...
+
+    //     toggleDateInputs();
+    // });
 </script>
 @endsection

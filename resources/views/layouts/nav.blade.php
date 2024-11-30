@@ -1,8 +1,6 @@
 <!-- Navigation Bar -->
-@extends('layouts.frontend')
-@section('navigation')
 <header class="main-nav" id="main-nav">
-    <a href="#" class="main-logo">{{config('app.name')}}</a>
+    <a href="{{ route('welcome') }}" class="main-logo">{{config('app.name')}}</a>
 
     <!-- Hamburger Icon for Mobile Toggle -->
     <div class="menu-toggle" id="menu-toggle">
@@ -11,18 +9,17 @@
 
     <nav class="main-menu" id="main-menu">
         <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Shop</a></li>
-            <li><a href="#">Events</a></li>
-            <li><a href="#">Exhibitions</a></li>
-            <li><a href="#">About</a></li>
+            <li><a href="{{ route('welcome') }}">Home</a></li>
+            <li><a href="{{ route('pages.shop') }}">Shop</a></li>
+            <li><a href="#">Map</a></li>
+            <li><a href="{{ route('pages.exhibition') }}">Exhibitions</a></li>
+            <li><a href="{{ route('pages.about') }}">About</a></li>
         </ul>
     </nav>
 
     <div class="main-icons">
         <a href="#"><i class="fas fa-search"></i></a>
-        <a href="#"><i class="fas fa-shopping-cart"></i></a>
-        <a href="{{route('login')}}"><i class="fas fa-user"></i></a>
+        <a href="{{route('pages.cart')}}"><i class="fas fa-shopping-cart"></i></a>
+        <a href="{{ route('login') }}"><i class="fas fa-user"></i></a>
     </div>
 </header>
-@endsection

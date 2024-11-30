@@ -270,19 +270,19 @@
                             @csrf
                             <div class="mb-4">
                                 <span class="required"></span>
-                                <label for="fullName" class="block text-sm font-medium text-gray-700 required">Full Name</label>
+                                <label for="fullName" class="block text-sm font-medium text-gray-700 required">Full Name<span class="star"></span></label>
                                 <x-compo.input type="text" name="admName" placeholder="Enter admin name" required />
                             </div>
                             <div class="mb-4">
-                                <label for="email" class="block text-sm font-medium text-gray-700 required">Email address</label>
+                                <label for="email" class="block text-sm font-medium text-gray-700 required">Email address<span class="star"></span></label>
                                 <x-compo.input type="text" name="admEmail" placeholder="Enter admin email" required />
                             </div>
                             <div class="mb-4">
-                                <label for="password" class="block text-sm font-medium text-gray-700 required">Password</label>
+                                <label for="password" class="block text-sm font-medium text-gray-700 required">Password<span class="star"></span></label>
                                 <x-compo.input type="password" name="admPwd" placeholder="Enter password" required />
                             </div>
                             <div class="mb-4">
-                                <label for="password_confirmation" class="block text-sm font-medium text-gray-700 required">Confirm Password</label>
+                                <label for="password_confirmation" class="block text-sm font-medium text-gray-700 required">Confirm Password<span class="star"></span></label>
                                 <x-compo.input type="password" name="admPwd_confirmation" placeholder="Enter repeat password" required />
                             </div>
                             <button type="submit" class="ud-btn">Add admin</button>
@@ -355,19 +355,19 @@
                             @method('put')
 
                             <div>
-                                <x-input-label for="update_password_current_password" :value="__('Current Password')" />
+                                <x-input-label for="update_password_current_password" :value="__('Current Password')" class="star"/>
                                 <x-text-input id="update_password_current_password" name="current_password" type="password" class="mt-1 block w-full" autocomplete="current-password" />
                                 <x-input-error :messages="$errors->updatePassword->get('current_password')" class="mt-2" />
                             </div>
 
                             <div>
-                                <x-input-label for="update_password_password" :value="__('New Password')" />
+                                <x-input-label for="update_password_password" :value="__('New Password')" class="star"/>
                                 <x-text-input id="update_password_password" name="password" type="password" class="mt-1 block w-full" autocomplete="new-password" />
                                 <x-input-error :messages="$errors->updatePassword->get('password')" class="mt-2" />
                             </div>
 
                             <div>
-                                <x-input-label for="update_password_password_confirmation" :value="__('Confirm Password')" />
+                                <x-input-label for="update_password_password_confirmation" :value="__('Confirm Password')" class="star"/>
                                 <x-text-input id="update_password_password_confirmation" name="password_confirmation" type="password" class="mt-1 block w-full" autocomplete="new-password" />
                                 <x-input-error :messages="$errors->updatePassword->get('password_confirmation')" class="mt-2" />
                             </div>
