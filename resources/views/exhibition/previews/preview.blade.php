@@ -18,6 +18,9 @@
                 <i class="fas fa-chevron-left" id="toggleIcon"></i>
             </button>
         </div>
+        <button id="acceptLayout" class="bg-blue-500 px-4 py-2 rounded mt-4">Accept Layout</button>
+
+        <input type="hidden" name="layout" id="selected-layout" value="layout1">
 
         <div class="card" onclick="changeLayout('layout1')">
             <div class="image-container">
@@ -49,7 +52,7 @@
     </div>
 
     <script>
-        function getQueryParams() {
+     function getQueryParams() {
             const params = {};
             const queryString = window.location.search.substring(1);
             const regex = /([^&=]+)=([^&]*)/g;
@@ -83,35 +86,7 @@
         }
 
         function changeLayout(layout) {
-            document.getElementById(layout).checked = true;
-            loadLayout(layout);
-        }
-
-        document.querySelectorAll('input[name="layout"]').forEach(function(radio) {
-            radio.addEventListener('change', function() {
-                loadLayout(this.value);
-            });
-        });
-
-        //hide the change layout section
-        document.addEventListener('DOMContentLoaded', function() {
-            const sidebarToggle = document.getElementById('sidebarToggle');
-            const sidebar = document.querySelector('.fixed-radio-buttons');
-            const previewContent = document.getElementById('preview-content');
-            const toggleIcon = document.getElementById('toggleIcon');
-
-            if (sidebarToggle && sidebar && toggleIcon) {
-                sidebarToggle.addEventListener('click', function() {
-                    sidebar.classList.toggle('collapsed');
-                    previewContent.classList.toggle('expanded');
-                    toggleIcon.classList.toggle('fa-chevron-right');
-                    toggleIcon.classList.toggle('fa-chevron-left');
-                });
-            }
-        });
-
-        //highlight the active card
-        function changeLayout(layout) {
+            document.getElementById('selected-layout').value = layout;
             document.getElementById(layout).checked = true;
 
             // Remove active class from all cards
@@ -125,13 +100,42 @@
             loadLayout(layout);
         }
 
-        // Add this to ensure layout1 is highlighted by default on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelector('#layout1').closest('.card').classList.add('active');
+        document.querySelectorAll('input[name="layout"]').forEach(function(radio) {
+            radio.addEventListener('change', function() {
+                loadLayout(this.value);
+            });
         });
 
-        // Load the default layout on page load
-        loadLayout('layout1');
+        // Initialize the default layout
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebar = document.querySelector('.fixed-radio-buttons');
+            const previewContent = document.getElementById('preview-content');
+            const toggleIcon = document.getElementById('toggleIcon');
+
+            // Highlight the default active layout
+            const defaultLayout = document.getElementById('layout1');
+            if (defaultLayout) {
+                defaultLayout.closest('.card').classList.add('active');
+                loadLayout('layout1');
+            }
+
+            if (sidebarToggle && sidebar && toggleIcon) {
+                sidebarToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('collapsed');
+                    previewContent.classList.toggle('expanded');
+                    toggleIcon.classList.toggle('fa-chevron-right');
+                    toggleIcon.classList.toggle('fa-chevron-left');
+                });
+            }
+        });
+
+        // Handle accept button click
+        document.getElementById('acceptLayout').addEventListener('click', function() {
+            const selectedLayout = document.getElementById('selected-layout').value;
+            window.opener.location.href = `/exhibitions/form?layout=${selectedLayout}`;
+            window.close();
+        });
     </script>
 </body>
 
