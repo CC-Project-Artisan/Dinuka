@@ -28,7 +28,7 @@ Route::middleware('auth')->group(function () {
 //Page Routes
 Route::get('/', [PageController::class, 'index'])->name('welcome');
 Route::get('/shop', [PageController::class, 'shop'])->name('pages.shop');
-Route::get('/exhibition', [ExhibitionController::class, 'index'])->name('pages.exhibition');
+Route::get('/exhibition', [PageController::class, 'exhibition'])->name('pages.exhibition');
 Route::get('/about', [PageController::class, 'about'])->name('pages.about');
 Route::get('/product-display', [PageController::class, 'productView'])->name('pages.product-display');
 Route::get('/cart', [PageController::class, 'cartview'])->name('pages.cart');
@@ -89,6 +89,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/admin/users/{user}/deactivate', [AdminController::class, 'deactivateUser'])->name('admin.users.deactivate');
     Route::post('/admin/users/{user}/activate', [AdminController::class, 'activateUser'])->name('admin.users.activate');
+    
 });
 
 

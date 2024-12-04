@@ -37,6 +37,7 @@ return new class extends Migration
             $table->json('social_media_links')->nullable();
             $table->string('layout')->nullable();
             $table->enum('status', ['pending', 'approved', 'rejected', 'paid'])->default('pending');
+            $table->boolean('isActive')->default(true); 
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

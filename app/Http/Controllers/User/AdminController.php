@@ -12,15 +12,15 @@ use Illuminate\Support\Facades\Hash;
 class AdminController extends Controller
 {
     // Show the user details
-    public function showUsers(Request $request)
-    {
-        $users = User::all();
-        $vendors = Vendor::all();
-        $totalUsers = User::count();
-        $categories = Category::all();
+    // public function showUsers(Request $request)
+    // {
+    //     $users = User::all();
+    //     $vendors = Vendor::all();
+    //     $totalUsers = User::count();
+    //     $categories = Category::all();
 
-        return view('admin.dashboard', compact('users', 'vendors', 'totalUsers', 'categories'));
-    }
+    //     return view('admin.dashboard', compact('users', 'vendors', 'totalUsers', 'categories'));
+    // }
 
     // Deactivate a user account
     public function deactivateUser(User $user)
