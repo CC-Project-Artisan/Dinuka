@@ -52,3 +52,32 @@
 /* .icon-container i {
     color: red;
 } */
+
+.ehibition-status-buttons-container{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.ehibition-status-buttons{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.ehibition-status-mg{
+    margin: 10px 20px 0 20px;
+}
+
+.status-label-wrapper{
+    position: relative;
+}
+
+.status-lable{
+    color: var(--text-title-color);
+    font-size: 1.3rem;
+    letter-spacing: 1px;
+    font-weight: bold;
+    font-family: 'Alegreya', 'serif';
+    float: right;
+}

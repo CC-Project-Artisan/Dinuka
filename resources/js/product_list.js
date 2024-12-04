@@ -14,18 +14,18 @@ document.addEventListener('DOMContentLoaded', function () {
         const nextButton = document.querySelector('.pagination .next');
         const activeIndex = Array.from(paginationLinks).indexOf(this);
 
-        // Hide 'Previous' button if on the first page, show otherwise
-        if (activeIndex <= 1) {
-            prevButton.style.visibility = 'hidden';
-        } else {
-            prevButton.style.visibility = 'visible';
-        }
+        // // Hide 'Previous' button if on the first page, show otherwise
+        // if (activeIndex <= 1) {
+        //     prevButton.style.visibility = 'hidden';
+        // } else {
+        //     prevButton.style.visibility = 'visible';
+        // }
 
-        // Hide 'Next' button if on the last page, show otherwise
-        if (activeIndex >= paginationLinks.length - 2) {
-            nextButton.style.visibility = 'hidden';
-        } else {
-            nextButton.style.visibility = 'visible';
-        }
+        // // Hide 'Next' button if on the last page, show otherwise
+        // if (activeIndex >= paginationLinks.length - 2) {
+        //     nextButton.style.visibility = 'hidden';
+        // } else {
+        //     nextButton.style.visibility = 'visible';
+        // }
     }));
 });

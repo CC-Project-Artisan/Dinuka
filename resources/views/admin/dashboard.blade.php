@@ -98,7 +98,7 @@
         <!-- Main Content -->
         <div class="u-dashboard-content-wrapper">
             <!-- Dashboard page -->
-            <div id="dashboard" class="ud-page-wrapper ">
+            <div id="dashboard" class="ud-page-wrapper hidden">
                 <div class="ud-dashboard-page bg-white p-6 rounded shadow">
                     <div class="flex">
                         <div class="ud-profile-image-wrapper">
@@ -292,14 +292,39 @@
             </div>
 
             <!-- exhibitions -->
-            <div id="exhibitions" class="ud-page-wrapper hidden">
+            <div id="exhibitions" class="ud-page-wrapper ">
                 <x-compo.search
                     :text="'Status'"
                     :options="['all' => 'All', 'live' => 'Live', 'pending' => 'Pending', 'rejected' => 'Rejected', 'expired' => 'Expired']"
                     :keyword="request('keyword', '')"
                     :placeholder="'Search exhibitions...'" />
 
-                <x-admin.exhibition-card/>
+                <div>
+                    @if(isset($exhibitions) && $exhibitions->count() > 0)
+                    @foreach ($exhibitions as $exhibition)
+                    <div class="my-4">
+                        <x-admin.exhibition-card
+                            :exhibition="$exhibition"
+                            :vendor="$vendor"
+                            :categories="$categories"
+                            :exhibitionContacts="$exhibitionContacts"
+                            :exhibitionEmails="$exhibitionEmails" />
+                    </div>
+                    @endforeach
+
+                    <!-- Pagination Links -->
+                    <div class="pagination-container">
+                        {{ $exhibitions->links() }}
+                    </div>
+                    @else
+                    <div class="ud-empty-body">
+                        <i class="fa-solid fa-magnifying-glass text-[#6C757D] text-[80px]"></i>
+                        <h2 class="text-[#6C757D] text-[40px] font-bold">No exhibitions found</h2>
+                        <span class="text-[#6C757D]">We couldn't find any records. Try changing search filters</span>
+                    </div>
+                    @endif
+                </div>
+
 
             </div>
 
@@ -355,19 +380,19 @@
                             @method('put')
 
                             <div>
-                                <x-input-label for="update_password_current_password" :value="__('Current Password')" class="star"/>
+                                <x-input-label for="update_password_current_password" :value="__('Current Password')" class="star" />
                                 <x-text-input id="update_password_current_password" name="current_password" type="password" class="mt-1 block w-full" autocomplete="current-password" />
                                 <x-input-error :messages="$errors->updatePassword->get('current_password')" class="mt-2" />
                             </div>
 
                             <div>
-                                <x-input-label for="update_password_password" :value="__('New Password')" class="star"/>
+                                <x-input-label for="update_password_password" :value="__('New Password')" class="star" />
                                 <x-text-input id="update_password_password" name="password" type="password" class="mt-1 block w-full" autocomplete="new-password" />
                                 <x-input-error :messages="$errors->updatePassword->get('password')" class="mt-2" />
                             </div>
 
                             <div>
-                                <x-input-label for="update_password_password_confirmation" :value="__('Confirm Password')" class="star"/>
+                                <x-input-label for="update_password_password_confirmation" :value="__('Confirm Password')" class="star" />
                                 <x-text-input id="update_password_password_confirmation" name="password_confirmation" type="password" class="mt-1 block w-full" autocomplete="new-password" />
                                 <x-input-error :messages="$errors->updatePassword->get('password_confirmation')" class="mt-2" />
                             </div>
@@ -425,6 +450,7 @@
             </div>
         </div>
     </div>
+
 
     <script>
         // Load the dashboard page in mobile view
@@ -559,8 +585,6 @@
                 sidebar.style.display = 'block';
             }
         });
-
-
         // image uploader
     </script>
 </main>

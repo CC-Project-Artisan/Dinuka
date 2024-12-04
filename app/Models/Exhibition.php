@@ -35,11 +35,21 @@ class Exhibition extends Model
         'child_price',
         'social_media_links',
         'layout',
+
+        'name',
+        'description',
+        'isActive',
+        'status',
     ];
 
     protected $casts = [
         'social_media_links' => 'array',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     // Relationship with Contact numbers
     public function contacts()

@@ -52,9 +52,7 @@
             <div class="user-info-column">
                 <div class="user-info-tag">
                     <span class=""><i class="fa-solid fa-layer-group mr-3 text-customBlue"></i>
-                        @foreach ($categories as $category)
-                        Category: {{ $category->name }}
-                        @endforeach
+                        Category: {{ $vendor->business_category }}
                     </span>
                 </div>
                 <div class="user-info-tag">

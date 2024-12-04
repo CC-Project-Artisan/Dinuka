@@ -171,9 +171,15 @@
             </div>
 
             <!-- notifications -->
-            <div id="myNotifications" class="ud-page-wrapper bg-white p-6 rounded shadow hidden">
-                <h2 class="text-2xl font-bold text-blue-900">My category</h2>
-                <p class="mt-2">Your notifications.</p>
+            <div id="myNotifications" class="ud-page-wrapper">
+                <h2 class="text-2xl font-bold text-blue-900">My Notifications</h2>
+                <ul>
+                    @forelse (Auth::user()->notifications as $notification)
+                    <x-notification.notification-card :notification="$notification" />
+                    @empty
+                    <p class="text-gray-500">No notifications found.</p>
+                    @endforelse
+                </ul>
             </div>
 
             <!-- orders -->
@@ -187,7 +193,7 @@
             </div>
 
             <!-- exhibitions -->
-            <div id="myExhibitions" class="ud-page-wrapper ">
+            <div id="myExhibitions" class="ud-page-wrapper hidden">
                 <x-vendor.exhibition-card />
                 <div class="ud-empty-body">
                     <i class="fa-solid fa-magnifying-glass text-[#6C757D] text-[80px]"></i>

@@ -12,6 +12,7 @@
     <title>{{config('app.name')}}</title>
 
     @include('layouts.head')
+    @livewireStyles
 </head>
 
 <body>
@@ -20,6 +21,7 @@
     <!-- Page Contents -->
     <div class="page-content pt-[87px]">
         @yield('pages')
+        @livewireScripts
     </div>
 
     @include('layouts.footer')
