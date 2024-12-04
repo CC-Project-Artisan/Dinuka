@@ -12,22 +12,7 @@
 <br>
 
 <div class="container px-4 mx-auto">
-    @if (isset($product))
-        <x-product-details.product-detail
-            :product="$product"
-            :productId="$product->id" 
-            :productName="$product->productName"
-            :productPrice="$product->productPrice"
-            :productImage="json_decode($product->productImages)[0] " 
-            :categoryName="$product->category->name"
-        />
-        <x-product-details.product-info 
-            :product="$product"
-        />
-    @endif
+    <x-product-details.product-detail />
+    <x-product-details.product-info />
 </div>
-
-
-
-    
- @endsection
+@endsection

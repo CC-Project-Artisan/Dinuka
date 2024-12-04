@@ -185,9 +185,15 @@
             </div>
 
             <!-- notifications -->
-            <div id="myNotifications" class="hidden p-6 bg-white rounded shadow ud-page-wrapper">
-                <h2 class="text-2xl font-bold text-blue-900">My category</h2>
-                <p class="mt-2">Your notifications.</p>
+            <div id="myNotifications" class="ud-page-wrapper">
+                <h2 class="text-2xl font-bold text-blue-900">My Notifications</h2>
+                <ul>
+                    @forelse (Auth::user()->notifications as $notification)
+                    <x-notification.notification-card :notification="$notification" />
+                    @empty
+                    <p class="text-gray-500">No notifications found.</p>
+                    @endforelse
+                </ul>
             </div>
 
             <!-- orders -->
@@ -318,19 +324,19 @@
                             @method('put')
 
                             <div>
-                                <x-input-label for="update_password_current_password" :value="__('Current Password')" />
+                                <x-input-label for="update_password_current_password" :value="__('Current Password')" class="star" />
                                 <x-text-input id="update_password_current_password" name="current_password" type="password" class="block w-full mt-1" autocomplete="current-password" />
                                 <x-input-error :messages="$errors->updatePassword->get('current_password')" class="mt-2" />
                             </div>
 
                             <div>
-                                <x-input-label for="update_password_password" :value="__('New Password')" />
+                                <x-input-label for="update_password_password" :value="__('New Password')" class="star" />
                                 <x-text-input id="update_password_password" name="password" type="password" class="block w-full mt-1" autocomplete="new-password" />
                                 <x-input-error :messages="$errors->updatePassword->get('password')" class="mt-2" />
                             </div>
 
                             <div>
-                                <x-input-label for="update_password_password_confirmation" :value="__('Confirm Password')" />
+                                <x-input-label for="update_password_password_confirmation" :value="__('Confirm Password')" class="star" />
                                 <x-text-input id="update_password_password_confirmation" name="password_confirmation" type="password" class="block w-full mt-1" autocomplete="new-password" />
                                 <x-input-error :messages="$errors->updatePassword->get('password_confirmation')" class="mt-2" />
                             </div>

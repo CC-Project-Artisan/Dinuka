@@ -13,6 +13,8 @@ import '../css/dashboard.css'
 import '../css/product_list.css'
 import '../css/component.css'
 import '../css/search.css'
+import '../css/preview.css'
+import '../css/exhibition.css'
 
 
 import Alpine from 'alpinejs';

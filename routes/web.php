@@ -34,10 +34,26 @@ Route::middleware('auth')->group(function () {
 //Page Routes
 Route::get('/', [PageController::class, 'index'])->name('welcome');
 Route::get('/shop', [PageController::class, 'shop'])->name('pages.shop');
+Route::get('/exhibition', [PageController::class, 'exhibition'])->name('pages.exhibition');
 Route::get('/about', [PageController::class, 'about'])->name('pages.about');
 Route::get('/product-display', [PageController::class, 'productView'])->name('pages.product-overview');
 Route::get('/cart', [PageController::class, 'cartview'])->name('pages.cart');
 Route::get('/checkout', [PageController::class, 'checkoutview'])->name('pages.checkout');
+
+Route::get('/preview', function () {
+    return view('exhibition.previews.preview');
+})->name('preview');
+Route::get('/preview/layout1', function () {
+    return view('exhibition.previews.layout1');
+})->name('preview.layout1');
+
+Route::get('/preview/layout2', function () {
+    return view('exhibition.previews.layout2');
+})->name('preview.layout2');
+
+Route::get('/preview/layout3', function () {
+    return view('exhibition.previews.layout3');
+})->name('preview.layout3');
 
 // Route::get('/shop', [ProductController::class, 'index'])->name('pages.shop');
 // Route::get('/products', [ProductController::class, 'index']);
@@ -64,10 +80,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         
         //Exhibition Routes
-        Route::get('/create-exhibition', [ExhibitionController::class, 'create'])->name('exhibition.create');
+        // Route::get('/exhibitions/form', [ExhibitionController::class, 'create'])->name('exhibition.create');
+        // Route::post('/exhibitions', [ExhibitionController::class, 'store'])->name('exhibitions.store');
     });
 });
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/exhibitions/form', [ExhibitionController::class, 'create'])->name('exhibition.create');
+    Route::post('/exhibitions', [ExhibitionController::class, 'store'])->name('exhibitions.store');
+});
 
 // Admin Routes
 Route::middleware('auth')->group(function () {
@@ -80,9 +101,9 @@ Route::middleware('auth')->group(function () {
     Route::put('/category/{id}', [CategoryController::class, 'update'])->name('category.update');
     Route::delete('/category/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
 
-    //User manage Routes
     Route::post('/admin/users/{user}/deactivate', [AdminController::class, 'deactivateUser'])->name('admin.users.deactivate');
     Route::post('/admin/users/{user}/activate', [AdminController::class, 'activateUser'])->name('admin.users.activate');
+    
 });
 
 //Product Routes
@@ -122,7 +143,6 @@ Route::post('/payment/process', [CheckoutController::class, 'Payment'])->name('p
 Route::get('/payment/success', function () {
     return view('payment.success', ['message' => 'Your payment was successful!']);
 })->name('payment.success');
-
 Route::get('/payment/failed', function () {
     return view('payment.failed', ['message' => 'Payment failed. Please try again.']);
 })->name('payment.failed');

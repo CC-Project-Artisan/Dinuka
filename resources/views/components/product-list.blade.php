@@ -1,5 +1,8 @@
 <!-- @props(['productImage', 'productName', 'productPrice', 'categoryName', 'productId']) -->
 <div class="product-item">
+
+    <a href="{{ route('pages.product-display') }}" class="product-card-details">
+
     
         <a href="{{ route('pages.product-display', ['id' => $productId]) }}" class="card">
 

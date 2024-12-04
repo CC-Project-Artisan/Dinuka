@@ -306,7 +306,7 @@ h3 {
     border-radius: 0;
     width: 100%;
     margin: 10px 0;
-    float: right;
+    /* float: right; */
 }
 
 .apply-button::before,
@@ -492,7 +492,7 @@ main {
 }
 
 /* Product Card styling */
-.card {
+.product-card-details {
     width: 100%;
     max-width: 250px;
     border: 1px solid #d1d5db;

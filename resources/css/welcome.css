@@ -16,6 +16,13 @@
     text-decoration: none;
 }
 
+.star::after {
+    content: '*';
+    padding-left: 3px;
+    color: #dc0000;
+    font-weight: bold;
+}
+
 /* Login */
 .new-register-link{
     color: #a55e3f;

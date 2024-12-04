@@ -8,6 +8,9 @@ use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Vendor;
 use App\Models\Product;
+use App\Models\Exhibition;
+use App\Models\ExhibitionContact;
+use App\Models\ExhibitionEmail;
 
 class PageController extends Controller
 {
@@ -44,7 +47,12 @@ class PageController extends Controller
     //About Page
     public function about()
     {
-        return view('pages.about');
+        return view('exhibition.exhibition-view');
+    }
+
+    public function exhibition()
+    {
+        return view('pages.exhibition');
     }
 
     //Dashboard
@@ -61,6 +69,17 @@ class PageController extends Controller
             $totalVendors = Vendor::count();
 
             $categories = Category::all();
+            // $exhibitions = Exhibition::all();
+            $exhibitionContacts = ExhibitionContact::all();
+            $exhibitionEmails = ExhibitionEmail::all();
+
+            // Order by pending status first, then paginate
+            $exhibitions = Exhibition::orderByRaw("CASE 
+                WHEN status = 'pending' THEN 1 
+                WHEN status = 'approved' THEN 2
+                WHEN status = 'rejected' THEN 3 
+                ELSE 4 END")
+                ->paginate(2);
 
             $products = Product::all();
 
@@ -69,14 +88,43 @@ class PageController extends Controller
                 case 'vendor':
                     $vendor = Vendor::where('user_id', $user->id)->first();
                     if ($vendor) {
-                        return view('vendor.dashboard', compact('vendor', 'categories', 'products'));
+                        return view(
+                            'vendor.dashboard',
+                            compact(
+                                'vendor',
+                                'categories',
+                                'exhibitions',
+                                'exhibitionContacts',
+                                'exhibitionEmails'
+                            )
+                        );
                     } else {
                         return view('welcome');
                     }
                 case 'user':
-                    return view('user.dashboard', compact('categories', 'products'));
+                    return view(
+                        'user.dashboard',
+                        compact(
+                            'categories',
+                            'exhibitions',
+                            'exhibitionContacts',
+                            'exhibitionEmails'
+                        )
+                    );
                 case 'admin':
-                    return view('admin.dashboard', compact('totalUsers', 'users', 'vendors', 'totalVendors', 'categories', 'products'));
+                    return view(
+                        'admin.dashboard',
+                        compact(
+                            'totalUsers',
+                            'users',
+                            'vendors',
+                            'totalVendors',
+                            'categories',
+                            'exhibitions',
+                            'exhibitionContacts',
+                            'exhibitionEmails'
+                        )
+                    );
                 default:
                     return view('welcome');
             }

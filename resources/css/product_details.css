@@ -1,4 +1,3 @@
-
 .product-display-container {
     display: flex;
     gap: 90px;
@@ -23,12 +22,12 @@
 .product-details-container {
     flex: 2;
     color: #8b5e34;
-    font-family: 'Alegreya', serif;
+    font-family: "Alegreya", serif;
 }
 
 .product-title {
     color: #a55e3f;
-    font-family: 'Alegreya', serif;
+    font-family: "Alegreya", serif;
     font-weight: 600;
     text-transform: uppercase;
     margin: 25px 0;
@@ -36,18 +35,17 @@
     word-wrap: break-word;
     font-size: 35px;
     line-height: 1.23em;
-    letter-spacing: .165em;
-    
+    letter-spacing: 0.165em;
 }
 
 .product-price {
     font-size: 23px;
-    
+
     color: #a55e3f;
     margin-bottom: 15px;
     /* font-size: inherit; */
     line-height: inherit;
-    letter-spacing: .165em;
+    letter-spacing: 0.165em;
     font-weight: 500;
 }
 
@@ -57,8 +55,6 @@
     color: #555;
     margin: 35px 0 0;
 }
-
-
 
 .product-quantity label {
     font-weight: bold;
@@ -76,7 +72,6 @@
     padding: 0;
     margin: 44px 0 0;
     color: #a55e3f;
-    
 }
 
 .product-meta li {
@@ -112,28 +107,27 @@
 .add-to-cart-btn {
     display: inline-block;
     color: #fff;
-   
-    
+
     text-decoration: none;
     padding: 15px 30px;
     position: relative;
     overflow: hidden;
-    
+
     border: none;
-    
+
     text-align: center;
-    letter-spacing: 6px; 
-    background-image: url('/public/images/buttonbackground.jpg'); 
+    letter-spacing: 6px;
+    background-image: url("/public/images/buttonbackground.jpg");
     background-size: cover;
     background-position: center;
     transition: transform 0.3s ease, background-size 0.3s ease;
-    width: 300px; 
+    width: 300px;
     border-radius: 0;
-    font-family: 'Alegreya', serif;
+    font-family: "Alegreya", serif;
     font-size: 12px;
     line-height: 2em;
     font-weight: 400;
-    letter-spacing: .3em;
+    letter-spacing: 0.3em;
     text-transform: uppercase;
 }
 
@@ -153,10 +147,9 @@
     background-size: 110%;
 }
 
-
 @media (max-width: 768px) {
     .product-display-container {
-        flex-direction: column; 
+        flex-direction: column;
     }
 
     .product-image-container {
@@ -178,10 +171,6 @@
         font-size: 14px;
     }
 }
-
-
-
-
 
 .product-tabs-container {
     font-family: inherit;
@@ -212,7 +201,7 @@
 }
 
 .tab-button.active::after {
-    content: '';
+    content: "";
     display: block;
     width: 100%;
     height: 2px;
@@ -226,7 +215,6 @@
     margin-right: 20px;
 }
 
-
 .product-tab-content {
     font-size: 16px;
     color: #555;
@@ -234,9 +222,9 @@
     line-height: 1.6;
 }
 
-.hidden {
+/* .hidden {
     display: none;
-}
+} */
 
 @media (max-width: 768px) {
     .product-tabs-header {
