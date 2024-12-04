@@ -9,9 +9,12 @@ use App\Http\Controllers\User\VendorController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\WebhookController;
 
 use App\Http\Controllers\ExhibitionController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 
 // Route::get('/', function () {
@@ -27,8 +30,6 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
-
 
 //Page Routes
 Route::get('/', [PageController::class, 'index'])->name('welcome');
@@ -55,52 +56,81 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/update-store-details', [VendorController::class, 'updateStoreDetails'])->name('vendor.update');
         Route::get('/create-listing', [ProductController::class, 'index'])->name('product.create');
         Route::post('/store-listing', [ProductController::class, 'store'])->name('product.store');
+        Route::get('/vendor/products/edit/{id}', [ProductController::class, 'edit'])->name('vendor.products.edit'); 
+        Route::post('/vendor/products/update/{id}', [ProductController::class, 'update'])->name('vendor.products.update'); 
+        Route::delete('/vendor/products/delete/{id}', [ProductController::class, 'destroy'])->name('vendor.products.delete'); 
+        
 
+
+        
         //Exhibition Routes
         Route::get('/create-exhibition', [ExhibitionController::class, 'create'])->name('exhibition.create');
     });
 });
+
 
 // Admin Routes
 Route::middleware('auth')->group(function () {
     Route::get('/admin/users', [AdminController::class, 'showUsers'])->name('admin.users');
     Route::post('/admin/create', [AdminController::class, 'createAdmin'])->name('admin.create');
 
+    //Category Routes
+    Route::post('/category/store', [CategoryController::class, 'store'])->name('category.store');
+    Route::get('/category/{id}', [CategoryController::class, 'show'])->name('category.show');
+    Route::put('/category/{id}', [CategoryController::class, 'update'])->name('category.update');
+    Route::delete('/category/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
+
+    //User manage Routes
+    Route::post('/admin/users/{user}/deactivate', [AdminController::class, 'deactivateUser'])->name('admin.users.deactivate');
+    Route::post('/admin/users/{user}/activate', [AdminController::class, 'activateUser'])->name('admin.users.activate');
+});
+
+//Product Routes
 Route::get('/shop', [ProductController::class, 'showProducts'])->name('pages.shop');
 Route::get('/product-display/{id}', [ProductController::class, 'show'])->name('pages.product-display');
 Route::get('/product-info/{id}', [ProductController::class, 'show'])->name('pages.product-info');
 
+Route::get('/search', [ProductController::class, 'search'])->name('search');
+Route::get('/search-modal', [CategoryController::class, 'showSearchModal'])->name('search-modal');
 
+
+
+
+//Cart Routes
 Route::get('/cart', [CartController::class, 'index'])->name('pages.cart');
 Route::post('/cart/add/{id}', [CartController::class, 'addToCart'])->name('cart.add');
 Route::put('/cart/update-all', [CartController::class, 'updateAll'])->name('cart.updateAll');
 Route::delete('/cart/remove/{productId}', [CartController::class, 'removeFromCart'])->name('cart.remove');
 
-
-
+// Checkout Routes
 Route::get('/checkout', [CheckoutController::class, 'Checkout'])->name('pages.checkout');
-Route::post('/delivery/process', [CheckoutController::class, 'Delivery'])->name('delivery.process');
-Route::post('/payment/process', [CheckoutController::class, 'Payment'])->name('checkout.payment');
-Route::post('/checkout/create-order', [CheckoutController::class, 'createOrder'])->name('checkout.createOrder');
-Route::post('/create-payment-intent', [CheckoutController::class, 'createPaymentIntent'])->name('payment.intent');
-Route::get('/payment/complete', [CheckoutController::class, 'handlePaymentComplete'])->name('payment.complete');
-    Route::post('/category/store', [CategoryController::class, 'store'])->name('category.store');
-    Route::get('/category/{id}', [CategoryController::class, 'show'])->name('category.show');
-    Route::put('/category/{id}', [CategoryController::class, 'update'])->name('category.update');
-    Route::delete('/category/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
-    
-    Route::post('/admin/users/{user}/deactivate', [AdminController::class, 'deactivateUser'])->name('admin.users.deactivate');
-    Route::post('/admin/users/{user}/activate', [AdminController::class, 'activateUser'])->name('admin.users.activate');
-});
+// Route::post('/delivery/process', [CheckoutController::class, 'Delivery'])->name('delivery.process');
 
+Route::post('/checkout/payment', [CheckoutController::class, 'Payment'])->name('checkout.payment');
+Route::post('/delivery/process', [CheckoutController::class, 'saveDeliveryDetails'])->name('delivery.process');
+Route::post('/payment/process', [CheckoutController::class, 'Payment'])->name('payment.process');
+
+// Route::post('/checkout/delivery', [CheckoutController::class, 'Delivery'])->name('delivery.process');
+
+// Route::get('/payment/complete', [CheckoutController::class, 'handlePaymentComplete'])->name('payment.complete');
+
+
+// Payment Routes
+// Route::post('/create-payment-intent', [CheckoutController::class, 'createPaymentIntent'])->name('payment.intent');
+// Route::get('/payment/complete', [CheckoutController::class, 'handlePaymentComplete'])->name('payment.complete');
 
 Route::get('/payment/success', function () {
-    return view('payment.success');
+    return view('payment.success', ['message' => 'Your payment was successful!']);
 })->name('payment.success');
 
 Route::get('/payment/failed', function () {
-    return view('payment.failed');
+    return view('payment.failed', ['message' => 'Payment failed. Please try again.']);
 })->name('payment.failed');
+
+Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook']);
+
+
+
 
 
 //test admin middleware (make the function in the controller and the middleware and register it in the kernel)

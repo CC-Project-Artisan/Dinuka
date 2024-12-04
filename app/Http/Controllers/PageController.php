@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Vendor;
+use App\Models\Product;
 
 class PageController extends Controller
 {
@@ -61,19 +62,21 @@ class PageController extends Controller
 
             $categories = Category::all();
 
+            $products = Product::all();
+
 
             switch ($role) {
                 case 'vendor':
                     $vendor = Vendor::where('user_id', $user->id)->first();
                     if ($vendor) {
-                        return view('vendor.dashboard', compact('vendor', 'categories'));
+                        return view('vendor.dashboard', compact('vendor', 'categories', 'products'));
                     } else {
                         return view('welcome');
                     }
                 case 'user':
-                    return view('user.dashboard', compact('categories'));
+                    return view('user.dashboard', compact('categories', 'products'));
                 case 'admin':
-                    return view('admin.dashboard', compact('totalUsers', 'users', 'vendors', 'totalVendors', 'categories'));
+                    return view('admin.dashboard', compact('totalUsers', 'users', 'vendors', 'totalVendors', 'categories', 'products'));
                 default:
                     return view('welcome');
             }

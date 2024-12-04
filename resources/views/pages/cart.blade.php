@@ -10,14 +10,8 @@
 </div>
 <br>
 
+<x-cart.cart-item :cartItems="$cartItems" />
 
+<x-cart.cart-totals :subtotal="$cartItems->sum(fn($item) => $item->price * $item->quantity)" />
 
-            
-        <x-cart.cart-item :cartItems="$cartItems" />
-
-        
-        <x-cart.cart-totals :subtotal="$cartItems->sum(fn($item) => $item->price * $item->quantity)" />
-        
-
-    
- @endsection
+@endsection

@@ -40,19 +40,21 @@
     'resources/js/product_list.js',
 
     'resources/css/product_details.css',
-    'resources/css/cart.css'
+    'resources/css/cart.css',
+    'resources/js/search.js',
+    'resources/css/search.js',
 
 
-    
+
     ])
-    
+
 
     <!-- fontawsome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/brands.min.css">
 
     <!-- Stripe -->
-    <script src="https://js.stripe.com/v3/"></script>
+    @livewireStyles
 </head>
 
 <body>
@@ -76,20 +78,50 @@
         </nav>
 
         <div class="main-icons">
-            <a href="#"><i class="fas fa-search"></i></a>
+
+            <a href="#search-modal" class="open-search-modal">
+                <i class="fas fa-search"></i>
+            </a>
+
             <a href="{{route('pages.cart')}}"><i class="fas fa-shopping-cart"></i></a>
             <a href="{{route('login')}}"><i class="fas fa-user"></i></a>
         </div>
     </header>
 
+
+    <div id="search-modal" class="search-modal">
+        <div class="search-modal-content">
+            <!-- Close Button -->
+            <a href="#" class="close">&times;</a>
+
+            <!-- Search Bar -->
+            <form action="{{ route('search') }}" method="GET" class="search-bar" id="search-form">
+                <select name="category" id="category-select">
+                    <option value="all">All Categories</option>
+                    @foreach ($categories as $category)
+                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    @endforeach
+                </select>
+                <input type="text" name="query" placeholder="Search..." id="search-input" required>
+                <button type="submit" class="search-btn">Search</button>
+            </form>
+
+            <!-- Placeholder for search results -->
+            <div id="search-results">
+                <p>Type a letter to search for products</p>
+            </div>
+        </div>
+    </div>
+
+
     <!-- Page Contents -->
-   <div class="page-content pt-[87px]">
+    <div class="page-content pt-[87px]">
         @yield('pages')
-        
-   </div>
+        @livewireScripts
+    </div>
 
 
- <!-- Footer -->
+    <!-- Footer -->
     <footer class="footer-container">
         <div class="footer-content">
             <!-- Logo and Description -->
@@ -150,6 +182,28 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        document.getElementById('search-form').addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent the form from submitting normally
+
+            const formData = new FormData(this);
+            const searchResults = document.getElementById('search-results');
+
+            fetch("{{ route('search') }}", {
+                    method: 'GET',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                    },
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    searchResults.innerHTML = data.html;
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    </script>
 
 </body>
 

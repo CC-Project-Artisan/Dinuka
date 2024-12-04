@@ -11,11 +11,6 @@
             <label><input type="radio" name="shipping" checked> Flat rate (Rs.100)</label>
             <label><input type="radio" name="shipping"> Free shipping</label>
             <label><input type="radio" name="shipping"> Local pickup</label>
-        
-        
-        
-        
-        
         </span>
     </div>
 
