@@ -45,7 +45,7 @@ class ExhibitionAccepted extends Notification
                 'name' => $this->exhibition->exhibition_name,
                 'status' => 'Approved',
                 'date_accepted' => now()->format('Y-m-d H:i:s'),
-                'view_url' => route('exhibitions.show', $this->exhibition->id)
+                
             ]
         ];
     }
