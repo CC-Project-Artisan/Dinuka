@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Vendor;
+use App\Models\Product;
 use App\Models\Exhibition;
 use App\Models\ExhibitionContact;
 use App\Models\ExhibitionEmail;
@@ -79,6 +80,8 @@ class PageController extends Controller
                 WHEN status = 'rejected' THEN 3 
                 ELSE 4 END")
                 ->paginate(2);
+
+            $products = Product::all();
 
 
             switch ($role) {

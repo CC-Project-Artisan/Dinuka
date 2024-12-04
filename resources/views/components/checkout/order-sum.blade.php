@@ -17,7 +17,7 @@
     <div class="tot">
         <div class="tot-ro">
             <span>Subtotal</span>
-            <span>Rs. {{ number_format($subtotal, 2) }}</span>
+            <span>Rs. {{ $subtotal }}</span>
         </div>
         <div class="tot-ro">
             <span>Shipping</span>
@@ -25,7 +25,9 @@
         </div>
         <div class="tot-ro tot">
             <strong>Total</strong>
-            <strong>LKR Rs. {{ number_format($subtotal + 100, 2) }}</strong>
+            <strong>
+                LKR Rs. {{ $subtotal + 100 }}
+            </strong>
         </div>
     </div>
 </div>

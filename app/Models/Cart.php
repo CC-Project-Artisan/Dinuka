@@ -29,8 +29,11 @@ class Cart extends Model
         return $this->belongsTo(User::class);
     }
 
+
+
     // public function getSubtotalAttribute()
     // {
     //     return $this->quantity * $this->price;
     // }
+    
 }

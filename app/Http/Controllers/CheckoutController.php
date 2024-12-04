@@ -8,8 +8,12 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Support\Facades\Auth;
 use Stripe\Stripe;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Stripe\PaymentIntent;
 use App\Models\Cart;
+use App\Models\Delivery;
+use App\Models\SavedDeliveryData;
 
 class CheckoutController extends Controller
 {
@@ -20,11 +24,21 @@ class CheckoutController extends Controller
         $subtotal = 0;
 
         if (Auth::check()) {
-            // Get cart items for authenticated user
             $cartItems = Cart::where('user_id', Auth::id())->with('product')->get();
-            $subtotal = $cartItems->sum(fn ($item) => $item->price * $item->quantity);
+
+            foreach ($cartItems as $item) {
+                Log::info('Cart Item:', [
+                    'quantity' => $item->quantity,
+                    'price' => optional($item->product)->price,
+                ]);
+            }
+            $subtotal = $cartItems->sum(function ($item) {
+                if ($item->product) {
+                    return $item->product->productPrice * $item->quantity;
+                }
+                return 0; // Skip items without a valid product
+            });
         } else {
-            // Get cart items from session for guest user
             $cart = session()->get('cart', []);
             foreach ($cart as $item) {
                 $subtotal += $item['price'] * $item['quantity'];
@@ -32,198 +46,262 @@ class CheckoutController extends Controller
             }
         }
 
+        Log::info('Cart Items:', ['cartItems' => $cartItems->toArray()]);
+        Log::info('Subtotal:', ['subtotal' => $subtotal]);
+
         return view('pages.checkout', compact('cartItems', 'subtotal'));
-    }
-
-    // Handle delivery details submission
-    public function Delivery(Request $request)
-    {
-        // Validate delivery details
-        $request->validate([
-            'email' => 'required|email',
-            'country' => 'required',
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'address' => 'required',
-            'apartment' => 'nullable',
-            'city' => 'required',
-            'postal_code' => 'nullable',
-            'phone' => 'required',
-        ]);
-
-        // Save delivery details in session
-        session()->put('delivery_details', $request->only(
-            'email', 'country', 'first_name', 'last_name', 'address', 'apartment', 'city', 'postal_code', 'phone'
-        ));
-
-        return response()->json(['success' => true, 'message' => 'Delivery details saved.']);
     }
 
     // Handle payment processing
     public function Payment(Request $request)
     {
         Stripe::setApiKey(env('STRIPE_SECRET'));
+        Log::info('Payment request payload:', $request->all());
+
+        // Retrieve subtotal from the request
+        $subtotal = $request->input('subtotal', 0);
+
+        // Ensure subtotal is a valid numeric value
+        if (!is_numeric($subtotal)) {
+            Log::error('Invalid subtotal provided:', ['subtotal' => $subtotal]);
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid subtotal value.',
+            ]);
+        }
+
+        if ($subtotal < 50) { // Minimum order amount
+            return response()->json([
+                'success' => false,
+                'message' => 'Minimum order amount is $0.50.',
+            ]);
+        }
 
         try {
-            // Create a Payment Intent
             $paymentIntent = PaymentIntent::create([
-                'amount' => $request->total * 100,
+                'amount' => $subtotal * 100, // Convert to cents
                 'currency' => 'lkr',
-                'payment_method' => $request->payment_method,
-                'confirmation_method' => 'manual',
-                'confirm' => true,
+                'automatic_payment_methods' => ['enabled' => true],
             ]);
-
-            if ($paymentIntent->status == 'succeeded') {
-                // Retrieve delivery details and cart items from session
-                $deliveryDetails = session('delivery_details');
-                $cartItems = Auth::check()
-                    ? Cart::where('user_id', Auth::id())->get()->toArray()
-                    : session('cart', []);
-
-                if (!$deliveryDetails || !$cartItems) {
-                    return response()->json([
-                        'success' => false,
-                        'message' => 'Delivery details or cart data is missing.',
-                    ]);
-                }
-
-                // Create order and order items
-                $this->createOrder($deliveryDetails, $cartItems, $paymentIntent->id, $request->payment_method);
-
-                // Clear cart and delivery details from session
-                if (Auth::check()) {
-                    Cart::where('user_id', Auth::id())->delete();
-                } else {
-                    session()->forget('cart');
-                }
-                session()->forget('delivery_details');
-
-                return response()->json(['success' => true, 'message' => 'Payment successful!']);
-            }
-
-            return response()->json(['success' => false, 'message' => 'Payment not confirmed.']);
-        } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => $e->getMessage()]);
-        }
-    }
-
-    // Create a Payment Intent for Stripe
-    public function createPaymentIntent(Request $request)
-    {
-        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-
-        try {
-            $paymentIntent = \Stripe\PaymentIntent::create([
-                'amount' => $request->amount * 100,
+            Log::info('PaymentIntent data:', [
+                'amount' => $subtotal * 100,
                 'currency' => 'lkr',
-                'automatic_payment_methods' => [
-                    'enabled' => true,
-                    'allow_redirects' => 'never',
-                ],
             ]);
 
-            return response()->json([
-                'clientSecret' => $paymentIntent->client_secret,
+            Log::info('Payment Intent Created:', ['client_secret' => $paymentIntent->client_secret]);
+
+            // Save the order
+            $order = Order::create([
+                'user_id' => Auth::id(),
+                'email' => $request->email,
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'address' => $request->address,
+                'city' => $request->city,
+                'phone' => $request->phone,
+                'total' => $subtotal,
+                'stripe_payment_id' => $paymentIntent->id,
+                'status' => 'completed',
             ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-            ]);
-        }
-    }
 
-    // Handle payment completion
-    public function handlePaymentComplete(Request $request)
-    {
-        Stripe::setApiKey(env('STRIPE_SECRET'));
-
-        $paymentIntentId = $request->query('payment_intent');
-        $paymentStatus = $request->query('redirect_status');
-
-        if ($paymentStatus === 'succeeded') {
-            try {
-                // Retrieve the Payment Intent
-                $paymentIntent = PaymentIntent::retrieve($paymentIntentId);
-
-                // Retrieve delivery details and cart items from session
-                $deliveryDetails = session('delivery_details');
-                $cartItems = session('cart');
-
-                if (!$deliveryDetails || !$cartItems) {
-                    return redirect()->route('checkout')->with('error', 'Missing delivery details or cart data.');
-                }
-
-                // Save order in the database
-                $order = Order::create([
-                    'user_id' => Auth::id(),
-                    'email' => $deliveryDetails['email'],
-                    'first_name' => $deliveryDetails['first_name'],
-                    'last_name' => $deliveryDetails['last_name'],
-                    'address' => $deliveryDetails['address'],
-                    'city' => $deliveryDetails['city'],
-                    'phone' => $deliveryDetails['phone'],
-                    'total' => collect($cartItems)->sum(fn($item) => $item['price'] * $item['quantity']),
-                    'stripe_payment_id' => $paymentIntent->id,
-                    'status' => 'completed',
+            // Save order items
+            $cartItems = json_decode($request->input('cartItems'), true);
+            foreach ($cartItems as $item) {
+                OrderItem::create([
+                    'order_id' => $order->id,
+                    'product_id' => $item['product_id'],
+                    'quantity' => $item['quantity'],
+                    'price' => $item['price'],
                 ]);
-
-                // Save order items in the database
-                foreach ($cartItems as $item) {
-                    OrderItem::create([
-                        'order_id' => $order->id,
-                        'product_id' => $item['id'],
-                        'quantity' => $item['quantity'],
-                        'price' => $item['price'],
-                    ]);
-                }
-
-                // Clear cart and delivery details from session
-                session()->forget('cart');
-                session()->forget('delivery_details');
-
-                return redirect()->route('payment.success')->with('success', 'Payment successful! Your order has been placed.');
-            } catch (\Exception $e) {
-                return redirect()->route('checkout')->with('error', 'An error occurred while processing the payment: ' . $e->getMessage());
             }
-        }
 
-        return redirect()->route('payment.failed')->with('error', 'Payment failed. Please try again.');
+            return response()->json([
+                'success' => true,
+                'client_secret' => $paymentIntent->client_secret,
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Payment processing error:', ['error' => $e->getMessage()]);
+            return response()->json([
+                'success' => false,
+                'message' => 'Payment processing error. Please try again.',
+            ]);
+        }
     }
 
-    /**
-     * Create an order in the database.
-     */
-    private function createOrder($deliveryDetails, $cartItems, $paymentId, $paymentMethod)
+    //Save delivery details
+    public function saveDeliveryDetails(Request $request)
     {
-        // Step 1: Create the Order
-        $order = Order::create([
-            'user_id' => Auth::id() ?? null,
-            'email' => $deliveryDetails['email'],
-            'first_name' => $deliveryDetails['first_name'] ?? null,
-            'last_name' => $deliveryDetails['last_name'],
-            'address' => $deliveryDetails['address'],
-            'apartment' => $deliveryDetails['apartment'] ?? null,
-            'city' => $deliveryDetails['city'],
-            'country' => $deliveryDetails['country'],
-            'postal_code' => $deliveryDetails['postal_code'] ?? null,
-            'phone' => $deliveryDetails['phone'],
-            'stripe_payment_id' => $paymentId,
-            'payment_method' => $paymentMethod,
-            'total' => collect($cartItems)->sum(fn($item) => $item['price'] * $item['quantity']),
-            'status' => 'pending',
+        $request->validate([
+            'email' => 'required|email',
+            'country' => 'required|string',
+            'first_name' => 'nullable|string',
+            'last_name' => 'required|string',
+            'address' => 'required|string',
+            'city' => 'required|string',
+            'phone' => 'required|string',
+            'postal_code' => 'nullable|string',
+            'apartment' => 'nullable|string',
         ]);
 
-        // Step 2: Create Order Items
-        foreach ($cartItems as $item) {
-            OrderItem::create([
-                'order_id' => $order->id,
-                'product_id' => $item['product_id'],
-                'quantity' => $item['quantity'],
-                'price' => $item['price'],
-            ]);
-        }
+        $delivery = Delivery::create([
+            'user_id' => Auth::id(),
+            'email' => $request->email,
+            'country' => $request->country,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'address' => $request->address,
+            'city' => $request->city,
+            'phone' => $request->phone,
+            'postal_code' => $request->postal_code,
+            'apartment' => $request->apartment,
+        ]);
 
-        return $order;
+        return response()->json([
+            'success' => true,
+            'message' => 'Delivery details saved successfully.',
+        ]);
     }
+
+    // public function Payment(Request $request)
+    // {
+    //     Stripe::setApiKey(env('STRIPE_SECRET'));
+    //     Log::info('Payment request payload:', $request->all());
+
+    //     // Retrieve subtotal from the request
+    //     $subtotal = $request->input('subtotal', 0);
+
+    //     // Ensure subtotal is a valid numeric value
+    //     if (!is_numeric($subtotal)) {
+    //         Log::error('Invalid subtotal provided:', ['subtotal' => $subtotal]);
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => 'Invalid subtotal value.',
+    //         ]);
+    //     }
+
+    //     if ($subtotal < 50) { // Minimum order amount
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => 'Minimum order amount is $0.50.',
+    //         ]);
+    //     }
+
+    //     try {
+    //         $paymentIntent = PaymentIntent::create([
+    //             'amount' => $subtotal * 100, // Convert to cents
+    //             'currency' => 'lkr',
+    //             'automatic_payment_methods' => ['enabled' => true],
+    //         ]);
+    //         Log::info('PaymentIntent data:', [
+    //             'amount' => $subtotal * 100,
+    //             'currency' => 'lkr',
+    //         ]);
+
+    //         Log::info('Payment Intent Created:', ['client_secret' => $paymentIntent->client_secret]);
+
+    //         // Save the order
+    //         Orders::create([
+    //             'user_id' => Auth::id(),
+    //             'email' => $request->email,
+    //             'first_name' => $request->first_name,
+    //             'last_name' => $request->last_name,
+    //             'address' => $request->address,
+    //             'city' => $request->city,
+    //             'phone' => $request->phone,
+    //             'total' => $subtotal,
+    //             'stripe_payment_id' => $paymentIntent->id,
+    //             'status' => 'completed',
+    //         ]);
+
+    //         return response()->json([
+    //             'success' => true,
+    //             'client_secret' => $paymentIntent->client_secret,
+    //         ]);
+
+    //     } catch (\Exception $e) {
+    //         Log::error('Payment processing error:', ['error' => $e->getMessage()]);
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => $e->getMessage(),
+    //         ]);
+    //     }
+    // }
+
+    // Handle payment completion
+
+
+    // public function handlePaymentComplete(Request $request)
+    // {
+    //     Stripe::setApiKey(env('STRIPE_SECRET'));
+
+    //     $paymentIntentId = $request->query('payment_intent');
+    //     $paymentStatus = $request->query('redirect_status');
+
+    //     if ($paymentStatus === 'succeeded') {
+    //         try {
+    //             DB::beginTransaction(); // Start a database transaction
+
+    //             $deliveryDetails = session('delivery_details');
+    //             $cartItems = Auth::check()
+    //                 ? Cart::where('user_id', Auth::id())->with('product')->get()
+    //                 : session('cart', []);
+
+    //             if (!$cartItems || count($cartItems) === 0) {
+    //                 throw new \Exception('Cart is empty. Unable to process the order.');
+    //             }
+
+    //             if (!$deliveryDetails) {
+    //                 throw new \Exception('Delivery details are missing. Unable to process the order.');
+    //             }
+
+    //             // Calculate subtotal
+    //             $subtotal = $cartItems->sum(fn($item) => optional($item->product)->productPrice * $item->quantity);
+
+    //             // Save the order
+    //             $order = Orders::create([
+    //                 'user_id' => Auth::id(),
+    //                 'email' => $request->email,
+    //                 'first_name' => $request->first_name,
+    //                 'last_name' => $request->last_name,
+    //                 'address' => $request->address,
+    //                 'city' => $request->city,
+    //                 'phone' => $request->phone,
+    //                 'total' => $subtotal,
+    //                 'stripe_payment_id' => $paymentIntentId,
+    //                 'status' => 'completed',
+    //             ]);
+
+    //             // Save order items
+    //             foreach ($cartItems as $item) {
+    //                 if ($item->product) {
+    //                     OrderItem::create([
+    //                         'order_id' => $order->id,
+    //                         'product_id' => $item->product->id,
+    //                         'quantity' => $item->quantity,
+    //                         'price' => $item->product->productPrice,
+    //                     ]);
+    //                 }
+    //             }
+
+    //             // Clear the cart and session data
+    //             if (Auth::check()) {
+    //                 Cart::where('user_id', Auth::id())->delete();
+    //             } else {
+    //                 session()->forget('cart');
+    //             }
+
+    //             session()->forget('delivery_details');
+
+    //             DB::commit();
+
+    //             return redirect()->route('payment.success')->with('success', 'Payment successful! Order placed.');
+    //         } catch (\Exception $e) {
+    //             DB::rollBack();
+    //             Log::error('Order creation failed:', ['error' => $e->getMessage()]);
+    //             return redirect()->route('pages.checkout')->withErrors('Order creation failed: ' . $e->getMessage());
+    //         }
+    //     }
+
+    //     return redirect()->route('payment.failed')->withErrors('Payment failed. Please try again.');
+    // }
 }
