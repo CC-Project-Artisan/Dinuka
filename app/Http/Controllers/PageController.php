@@ -95,7 +95,8 @@ class PageController extends Controller
                                 'categories',
                                 'exhibitions',
                                 'exhibitionContacts',
-                                'exhibitionEmails'
+                                'exhibitionEmails',
+                                'products'
                             )
                         );
                     } else {
@@ -108,7 +109,8 @@ class PageController extends Controller
                             'categories',
                             'exhibitions',
                             'exhibitionContacts',
-                            'exhibitionEmails'
+                            'exhibitionEmails',
+                            'products'
                         )
                     );
                 case 'admin':
@@ -122,7 +124,8 @@ class PageController extends Controller
                             'categories',
                             'exhibitions',
                             'exhibitionContacts',
-                            'exhibitionEmails'
+                            'exhibitionEmails',
+                            'products'
                         )
                     );
                 default:

@@ -131,6 +131,35 @@ class CheckoutController extends Controller
     //Save delivery details
     public function saveDeliveryDetails(Request $request)
     {
+        // $request->validate([
+        //     'email' => 'required|email',
+        //     'country' => 'required|string',
+        //     'first_name' => 'nullable|string',
+        //     'last_name' => 'required|string',
+        //     'address' => 'required|string',
+        //     'city' => 'required|string',
+        //     'phone' => 'required|string',
+        //     'postal_code' => 'nullable|string',
+        //     'apartment' => 'nullable|string',
+        // ]);
+
+        // $delivery = Delivery::create([
+        //     'user_id' => Auth::id(),
+        //     'email' => $request->email,
+        //     'country' => $request->country,
+        //     'first_name' => $request->first_name,
+        //     'last_name' => $request->last_name,
+        //     'address' => $request->address,
+        //     'city' => $request->city,
+        //     'phone' => $request->phone,
+        //     'postal_code' => $request->postal_code,
+        //     'apartment' => $request->apartment,
+        // ]);
+
+        // return response()->json([
+        //     'success' => true,
+        //     'message' => 'Delivery details saved successfully.',
+        // ]);
         $request->validate([
             'email' => 'required|email',
             'country' => 'required|string',
@@ -143,18 +172,10 @@ class CheckoutController extends Controller
             'apartment' => 'nullable|string',
         ]);
 
-        $delivery = Delivery::create([
-            'user_id' => Auth::id(),
-            'email' => $request->email,
-            'country' => $request->country,
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'address' => $request->address,
-            'city' => $request->city,
-            'phone' => $request->phone,
-            'postal_code' => $request->postal_code,
-            'apartment' => $request->apartment,
-        ]);
+        Delivery::updateOrCreate(
+            ['user_id' => Auth::id()],
+            $request->only('email', 'country', 'first_name', 'last_name', 'address', 'city', 'phone', 'postal_code', 'apartment')
+        );
 
         return response()->json([
             'success' => true,

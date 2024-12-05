@@ -72,13 +72,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/update-store-details', [VendorController::class, 'updateStoreDetails'])->name('vendor.update');
         Route::get('/create-listing', [ProductController::class, 'index'])->name('product.create');
         Route::post('/store-listing', [ProductController::class, 'store'])->name('product.store');
-        Route::get('/vendor/products/edit/{id}', [ProductController::class, 'edit'])->name('vendor.products.edit'); 
-        Route::post('/vendor/products/update/{id}', [ProductController::class, 'update'])->name('vendor.products.update'); 
-        Route::delete('/vendor/products/delete/{id}', [ProductController::class, 'destroy'])->name('vendor.products.delete'); 
-        
+        Route::get('/vendor/products/edit/{id}', [ProductController::class, 'edit'])->name('vendor.products.edit');
+        Route::post('/vendor/products/update/{id}', [ProductController::class, 'update'])->name('vendor.products.update');
+        Route::delete('/vendor/products/delete/{id}', [ProductController::class, 'destroy'])->name('vendor.products.delete');
 
 
-        
+
+
         //Exhibition Routes
         // Route::get('/exhibitions/form', [ExhibitionController::class, 'create'])->name('exhibition.create');
         // Route::post('/exhibitions', [ExhibitionController::class, 'store'])->name('exhibitions.store');
@@ -103,7 +103,6 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/admin/users/{user}/deactivate', [AdminController::class, 'deactivateUser'])->name('admin.users.deactivate');
     Route::post('/admin/users/{user}/activate', [AdminController::class, 'activateUser'])->name('admin.users.activate');
-    
 });
 
 //Product Routes

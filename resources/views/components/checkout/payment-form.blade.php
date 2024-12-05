@@ -1,56 +1,45 @@
-@extends('layouts.frontend')
-
-@section('pages')
-
-<div class="breadcrumb-bar">
-    <div class="breadcrumb-title">CHECKOUT</div>
-    <div class="breadcrumb-nav">
-        <a href="{{ route('welcome') }}">Home</a> &gt;
-        <a href="{{ route('pages.shop') }}">Cart</a> &gt;
-        <a href="{{ route('pages.checkout') }}">Checkout</a>
+<div>
+    <div class="payment-section">
+        <h2>Payment Method</h2>
+        <div id="card-element" class="input-ar">
+            <!-- Stripe card element will be mounted here -->
+        </div>
+        <div id="card-errors" role="alert" style="color: red;"></div>
     </div>
-</div>
-<br>
-
-<div class="checkout-container">
-
-    <input type="hidden" name="total" value="{{ $subtotal + 100 }}">
-
-    <!-- Order Summary -->
-    <x-checkout.ordersum-drop :cartItems="$cartItems" :subtotal="$subtotal" />
-
-    <!-- Delivery Form -->
-    @livewire('checkout-form', ['subtotal' => $subtotal, 'cartItems' => $cartItems])
-
-    <!-- Final Order Summary -->
-    <x-checkout.order-sum :cartItems="$cartItems" :subtotal="$subtotal" />
-
+    <button id="submit-button" type="submit" class="btn btn-primary">Pay</button>
 </div>
 
-<!-- <script src="https://js.stripe.com/v3/"></script>
+<script src="https://js.stripe.com/v3/"></script>
 <script>
     // Initialize Stripe
     document.addEventListener("DOMContentLoaded", () => {
+        console.log("Initializing Stripe...");
         // Initialize Stripe
         const apperance = {};
-        const options = { layout: 'accordion' }
+        const options = {
+            layout: 'accordion'
+        }
         const stripe = Stripe("{{ config('services.stripe.key') }}");
         const elements = stripe.elements(apperance);
         const cardElement = elements.create('card', options);
         cardElement.mount('#card-element');
 
-        const paymentForm = document.getElementById('payment-form');
+        const paymentFormBtn = document.getElementById('submit-button');
+        console.log("Payment form btn:", paymentFormBtn);
+
+        const form = document.getElementById('form-data');
 
 
-        if (paymentForm) {
-            paymentForm.addEventListener('submit', async (event) => {
+        if (paymentFormBtn) {
+            console.log("Payment form found!");
+            paymentFormBtn.addEventListener('click', async (event) => {
                 event.preventDefault();
                 console.log("Starting payment process...");
 
-                const formData = new FormData(paymentForm);
+                const formData = new FormData(form);
                 try {
                     // Create PaymentIntent
-                    const response = await fetch(paymentForm.action, {
+                    const response = await fetch('/checkout/payment', {
                         method: 'POST',
                         body: formData,
                         headers: {
@@ -114,37 +103,36 @@
             });
         }
 
-        const deliveryForm = document.getElementById('delivery-form');
-        if (deliveryForm) {
-            deliveryForm.addEventListener('submit', async (event) => {
-                event.preventDefault();
+        // Save delivery details
+        //     const deliveryForm = document.getElementById('delivery-form');
+        //     if (deliveryForm) {
+        //         deliveryForm.addEventListener('submit', async (event) => {
+        //             event.preventDefault();
 
-                const formData = new FormData(deliveryForm);
+        //             const formData = new FormData(deliveryForm);
 
-                try {
-                    const response = await fetch(deliveryForm.action, {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'X-Requested-With': 'XMLHttpRequest'
-                        },
-                    });
+        //             try {
+        //                 const response = await fetch(deliveryForm.action, {
+        //                     method: 'POST',
+        //                     body: formData,
+        //                     headers: {
+        //                         'X-Requested-With': 'XMLHttpRequest'
+        //                     },
+        //                 });
 
-                    const data = await response.json();
-                    console.log("Delivery form response:", data);
+        //                 const data = await response.json();
+        //                 console.log("Delivery form response:", data);
 
-                    if (data.success) {
-                        alert("Delivery details saved successfully!");
-                    } else {
-                        alert("Failed to save delivery details: " + data.message);
-                    }
-                } catch (error) {
-                    console.error("Error saving delivery details:", error);
-                    alert("An error occurred while saving delivery details. Please try again.");
-                }
-            });
-        }
+        //                 if (data.success) {
+        //                     alert("Delivery details saved successfully!");
+        //                 } else {
+        //                     alert("Failed to save delivery details: " + data.message);
+        //                 }
+        //             } catch (error) {
+        //                 console.error("Error saving delivery details:", error);
+        //                 alert("An error occurred while saving delivery details. Please try again.");
+        //             }
+        //         });
+        //     }
     });
-</script> -->
-
-@endsection
+</script>

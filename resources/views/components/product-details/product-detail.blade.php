@@ -2,12 +2,12 @@
 <div class="product-display-container">
     <div class="product-image-container">
         <img src="{{ asset('images/' . json_decode($product->productImages)[0]) }}" 
-             alt="{{ $productName }}">
+             alt="{{ $product->productName }}">
     </div>
 
     <div class="product-details-container">
-        <h2 class="product-title">{{ $productName }}</h2>
-        <p class="product-price">Rs.{{ number_format($productPrice) }}</p>
+        <h2 class="product-title">{{ $product->productName }}</h2>
+        <p class="product-price">Rs.{{ number_format($product->productPrice) }}</p>
         <p class="product-description">{{ $product->productDescription }}</p>
 
         <form action="{{ route('cart.add', $product->id) }}" method="POST">
