@@ -111,7 +111,7 @@
         <!-- Main Content -->
         <div class="u-dashboard-content-wrapper">
             <!-- Dashboard page -->
-            <div id="dashboard" class="hidden ud-page-wrapper">
+            <div id="dashboard" class="ud-page-wrapper">
                 <div class="p-6 bg-white rounded shadow ud-dashboard-page">
                     <div class="flex">
                         <div class="ud-profile-image-wrapper">
@@ -147,7 +147,7 @@
             </div>
 
             <!-- My advert page -->
-            <div id="myAdverts" class=" ud-page-wrapper">
+            <div id="myAdverts" class=" ud-page-wrapper hidden">
                 <x-compo.search
                     :text="'Status'"
                     :options="['all' => 'All', 'live' => 'Live', 'rejected' => 'Rejected']"
@@ -185,7 +185,7 @@
             </div>
 
             <!-- notifications -->
-            <div id="myNotifications" class="ud-page-wrapper">
+            <div id="myNotifications" class="ud-page-wrapper hidden">
                 <h2 class="text-2xl font-bold text-blue-900">My Notifications</h2>
                 <ul>
                     @forelse (Auth::user()->notifications as $notification)
