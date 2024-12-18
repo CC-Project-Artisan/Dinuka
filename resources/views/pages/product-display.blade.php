@@ -12,7 +12,7 @@
 <br>
 
 <div class="container px-4 mx-auto">
-    <x-product-details.product-detail :product="$product"/>
-    <x-product-details.product-info :product="$product"/>
+    <x-product-details.product-detail :product="$product" />
+    <x-product-details.product-info :product="$product" />
 </div>
 @endsection

@@ -11,6 +11,8 @@ use App\Models\Product;
 use App\Models\Exhibition;
 use App\Models\ExhibitionContact;
 use App\Models\ExhibitionEmail;
+use App\Models\Order;
+use App\Models\OrderItem;
 
 class PageController extends Controller
 {
@@ -52,7 +54,8 @@ class PageController extends Controller
 
     public function exhibition()
     {
-        return view('pages.exhibition');
+        $exhibitions = Exhibition::all();
+        return view('pages.exhibition', compact('exhibitions'));
     }
 
     //Dashboard
@@ -72,6 +75,8 @@ class PageController extends Controller
             // $exhibitions = Exhibition::all();
             $exhibitionContacts = ExhibitionContact::all();
             $exhibitionEmails = ExhibitionEmail::all();
+            $orders = Order::all();
+            $orderItems = OrderItem::all();
 
             // Order by pending status first, then paginate
             $exhibitions = Exhibition::orderByRaw("CASE 
@@ -96,7 +101,9 @@ class PageController extends Controller
                                 'exhibitions',
                                 'exhibitionContacts',
                                 'exhibitionEmails',
-                                'products'
+                                'products',
+                                'orders',
+                                'orderItems',
                             )
                         );
                     } else {
@@ -110,7 +117,9 @@ class PageController extends Controller
                             'exhibitions',
                             'exhibitionContacts',
                             'exhibitionEmails',
-                            'products'
+                            'products',
+                            'orders',
+                            'orderItems',
                         )
                     );
                 case 'admin':
@@ -125,7 +134,9 @@ class PageController extends Controller
                             'exhibitions',
                             'exhibitionContacts',
                             'exhibitionEmails',
-                            'products'
+                            'products',
+                            'orders',
+                            'orderItems',
                         )
                     );
                 default:

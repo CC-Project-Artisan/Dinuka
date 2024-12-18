@@ -84,7 +84,7 @@
         <button id="submit-button" type="submit" class="btn btn-primary">Pay</button>
     </form> -->
 
-    <div class="left-section">
+    <div class="left-section" id="delivery-form">
         <!-- Delivery Details Form -->
         @livewire('checkout-form', ['subtotal' => $subtotal, 'cartItems' => $cartItems])
 

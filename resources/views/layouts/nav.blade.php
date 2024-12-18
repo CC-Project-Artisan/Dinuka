@@ -2,7 +2,7 @@
 <header class="main-nav" id="main-nav">
     <a href="{{ route('welcome') }}" class="main-logo">{{config('app.name')}}</a>
 
-    <!-- Hamburger Icon for Mobile Toggle -->
+   
     <div class="menu-toggle" id="menu-toggle">
         <i class="fas fa-bars"></i>
     </div>

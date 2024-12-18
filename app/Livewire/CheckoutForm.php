@@ -53,10 +53,21 @@ class CheckoutForm extends Component
         Stripe::setApiKey(env('STRIPE_SECRET'));
 
         try {
+            // $paymentIntent = PaymentIntent::create([
+            //     'amount' => $this->subtotal * 100, // Convert to cents
+            //     'currency' => 'lkr',
+            //     'automatic_payment_methods' => ['enabled' => true],
+            // ]);
             $paymentIntent = PaymentIntent::create([
                 'amount' => $this->subtotal * 100, // Convert to cents
                 'currency' => 'lkr',
-                'automatic_payment_methods' => ['enabled' => true],
+                'automatic_payment_methods' => [
+                    'enabled' => true,
+                    'allow_redirects' => 'never'
+                ],
+                'return_url' => route('pages.shop'), // Add return_url
+                'confirm' => true,
+
             ]);
 
             $this->clientSecret = $paymentIntent->client_secret;

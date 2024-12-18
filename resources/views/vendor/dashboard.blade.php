@@ -147,35 +147,37 @@
             </div>
 
             <!-- My advert page -->
-            <div id="myAdverts" class=" ud-page-wrapper">
+            <div id="myAdverts" class="hidden  ud-page-wrapper">
                 <x-compo.search
                     :text="'Status'"
                     :options="['all' => 'All', 'live' => 'Live', 'rejected' => 'Rejected']"
                     :keyword="request('keyword', '')"
                     :placeholder="'Search adverts...'" />
-                    
-                     @if(session('success'))
-                        <div class="alert alert-success">
-                            {{ session('success') }}
-                        </div>
-                    @endif
 
-                    @if(session('error'))
-                        <div class="alert alert-danger">
-                            {{ session('error') }}
-                        </div>
-                    @endif
-                    @forelse ($products as $product)
-                        <x-vendor.vendor-ad :product="$product" />
-                    @endforeach
-                    
+                @if(session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+                @endif
 
+                @if(session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+                @endif
+
+                @forelse ($products as $product)
+                <div class="mb-4">
+                    <x-vendor.vendor-ad :product="$product" />
+                </div>
+                @empty
                 <div class="ud-empty-body">
                     <i class="fa-solid fa-magnifying-glass text-[#6C757D] text-[80px]"></i>
                     <h2 class="text-[#6C757D] text-[40px] font-bold">No adverts found</h2>
                     <span class="text-[#6C757D]">We couldn't find any records. Try changing search filters</span>
                     <a href="{{ route('product.create') }}" class="border border-customBrown text-customBrown px-7 py-2 rounded-[50px] hover:shadow-4xl hover:bg-customBrown hover:text-white transition-all duration-300 ease-in-out">Create a new advert</a>
                 </div>
+                @endforelse
             </div>
 
             <!-- messages -->
@@ -185,7 +187,7 @@
             </div>
 
             <!-- notifications -->
-            <div id="myNotifications" class="ud-page-wrapper">
+            <div id="myNotifications" class="hidden ud-page-wrapper">
                 <h2 class="text-2xl font-bold text-blue-900">My Notifications</h2>
                 <ul>
                     @forelse (Auth::user()->notifications as $notification)
@@ -197,24 +199,47 @@
             </div>
 
             <!-- orders -->
-            <div id="myOrders" class="hidden ud-page-wrapper">
+            <div id="myOrders" class="ud-page-wrapper">
                 <x-compo.search
                     :text="'Advert'"
                     :options="['all' => 'All', 'live' => 'Live', 'rejected' => 'Rejected']"
                     :keyword="request('keyword', '')"
                     :placeholder="'Search adverts...'" />
-                <x-user.user-order />
+
+
+
+                <!-- filepath: dashboard.blade.php -->
+                @forelse ($orders as $order)
+                @foreach ($order->orderItems as $orderItem)
+                <div class="mb-4">
+                    <x-vendor.vendor-order :order="$order" :orderItem="$orderItem" :product="$orderItem->product" />
+                </div>
+                @endforeach
+                @empty
+                <div class="ud-empty-body">
+                    <i class="fa-solid fa-magnifying-glass text-[#6C757D] text-[80px]"></i>
+                    <h2 class="text-[#6C757D] text-[40px] font-bold">No orders found</h2>
+                    <span class="text-[#6C757D]">We couldn't find any records. Try changing search filters</span>
+                </div>
+                @endforelse
             </div>
 
             <!-- exhibitions -->
             <div id="myExhibitions" class="hidden ud-page-wrapper">
-                <x-vendor.exhibition-card />
-                <div class="ud-empty-body" >
+                <div class="p-6 mb-4 bg-white rounded shadow">
+                    <h2 class="text-2xl font-bold text-blue-900">My Exhibitions</h2>
+                    <a href="{{ route('exhibition.create') }}" class="ud-btn">Create new exhibition</a>
+                </div>
+                @forelse($exhibitions as $exhibition)
+                <livewire:vendor.exhition-card :exhibition-id="$exhibition->id" />
+                @empty
+                <div class="ud-empty-body">
                     <i class="fa-solid fa-magnifying-glass text-[#6C757D] text-[80px]"></i>
                     <h2 class="text-[#6C757D] text-[40px] font-bold">No exhibition found</h2>
                     <span class="text-[#6C757D]">We couldn't find any records. Try create new exhibition post.</span>
                     <a href="{{ route('exhibition.create') }}" id="newadvert"  class="border bg-customRed text-customBrown px-7 py-2 rounded-[50px] hover:shadow-4xl transition-all duration-300 ease-in-out" >Create a new advert</a>
                 </div>
+                @endforelse
             </div>
 
             <!-- saved Ad -->

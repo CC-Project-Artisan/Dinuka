@@ -1,8 +1,7 @@
 @props(['product', 'productId', 'productName', 'productPrice', 'productImage'])
 <div class="product-display-container">
     <div class="product-image-container">
-        <img src="{{ asset('images/' . json_decode($product->productImages)[0]) }}" 
-             alt="{{ $product->productName }}">
+        <img src="{{ asset('images/' . json_decode($product->productImages)[0]) }}" alt="{{ $product->productName }}">
     </div>
 
     <div class="product-details-container">
