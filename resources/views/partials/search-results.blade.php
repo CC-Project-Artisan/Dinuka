@@ -1,4 +1,4 @@
-@if ($products->isEmpty())
+<!-- @if ($products->isEmpty())
     <p>No products found</p>
 @else
     <div class="product-grid">
@@ -18,4 +18,4 @@
             </div>
         @endforeach
     </div>
-@endif
+@endif -->

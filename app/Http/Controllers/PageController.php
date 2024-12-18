@@ -52,7 +52,8 @@ class PageController extends Controller
 
     public function exhibition()
     {
-        return view('pages.exhibition');
+        $exhibitions = Exhibition::all();
+        return view('pages.exhibition', compact('exhibitions'));
     }
 
     //Dashboard

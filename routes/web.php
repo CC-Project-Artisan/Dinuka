@@ -10,6 +10,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\WebhookController;
+use App\Livewire\Vendor\EditExhibition;
+use App\Livewire\Exhibition\VendorRegistrationForm;
 
 use App\Http\Controllers\ExhibitionController;
 use Illuminate\Support\Facades\Route;
@@ -76,19 +78,28 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/vendor/products/update/{id}', [ProductController::class, 'update'])->name('vendor.products.update');
         Route::delete('/vendor/products/delete/{id}', [ProductController::class, 'destroy'])->name('vendor.products.delete');
 
-
-
-
         //Exhibition Routes
         // Route::get('/exhibitions/form', [ExhibitionController::class, 'create'])->name('exhibition.create');
         // Route::post('/exhibitions', [ExhibitionController::class, 'store'])->name('exhibitions.store');
     });
 });
 
+//Exhibition Routes
 Route::middleware(['auth'])->group(function () {
     Route::get('/exhibitions/form', [ExhibitionController::class, 'create'])->name('exhibition.create');
     Route::post('/exhibitions', [ExhibitionController::class, 'store'])->name('exhibitions.store');
+    Route::get('/vendor/exhibition/{id}/edit', [ExhibitionController::class, 'edit'])->name('exhibition.edit');
+    Route::post('/exhibitions/{id}/payment', [ExhibitionController::class, 'processPayment'])->name('exhibitions.processPayment');
+    
+    // redirect to the correct layout
+    Route::get('/preview', [ExhibitionController::class, 'preview'])->name('preview');
+    Route::post('/preview', [ExhibitionController::class, 'preview'])->name('preview.post');
 });
+Route::get('/exhibition/{id}', [ExhibitionController::class, 'exhibitionShow'])->name('exhibition.show');
+Route::get('/exhibition/vendor/register/{id}', [ExhibitionController::class, 'vendorRegisterExhibitionView'])->name('exhibition.vendor.register');
+Route::post('/exhibition/vendor/register', [ExhibitionController::class, 'vendorExhibitionRegisterStore'])->name('exhibition.vendor.register.store');
+Route::post('/checkout/payment', [ExhibitionController::class, 'createPaymentIntent'])->name('checkout.payment');
+Route::post('/checkout/payment-success', [ExhibitionController::class, 'handlePaymentSuccess'])->name('checkout.payment-success');
 
 // Admin Routes
 Route::middleware('auth')->group(function () {
@@ -112,9 +123,6 @@ Route::get('/product-info/{id}', [ProductController::class, 'show'])->name('page
 
 Route::get('/search', [ProductController::class, 'search'])->name('search');
 Route::get('/search-modal', [CategoryController::class, 'showSearchModal'])->name('search-modal');
-
-
-
 
 //Cart Routes
 Route::get('/cart', [CartController::class, 'index'])->name('pages.cart');

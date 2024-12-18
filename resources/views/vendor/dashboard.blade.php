@@ -111,7 +111,7 @@
         <!-- Main Content -->
         <div class="u-dashboard-content-wrapper">
             <!-- Dashboard page -->
-            <div id="dashboard" class="ud-page-wrapper">
+            <div id="dashboard" class="ud-page-wrapper hidden">
                 <div class="p-6 bg-white rounded shadow ud-dashboard-page">
                     <div class="flex">
                         <div class="ud-profile-image-wrapper">
@@ -153,22 +153,22 @@
                     :options="['all' => 'All', 'live' => 'Live', 'rejected' => 'Rejected']"
                     :keyword="request('keyword', '')"
                     :placeholder="'Search adverts...'" />
-                    
-                     @if(session('success'))
-                        <div class="alert alert-success">
-                            {{ session('success') }}
-                        </div>
-                    @endif
 
-                    @if(session('error'))
-                        <div class="alert alert-danger">
-                            {{ session('error') }}
-                        </div>
-                    @endif
-                    @forelse ($products as $product)
-                        <x-vendor.vendor-ad :product="$product" />
-                    @endforeach
-                    
+                @if(session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+                @endif
+
+                @if(session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+                @endif
+                @forelse ($products as $product)
+                <x-vendor.vendor-ad :product="$product" />
+                @endforeach
+
 
                 <div class="ud-empty-body">
                     <i class="fa-solid fa-magnifying-glass text-[#6C757D] text-[80px]"></i>
@@ -207,14 +207,21 @@
             </div>
 
             <!-- exhibitions -->
-            <div id="myExhibitions" class="hidden ud-page-wrapper">
-                <x-vendor.exhibition-card />
+            <div id="myExhibitions" class="ud-page-wrapper">
+                <div class="p-6 bg-white rounded shadow mb-4">
+                    <h2 class="text-2xl font-bold text-blue-900">My Exhibitions</h2>
+                    <a href="{{ route('exhibition.create') }}" class="ud-btn">Create new exhibition</a>
+                </div>
+                @forelse($exhibitions as $exhibition)
+                <livewire:vendor.exhition-card :exhibition-id="$exhibition->id" />
+                @empty
                 <div class="ud-empty-body">
                     <i class="fa-solid fa-magnifying-glass text-[#6C757D] text-[80px]"></i>
                     <h2 class="text-[#6C757D] text-[40px] font-bold">No exhibition found</h2>
                     <span class="text-[#6C757D]">We couldn't find any records. Try create new exhibition post.</span>
                     <a href="{{ route('exhibition.create') }}" class="border bg-customRed text-customBrown px-7 py-2 rounded-[50px] hover:shadow-4xl transition-all duration-300 ease-in-out">Create a new advert</a>
                 </div>
+                @endforelse
             </div>
 
             <!-- saved Ad -->

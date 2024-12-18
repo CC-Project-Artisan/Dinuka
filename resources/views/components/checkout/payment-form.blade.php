@@ -104,35 +104,35 @@
         }
 
         // Save delivery details
-        //     const deliveryForm = document.getElementById('delivery-form');
-        //     if (deliveryForm) {
-        //         deliveryForm.addEventListener('submit', async (event) => {
-        //             event.preventDefault();
+            // const deliveryForm = document.getElementById('delivery-form');
+            // if (deliveryForm) {
+            //     deliveryForm.addEventListener('submit', async (event) => {
+            //         event.preventDefault();
 
-        //             const formData = new FormData(deliveryForm);
+            //         const formData = new FormData(deliveryForm);
 
-        //             try {
-        //                 const response = await fetch(deliveryForm.action, {
-        //                     method: 'POST',
-        //                     body: formData,
-        //                     headers: {
-        //                         'X-Requested-With': 'XMLHttpRequest'
-        //                     },
-        //                 });
+            //         try {
+            //             const response = await fetch(deliveryForm.action, {
+            //                 method: 'POST',
+            //                 body: formData,
+            //                 headers: {
+            //                     'X-Requested-With': 'XMLHttpRequest'
+            //                 },
+            //             });
 
-        //                 const data = await response.json();
-        //                 console.log("Delivery form response:", data);
+            //             const data = await response.json();
+            //             console.log("Delivery form response:", data);
 
-        //                 if (data.success) {
-        //                     alert("Delivery details saved successfully!");
-        //                 } else {
-        //                     alert("Failed to save delivery details: " + data.message);
-        //                 }
-        //             } catch (error) {
-        //                 console.error("Error saving delivery details:", error);
-        //                 alert("An error occurred while saving delivery details. Please try again.");
-        //             }
-        //         });
-        //     }
+            //             if (data.success) {
+            //                 alert("Delivery details saved successfully!");
+            //             } else {
+            //                 alert("Failed to save delivery details: " + data.message);
+            //             }
+            //         } catch (error) {
+            //             console.error("Error saving delivery details:", error);
+            //             alert("An error occurred while saving delivery details. Please try again.");
+            //         }
+            //     });
+            // }
     });
 </script>
