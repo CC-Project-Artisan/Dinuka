@@ -10,6 +10,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\WebhookController;
+use App\Http\Controllers\OrderController;
 use App\Livewire\Vendor\EditExhibition;
 use App\Livewire\Exhibition\VendorRegistrationForm;
 
@@ -77,7 +78,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/vendor/products/edit/{id}', [ProductController::class, 'edit'])->name('vendor.products.edit');
         Route::post('/vendor/products/update/{id}', [ProductController::class, 'update'])->name('vendor.products.update');
         Route::delete('/vendor/products/delete/{id}', [ProductController::class, 'destroy'])->name('vendor.products.delete');
+        // Route::put('/orders/{order}/update-status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
+        // Route::get('/orders/details/{order}', [OrderController::class, 'showVendorOrderDetails'])->name('show.vendor.orders.details');
 
+        Route::get('/orders/details/{order}', [OrderController::class, 'showVendorOrderDetails'])->name('show.vendor.orders.details');
+        Route::put('/orders/{order}/update-status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
+        Route::post('/orders/{order}/courier', [OrderController::class, 'saveCourierDetails'])->name('orders.saveCourierDetails');
         //Exhibition Routes
         // Route::get('/exhibitions/form', [ExhibitionController::class, 'create'])->name('exhibition.create');
         // Route::post('/exhibitions', [ExhibitionController::class, 'store'])->name('exhibitions.store');
@@ -90,7 +96,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/exhibitions', [ExhibitionController::class, 'store'])->name('exhibitions.store');
     Route::get('/vendor/exhibition/{id}/edit', [ExhibitionController::class, 'edit'])->name('exhibition.edit');
     Route::post('/exhibitions/{id}/payment', [ExhibitionController::class, 'processPayment'])->name('exhibitions.processPayment');
-    
+
     // redirect to the correct layout
     Route::get('/preview', [ExhibitionController::class, 'preview'])->name('preview');
     Route::post('/preview', [ExhibitionController::class, 'preview'])->name('preview.post');

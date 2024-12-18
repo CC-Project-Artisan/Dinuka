@@ -6,7 +6,7 @@
         </div>
         <div id="card-errors" role="alert" style="color: red;"></div>
     </div>
-    <button id="submit-button" type="submit" class="btn btn-primary">Pay</button>
+    <button id="submit-button" type="submit" class="apply-button">Pay</button>
 </div>
 
 <script src="https://js.stripe.com/v3/"></script>

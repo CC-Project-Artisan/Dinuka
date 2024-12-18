@@ -23,6 +23,7 @@ return new class extends Migration
             $table->decimal('total', 10, 2); 
             $table->string('stripe_payment_id')->nullable(); 
             $table->string('status')->default('pending'); 
+            $table->enum('order_status', ['pending', 'accepted', 'rejected', 'processing', 'shipped', 'delivered'])->default('pending');
             $table->timestamps(); // Created and updated timestamps
         });
     }

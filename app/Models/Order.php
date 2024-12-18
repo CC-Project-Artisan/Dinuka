@@ -20,6 +20,7 @@ class Order extends Model
         'total',
         'stripe_payment_id',
         'status',
+        'order_status',
     ];
 
     public function orderItems()
@@ -34,5 +35,10 @@ class Order extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function courierDetail()
+    {
+        return $this->hasOne(OrderCourierDetails::class);
     }
 }

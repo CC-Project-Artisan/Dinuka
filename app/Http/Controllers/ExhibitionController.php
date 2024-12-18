@@ -356,33 +356,38 @@ class ExhibitionController extends Controller
     }
 
     public function createPaymentIntent(Request $request)
-{
-    // Validate total price
-    $request->validate([
-        'total_price' => 'required|numeric|min:0.5', // Ensure minimum $0.50
-    ]);
-
-    // Convert total price to cents (Stripe uses smallest currency unit)
-    $amount = intval($request->total_price * 100);
-
-    // Create PaymentIntent
-    try {
-        $paymentIntent = \Stripe\PaymentIntent::create([
-            'amount' => $amount,
-            'currency' => 'usd',
+    {
+        // Validate total price
+        $request->validate([
+            'total_price' => 'required|numeric|min:0.5', // Ensure minimum $0.50
         ]);
+
+        // Convert total price to cents (Stripe uses smallest currency unit)
+        $amount = intval($request->total_price * 100);
 
         return response()->json([
             'success' => true,
-            'client_secret' => $paymentIntent->client_secret,
+            'amount' => $amount,
         ]);
-    } catch (\Exception $e) {
-        return response()->json([
-            'success' => false,
-            'message' => $e->getMessage(),
-        ], 500);
+
+        // Create PaymentIntent
+        // try {
+        //     $paymentIntent = \Stripe\PaymentIntent::create([
+        //         'amount' => $amount,
+        //         'currency' => 'lkr',
+        //     ]);
+
+        //     return response()->json([
+        //         'success' => true,
+        //         'client_secret' => $paymentIntent->client_secret,
+        //     ]);
+        // } catch (\Exception $e) {
+        //     return response()->json([
+        //         'success' => false,
+        //         'message' => $e->getMessage(),
+        //     ], 500);
+        // }
     }
-}
     public function handlePaymentSuccess(Request $request)
     {
         try {

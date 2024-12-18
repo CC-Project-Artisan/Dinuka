@@ -165,17 +165,19 @@
                     {{ session('error') }}
                 </div>
                 @endif
+
                 @forelse ($products as $product)
-                <x-vendor.vendor-ad :product="$product" />
-                @endforeach
-
-
+                <div class="mb-4">
+                    <x-vendor.vendor-ad :product="$product" />
+                </div>
+                @empty
                 <div class="ud-empty-body">
                     <i class="fa-solid fa-magnifying-glass text-[#6C757D] text-[80px]"></i>
                     <h2 class="text-[#6C757D] text-[40px] font-bold">No adverts found</h2>
                     <span class="text-[#6C757D]">We couldn't find any records. Try changing search filters</span>
                     <a href="{{ route('product.create') }}" class="border border-customBrown text-customBrown px-7 py-2 rounded-[50px] hover:shadow-4xl hover:bg-customBrown hover:text-white transition-all duration-300 ease-in-out">Create a new advert</a>
                 </div>
+                @endforelse
             </div>
 
             <!-- messages -->
@@ -197,17 +199,33 @@
             </div>
 
             <!-- orders -->
-            <div id="myOrders" class="hidden ud-page-wrapper">
+            <div id="myOrders" class="ud-page-wrapper">
                 <x-compo.search
                     :text="'Advert'"
                     :options="['all' => 'All', 'live' => 'Live', 'rejected' => 'Rejected']"
                     :keyword="request('keyword', '')"
                     :placeholder="'Search adverts...'" />
-                <x-user.user-order />
+
+
+
+                <!-- filepath: dashboard.blade.php -->
+                @forelse ($orders as $order)
+                @foreach ($order->orderItems as $orderItem)
+                <div class="mb-4">
+                    <x-vendor.vendor-order :order="$order" :orderItem="$orderItem" :product="$orderItem->product" />
+                </div>
+                @endforeach
+                @empty
+                <div class="ud-empty-body">
+                    <i class="fa-solid fa-magnifying-glass text-[#6C757D] text-[80px]"></i>
+                    <h2 class="text-[#6C757D] text-[40px] font-bold">No orders found</h2>
+                    <span class="text-[#6C757D]">We couldn't find any records. Try changing search filters</span>
+                </div>
+                @endforelse
             </div>
 
             <!-- exhibitions -->
-            <div id="myExhibitions" class="ud-page-wrapper">
+            <div id="myExhibitions" class="ud-page-wrapper hidden">
                 <div class="p-6 bg-white rounded shadow mb-4">
                     <h2 class="text-2xl font-bold text-blue-900">My Exhibitions</h2>
                     <a href="{{ route('exhibition.create') }}" class="ud-btn">Create new exhibition</a>

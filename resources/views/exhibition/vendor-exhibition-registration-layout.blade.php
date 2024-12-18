@@ -166,16 +166,16 @@
                     </div>
                 </div>
 
-                <!-- <input type="hidden" id="hidden_total_price" name="total_price" value="0"> -->
+                <!-- <input type="hidden" id="hidden_total_price" name="total_price_hidden" value="0"> -->
                 <!-- Payment Form -->
                 <!-- <div class="payment-section">
-                    <h2>Payment Method</h2>
+                    <h1 class="text-xl mt-10 mb-6">Payment Method</h1>
                     <div id="card-element" class="input-ar">
 
                     </div>
                     <div id="card-errors" role="alert" style="color: red;"></div>
-                </div>
-                <button id="submit-button" type="submit" class="btn btn-primary">Pay</button> -->
+                </div> -->
+                <!-- <button id="submit-button" type="submit" class="btn btn-primary">Pay</button> -->
 
                 <!-- submit button -->
                 <div class="flex gap-4">
@@ -183,7 +183,7 @@
                 </div>
 
                 <!-- Hidden input for registration ID -->
-                <!-- <input type="hidden" id="registration_id" name="registration_id" value="{{ $registration->id ?? '' }}"> -->
+                <input type="hidden" id="registration_id" name="registration_id" value="{{ $registration->id ?? '' }}">
 
             </form>
         </div>
@@ -192,204 +192,121 @@
 
 <script src="https://js.stripe.com/v3/"></script>
 <script>
-    // function calculateTotalPrice() {
-    //     const stallPrice = parseFloat(stallSelect.options[stallSelect.selectedIndex]?.getAttribute('data-price')) || 0;
-    //     const stallTypePrice = parseFloat(stallTypeSelect.options[stallTypeSelect.selectedIndex]?.getAttribute('data-price')) || 0;
-    //     const totalPrice = registrationFee + stallPrice + stallTypePrice;
-
-    //     totalPriceInput.value = totalPrice.toFixed(2);
-    //     totalStallFeeInput.value = stallTypePrice.toFixed(2);
-    // }
-
-    // document.addEventListener('DOMContentLoaded', function() {
-    //     const stallSelect = document.getElementById('stall');
-    //     const stallTypeSelect = document.getElementById('stall_type');
-    //     const totalPriceInput = document.getElementById('total_price');
-    //     const totalStallFeeInput = document.getElementById('total_stall_fee');
-    //     const registrationFee = {
-    //         {
-    //             $exhibition -> vendor_entrance_fee ?? 0
-    //         }
-    //     };
-
-    //     function calculateTotalPrice() {
-    //         const stallTypeOption = stallTypeSelect.options[stallTypeSelect.selectedIndex];
-    //         const stallTypePrice = parseFloat(stallTypeOption.getAttribute('data-price')) || 0;
-    //         const totalPrice = stallTypePrice + registrationFee;
-    //         totalPriceInput.value = totalPrice.toFixed(2);
-    //         totalStallFeeInput.value = stallTypePrice.toFixed(2);
-    //     }
-
-    //     stallTypeSelect.addEventListener('change', calculateTotalPrice);
-
-    //     const stripe = Stripe("{{ config('services.stripe.key') }}");
-    //     const elements = stripe.elements();
-    //     const cardElement = elements.create('card');
-    //     cardElement.mount('#card-element');
-
-    //     const paymentFormBtn = document.getElementById('submit-button');
-    //     const form = document.querySelector('form');
-
-    //     if (paymentFormBtn) {
-    //         paymentFormBtn.addEventListener('click', async (event) => {
-    //             event.preventDefault();
-
-    //             // Recalculate the total price just before submission
-    //             calculateTotalPrice();
-
-    //             const totalPrice = parseFloat(hiddenTotalPriceInput.value);
-
-    //             if (totalPrice <= 0.5) {
-    //                 alert("Total price must be greater than $0.50!");
-    //                 return;
-    //             }
-
-    //             // Add total price to the FormData
-    //             const formData = new FormData(form);
-    //             formData.append('total_price', totalPrice);
-
-    //             console.log("Submitting form with total price:", totalPrice);
-
-    //             // Continue with PaymentIntent creation...
-    //             try {
-    //                 // Create PaymentIntent
-    //                 const response = await fetch('/checkout/payment', {
-    //                     method: 'POST',
-    //                     body: JSON.stringify({
-    //                         total_price: parseFloat(totalPriceInput.value),
-    //                         registration_id
-    //                     }),
-    //                     headers: {
-    //                         'Content-Type': 'application/json',
-    //                         'X-CSRF-TOKEN': '{{ csrf_token() }}',
-    //                     },
-    //                 });
-
-    //                 const data = await response.json();
-    //                 if (data.success) {
-    //                     const clientSecret = data.client_secret;
-    //                     const {
-    //                         paymentIntent,
-    //                         error
-    //                     } = await stripe.confirmCardPayment(clientSecret, {
-    //                         payment_method: {
-    //                             card: cardElement
-    //                         },
-    //                     });
-
-    //                     if (paymentIntent && paymentIntent.status === "succeeded") {
-    //                         alert("Payment Successful!");
-    //                         window.location.href = "{{ route('payment.success') }}";
-    //                     } else {
-    //                         alert("Payment failed: " + error.message);
-    //                     }
-    //                 } else {
-    //                     alert("Payment initialization failed: " + data.message);
-    //                 }
-    //             } catch (err) {
-    //                 console.error("Error processing payment:", err);
-    //                 alert("An error occurred. Please try again.");
-    //             }
-    //         });
-    //     }
-    // });
-
-    // Show success message
-    function showSuccess() {
-        const successMessage = document.getElementById('success-message');
-        successMessage.classList.remove('hidden');
-        successMessage.scrollIntoView({
-            behavior: 'smooth',
-            block: 'center'
-        });
-
-        // Auto hide after 5 seconds
-        setTimeout(() => {
-            closeSuccessMessage();
-        }, 10000);
-    }
-
-    function closeSuccessMessage() {
-        document.getElementById('success-message').classList.add('hidden');
-    }
-
-    // Calculate the total price based on selected stall and stall type
-    // document.addEventListener('DOMContentLoaded', function() {
-    //     const stallSelect = document.getElementById('stall');
-    //     const stallTypeSelect = document.getElementById('stall_type');
-    //     const totalPriceInput = document.getElementById('total_price');
-
-    //     // Properly escape PHP variable for JavaScript
-    //     const registrationFee = @json($exhibition -> vendor_entrance_fee ?? 0);
-
-    //     // Set initial total to registration fee with proper formatting
-    //     totalPriceInput.value = `Rs. ${registrationFee.toFixed(2)}/=`;
-
-    //     function calculateTotalPrice() {
-    //         let stallPrice = 0;
-    //         let stallTypePrice = 0;
-
-    //         // Safe access to selected option data-price
-    //         if (stallSelect.selectedIndex > 0) {
-    //             stallPrice = parseFloat(stallSelect.options[stallSelect.selectedIndex].getAttribute('data-price')) || 0;
-    //         }
-
-    //         if (stallTypeSelect.selectedIndex > 0) {
-    //             stallTypePrice = parseFloat(stallTypeSelect.options[stallTypeSelect.selectedIndex].getAttribute('data-price')) || 0;
-    //         }
-
-    //         // Calculate total with proper number handling
-    //         const totalPrice = (registrationFee + stallPrice + stallTypePrice);
-
-    //         // Format with 2 decimal places
-    //         totalPriceInput.value = `Rs. ${totalPrice.toFixed(2)}/=`;
-    //     }
-
-    //     // Add event listeners
-    //     stallSelect.addEventListener('change', calculateTotalPrice);
-    //     stallTypeSelect.addEventListener('change', calculateTotalPrice);
-    // });
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const stallSelect = document.getElementById('stall');
-        const stallTypeSelect = document.getElementById('stall_type');
-        const totalPriceInput = document.getElementById('total_price');
-        const hiddenTotalPriceInput = document.getElementById('hidden_total_price');
-        const registrationFee = parseFloat("{{ $exhibition->vendor_entrance_fee ?? 0 }}");
-
-        function calculateTotalPrice() {
-            const stallPrice = parseFloat(stallSelect.options[stallSelect.selectedIndex]?.getAttribute('data-price')) || 0;
-            const stallTypePrice = parseFloat(stallTypeSelect.options[stallTypeSelect.selectedIndex]?.getAttribute('data-price')) || 0;
-
-            // Calculate total price
-            const totalPrice = registrationFee + stallPrice + stallTypePrice;
-
-            // Set values
-            totalPriceInput.value = `Rs. ${totalPrice.toFixed(2)}`;
-            hiddenTotalPriceInput.value = totalPrice.toFixed(2); // Ensures it's passed as a float
-        }
-
-        // Trigger calculation when inputs change
-        stallSelect.addEventListener('change', calculateTotalPrice);
-        stallTypeSelect.addEventListener('change', calculateTotalPrice);
-        calculateTotalPrice(); // Initialize the total on page load
-    });
-
-    // show only total stall fee
     document.addEventListener('DOMContentLoaded', function() {
         const stallSelect = document.getElementById('stall');
         const stallTypeSelect = document.getElementById('stall_type');
         const totalStallFeeInput = document.getElementById('total_stall_fee');
+        const totalFeeInput = document.getElementById('total_price');
+        const totalFeeHiddenInput = document.getElementById('hidden_total_price');
+
+        let totalFee = 0;
+        const registrationFee = "{{$exhibition -> vendor_entrance_fee ?? 0}}";
+        totalFeeInput.value = `Rs. ${parseFloat(registrationFee) + totalFee }/=`;
 
         function calculateTotalStallFee() {
             const stallPrice = parseFloat(stallSelect.options[stallSelect.selectedIndex].getAttribute('data-price')) || 0;
             const stallTypePrice = parseFloat(stallTypeSelect.options[stallTypeSelect.selectedIndex].getAttribute('data-price')) || 0;
             const totalStallFee = stallPrice + stallTypePrice;
             totalStallFeeInput.value = `Rs. ${totalStallFee.toFixed(2)}/=`;
+            totalFeeInput.value = `Rs. ${totalStallFee + parseFloat(registrationFee)}/=`;
+            totalFeeHiddenInput.value = totalStallFee + parseFloat(registrationFee);
         }
-
         stallSelect.addEventListener('change', calculateTotalStallFee);
         stallTypeSelect.addEventListener('change', calculateTotalStallFee);
+
+        const stripe = Stripe("{{ config('services.stripe.key') }}");
+        const elements = stripe.elements();
+        const cardElement = elements.create('card');
+        cardElement.mount('#card-element');
+
+        const paymentFormBtn = document.getElementById('submit-button');
+        const form = document.querySelector('form');
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const formData = new FormData(form);
+            const totalPrice = parseFloat(formData.get('total_price_hidden'));
+
+            if (totalPrice < 0.5) {
+                alert("Minimum order amount is $0.50.");
+                return;
+            }
+
+            const registrationId = formData.get('registration_id');
+            console.log(totalPrice);
+            try {
+                // Create PaymentIntent
+                const response = await fetch("{{ route('checkout.payment') }}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({
+                        total_price: totalPrice,
+                    })
+                });
+
+                const data = await response.json();
+
+                // if (data.success) {
+                //     const clientSecret = data.client_secret;
+
+                //     // Confirm the payment
+                //     const {
+                //         paymentIntent,
+                //         error
+                //     } = await stripe.confirmCardPayment(clientSecret, {
+                //         payment_method: {
+                //             card: cardElement,
+                //         },
+                //     });
+
+                //     if (error) {
+                //         console.error("Error confirming payment:", error);
+                //         alert("Payment Failed: " + error.message);
+                //     } else if (paymentIntent.status === "succeeded") {
+                //         console.log("Payment succeeded:", paymentIntent);
+                //         alert("Payment Successful!");
+
+                //         // Update payment status
+                //         await fetch("{{ route('payment.success') }}", {
+                //             method: 'POST',
+                //             headers: {
+                //                 'Content-Type': 'application/json',
+                //                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                //             },
+                //             body: JSON.stringify({
+                //                 registration_id: registrationId,
+                //             })
+                //         });
+
+                //         form.submit(); // Submit the form to complete the registration
+                //     } else if (paymentIntent.status === "requires_action") {
+                //         console.log("Payment requires additional action (e.g., 3D Secure)");
+                //         const {
+                //             error: authError
+                //         } = await stripe.handleCardAction(clientSecret);
+
+                //         if (authError) {
+                //             console.error("3D Secure failed:", authError);
+                //             alert("Authentication Failed: " + authError.message);
+                //         } else {
+                //             alert("Authentication Successful! Please retry payment.");
+                //         }
+                //     } else {
+                //         console.error("Payment failed or is in an unknown state:", paymentIntent);
+                //         alert("Payment processing failed. Please try again.");
+                //     }
+                // } else {
+                //     console.error("Error from server:", data.message);
+                //     alert("Payment Failed: " + data.message);
+                // }
+            } catch (err) {
+                console.error("Error initiating payment:", err);
+                alert("An error occurred during payment initialization. Please try again.");
+            }
+        });
     });
 </script>
 
