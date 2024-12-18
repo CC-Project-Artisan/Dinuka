@@ -39,7 +39,7 @@
 
 /* Sidebar for desktop */
 .dashboard-sidebar-desktop-wrapper {
-    display: none;
+    /* display: none; */
     box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
     color: white;
     height: 100%;

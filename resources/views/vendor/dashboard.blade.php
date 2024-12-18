@@ -22,7 +22,7 @@
         <div class="mb-4 text-sm">
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
-                <x-dropdown-link :href="route('logout')" class="text-customGray hover:underline"
+                <x-dropdown-link :href="route('logout')" class="text-customGray hover:underline" id="signOut"
                     onclick="event.preventDefault(); this.closest('form').submit();">
                     {{ __('Sign out') }} <i class="ml-1 fa-solid fa-arrow-right-from-bracket"></i>
                 </x-dropdown-link>
@@ -81,10 +81,10 @@
                     <label for="myAdvert" class="dashboard-sidebar-title">My orders</label><br>
                     <span class="dashboard-sidebar-sub-title">View all your orders</span>
                 </li>
-                <li class="u-sidebar-value" data-page="myExhibitions" onclick="loadPage('myExhibitions')">
+                <li class="u-sidebar-value" id="Exhibitions" data-page="myExhibitions" onclick="loadPage('myExhibitions')">
                     <i class="fa-solid fa-shop ud-icon-left"></i>
                     <i class="fa-solid fa-arrow-right-long"></i>
-                    <label for="myAdvert" class="dashboard-sidebar-title">Exhibitions</label><br>
+                    <label for="myAdvert" class="dashboard-sidebar-title" >Exhibitions</label><br>
                     <span class="dashboard-sidebar-sub-title">Manage your exhibitions</span>
                 </li>
                 <li class="u-sidebar-value" data-page="myStore" onclick="loadPage('myStore')">
@@ -209,11 +209,11 @@
             <!-- exhibitions -->
             <div id="myExhibitions" class="hidden ud-page-wrapper">
                 <x-vendor.exhibition-card />
-                <div class="ud-empty-body">
+                <div class="ud-empty-body" >
                     <i class="fa-solid fa-magnifying-glass text-[#6C757D] text-[80px]"></i>
                     <h2 class="text-[#6C757D] text-[40px] font-bold">No exhibition found</h2>
                     <span class="text-[#6C757D]">We couldn't find any records. Try create new exhibition post.</span>
-                    <a href="{{ route('exhibition.create') }}" class="border bg-customRed text-customBrown px-7 py-2 rounded-[50px] hover:shadow-4xl transition-all duration-300 ease-in-out">Create a new advert</a>
+                    <a href="{{ route('exhibition.create') }}" id="newadvert"  class="border bg-customRed text-customBrown px-7 py-2 rounded-[50px] hover:shadow-4xl transition-all duration-300 ease-in-out" >Create a new advert</a>
                 </div>
             </div>
 

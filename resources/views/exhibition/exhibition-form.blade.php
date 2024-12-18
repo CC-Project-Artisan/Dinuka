@@ -2,13 +2,13 @@
 @section('pages')
 
 <div class="container mt-3 w-[70%]">
-    <div class="row bg-white p-6 rounded shadow">
+    <div class="p-6 bg-white rounded shadow row">
         <div class="col-md-12">
 
-            <h1 class="text-4xl text-center my-5">Exhibition Form</h1>
+            <h1 class="my-5 text-4xl text-center">Exhibition Form</h1>
 
             @if(session('success'))
-            <div class="bg-green-500 text-white p-4 rounded mb-4">
+            <div class="p-4 mb-4 text-white bg-green-500 rounded">
                 {{ session('success') }}
             </div>
             @endif
@@ -17,7 +17,7 @@
                 @csrf
 
                 <!-- details -->
-                <h1 class="text-xl mb-6">Exhibition Details</h1>
+                <h1 class="mb-6 text-xl">Exhibition Details</h1>
                 <div class="ml-5">
                     <!-- name -->
                     <div class="form-group row">
@@ -39,7 +39,7 @@
                     <!-- <div class="form-group row">
                         <label for="date_option" class="col-sm-2 col-form-label">Date Option</label>
                         <div class="col-sm-10">
-                            <select id="date_option" name="date_option" class="form-control block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" onchange="toggleDateInputs()" required>
+                            <select id="date_option" name="date_option" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm form-control focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" onchange="toggleDateInputs()" required>
                                 <option value="one_date">One Date</option>
                                 <option value="few_dates">Few Dates</option>
                             </select>
@@ -55,7 +55,7 @@
                     </div>
 
                     <!-- start date -->
-                    <!-- <div id="few_dates_input" class="form-group row hidden">
+                    <!-- <div id="few_dates_input" class="hidden form-group row">
                         <label for="start_date" class="col-sm-2 col-form-label">Start Date</label>
                         <div class="col-sm-10">
                             <x-compo.input type="date" id="start_date" name="start_date" placeholder="Start Date" required />
@@ -63,7 +63,7 @@
                     </div> -->
 
                     <!-- end date -->
-                    <!-- <div id="few_dates_input_end" class="form-group row hidden">
+                    <!-- <div id="few_dates_input_end" class="hidden form-group row">
                         <label for="end_date" class="col-sm-2 col-form-label">End Date</label>
                         <div class="col-sm-10">
                             <x-compo.input type="date" id="end_date" name="end_date" placeholder="End Date" required />
@@ -112,7 +112,7 @@
                     <div id="contact-fields">
                         <div class="form-group row">
                             <label for="telephone1" class="col-sm-2 col-form-label star">Contact 1</label>
-                            <div class="col-sm-10 d-flex gap-2">
+                            <div class="gap-2 col-sm-10 d-flex">
                                 <x-compo.input type="text" id="name1" name="name1" placeholder="Enter contact name" class="flex-grow-1" style="flex: 0 0 75%;" required />
                                 <x-compo.input type="text" id="telephone1" name="telephone1" placeholder="Enter mobile number" class="flex-grow-1" min="0" style="flex: 0 0 25%;" required />
                             </div>
@@ -139,9 +139,9 @@
                     <div class="form-group">
                         <label for="exhibitionBanner" class="star">Upload exhibition banner</label>
                         <div class="sec-box img-up">
-                            <div class="image-uploader">
+                            <div class="image-uploader" id="uploader">
                                 <input type="file" name="exhibitionBanner[]" id="image-input" accept="image/*" multiple required />
-                                <label for="image-input"><i class="fa-solid fa-plus" style="color: grey;"></i><br>Add banner</label>
+                                <label for="image-input"><i class="fa-solid fa-plus" style="color: grey;" id="image"></i><br>Add banner</label>
                                 <div class="image-preview" id="image-preview"></div>
                                 @error('exhibitionBanner.*') <div class="error">{{ $message }}</div> @enderror
                             </div>
@@ -150,7 +150,7 @@
                 </div>
 
                 <!-- category -->
-                <h1 class="text-xl mt-10 mb-6">Exhibition Category</h1>
+                <h1 class="mt-10 mb-6 text-xl">Exhibition Category</h1>
                 <div class="ml-5">
                     <!-- category type -->
                     <div class="form-group row">
@@ -166,7 +166,7 @@
                 </div>
 
                 <!-- exhibitor information -->
-                <h1 class="text-xl mt-10 mb-6">Exhibitor Information</h1>
+                <h1 class="mt-10 mb-6 text-xl">Exhibitor Information</h1>
                 <div class="ml-5">
                     <!-- registration start date -->
                     <div class="form-group row">
@@ -197,10 +197,10 @@
                 </div>
 
                 <!-- Price information -->
-                <h1 class="text-xl mt-10">Price Information</h1>
+                <h1 class="mt-10 text-xl">Price Information</h1>
                 <div class="ml-5">
                     <!-- exhibitors -->
-                    <h2 class=" text-lg mt-3 mb-3">For Exhibitors</h2>
+                    <h2 class="mt-3 mb-3 text-lg ">For Exhibitors</h2>
                     <!-- Entrance Fee -->
                     <div class="form-group row">
                         <div class="flex flex-col lg:max-w-[16.5%] sm:max-w-full md:max-w-full">
@@ -214,7 +214,7 @@
                     </div>
 
                     <!-- visitors -->
-                    <h2 class=" text-lg mt-3 mb-3">For Visitors</h2>
+                    <h2 class="mt-3 mb-3 text-lg ">For Visitors</h2>
                     <!-- Regular Price -->
                     <div class="form-group row">
                         <div class="flex flex-col lg:max-w-[16.5%] sm:max-w-full md:max-w-full">
@@ -250,12 +250,12 @@
                 </div>
 
                 <!-- Media Section -->
-                <h1 class="text-xl mt-10 mb-6">Media</h1>
+                <h1 class="mt-10 mb-6 text-xl">Media</h1>
                 <div class="ml-5">
                     <!-- Social Media Links -->
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Social Media Links</label>
-                        <div class="col-sm-10 flex flex-wrap gap-5">
+                        <div class="flex flex-wrap gap-5 col-sm-10">
                             @foreach(['facebook', 'instagram', 'tiktok', 'youtube', 'other'] as $platform)
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="{{ $platform }}-checkbox" name="social-media-checkboxes[]" value="{{ $platform }}">
@@ -268,16 +268,16 @@
                 </div>
 
                 <!-- Layout Selection Display -->
-                <!-- <div class="mb-4 flex">
+                <!-- <div class="flex mb-4">
                     <label class="block text-gray-700">Selected Layout:</label>
-                    <span class="text-gray-900 ml-2">
+                    <span class="ml-2 text-gray-900">
                         {{ ucfirst(str_replace('layout', 'Layout ', request('layout'))) }}
                     </span>
                 </div> -->
-                <h1 class="text-xl mt-10 mb-3">Preview</h1>
+                <h1 class="mt-10 mb-3 text-xl">Preview</h1>
                 <div class="mb-4 form-group">
                     <label class="col-sm-2 col-form-label">Selected Layout:</label>
-                    <span class="text-gray-900 ml-2">
+                    <span class="ml-2 text-gray-900">
                         {{ ucfirst(str_replace('layout', 'Layout ', request('layout', 'layout1'))) }}
                     </span>
                 </div>
@@ -287,7 +287,7 @@
                     <strong class="font-bold">Submission Failed!</strong>
                     <ul id="error-list" class="list-disc list-inside"></ul>
                     <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
-                        <svg class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                        <svg class="w-6 h-6 text-red-500 fill-current" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                             <title>Close</title>
                             <path d="M14.348 5.652a.5.5 0 10-.707-.707L10 8.586 6.36 4.945a.5.5 0 10-.707.708L9.293 10l-4.647 4.648a.5.5 0 00.707.708L10 11.414l3.64 3.64a.5.5 0 00.707-.707L10.707 10l4.641-4.648z" />
                         </svg>
@@ -299,8 +299,8 @@
 
                 <!-- submit button -->
                 <div class="flex gap-4">
-                    <button type="submit" class="apply-button w-3/4">Apply Exhibition</button>
-                    <button type="button" class="apply-button w-1/4" onclick="showPreview()">Preview Post</button>
+                    <button type="submit" class="w-3/4 apply-button" id="applybutton">Apply Exhibition</button>
+                    <button type="button" class="w-1/4 apply-button" onclick="showPreview()">Preview Post</button>
                 </div>
 
                 <!-- Success Message -->
@@ -308,7 +308,7 @@
                     <strong class="font-bold">Success!</strong>
                     <span class="block sm:inline">Your exhibition has been created successfully.</span>
                     <button onclick="closeSuccessMessage()" class="absolute top-0 right-0 px-4 py-3">
-                        <svg class="fill-current h-6 w-6 text-green-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                        <svg class="w-6 h-6 text-green-500 fill-current" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                             <title>Close</title>
                             <path d="M14.348 5.652a.5.5 0 10-.707-.707L10 8.586 6.36 4.945a.5.5 0 10-.707.708L9.293 10l-4.647 4.648a.5.5 0 00.707.708L10 11.414l3.64 3.64a.5.5 0 00.707-.707L10.707 10l4.641-4.648z" />
                         </svg>
@@ -608,7 +608,7 @@
             fieldGroup.className = 'form-group row';
             fieldGroup.innerHTML = `
                 <label for="telephone${i}" class="col-sm-2 col-form-labe star">Contact ${i}</label>
-                <div class="col-sm-10 d-flex gap-2">
+                <div class="gap-2 col-sm-10 d-flex">
                     <x-compo.input type="text" id="name${i}" name="name${i}" placeholder="Enter contact name" class="flex-grow-1" style="flex: 0 0 75%;" />
                     <x-compo.input type="text" id="telephone${i}" name="telephone${i}" placeholder="Enter mobile number" class="flex-grow-1" style="flex: 0 0 25%;" />
                 </div>

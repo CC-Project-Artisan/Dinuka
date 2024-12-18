@@ -46,7 +46,7 @@ class CheckoutController extends Controller
             }
         }
 
-        Log::info('Cart Items:', ['cartItems' => $cartItems->toArray()]);
+        // Log::info('Cart Items:', ['cartItems' => $cartItems->toArray()]);
         Log::info('Subtotal:', ['subtotal' => $subtotal]);
 
         return view('pages.checkout', compact('cartItems', 'subtotal'));
